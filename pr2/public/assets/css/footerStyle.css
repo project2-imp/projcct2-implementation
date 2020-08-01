@@ -1,0 +1,34 @@
+.customer-footer{
+    background-color: #26272b;
+    color:#737373;
+}
+.about-us-title{
+    color: #4cae4c;
+}
+.contact-us-title{
+    color: #4cae4c;
+}
+.social-title{
+    color: #4cae4c;
+}
+.about-us-par{
+    color: #5bc0de;
+}
+.contact-us-list{
+    color: #5bc0de;
+}
+.about-us-title:hover{
+    color: #4cae4c;
+}
+.contact-us-title:hover{
+    color: #4cae4c;
+}
+.about-us-par:hover{
+    color: lightblue;
+}
+.contact-us-list:hover{
+    color: honeydew;
+}
+.black-team:hover{
+    color: #5bc0de;
+}

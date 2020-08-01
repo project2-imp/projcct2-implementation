@@ -1,0 +1,22 @@
+body{
+
+}
+.completed-trips-number{
+    background-color: lightgreen;
+    margin: 20px;
+    height: 100px;
+}
+.trips-number{
+    background-color: lightblue;
+    margin: 20px;
+}
+.customers-number{
+    background-color: gray;
+    margin: 20px;
+}
+.content{
+
+}
+.add-trip-area{
+
+    }

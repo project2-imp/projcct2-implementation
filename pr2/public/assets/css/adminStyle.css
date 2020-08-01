@@ -1,0 +1,143 @@
+body{
+    font: small-caps bold 18px/1 sans-serif;
+
+
+    background-color: ghostwhite;
+
+}
+.action-selector{
+    background-color: lightsteelblue;
+}
+
+.new-pending-palce{
+    background-color: white;
+    color: black;
+}
+
+
+.companies-num{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.logout-link:hover{
+    color: red;
+}
+.name-link:hover{
+    color: green;
+}
+
+.details-area-head{
+    text-align: center;
+    font-weight: bold;
+    font-family: "Comic Sans MS";
+    color:lightgreen;
+}
+
+.table-content{
+color:#26272b;
+}
+.scrollable{
+    height: 800px;
+    overflow: scroll;
+}
+.pending-companies-area{
+    text-align: center;
+
+}
+
+/*============================================*/
+.short-information{
+    background-color: white;
+    padding: 20px;
+    margin-top: 10px;
+}
+.custoemer-link{
+    color: white;
+    background-color: lightblue;
+    margin: 20px;
+}
+.company-link{
+    color: white;
+    background-color: lightcoral;
+    margin: 20px;
+}
+.pendingCompany-link{
+    color: white;
+    background-color: lightgreen;
+    margin: 20px;
+}
+.other-link{
+    background-color: lightcoral;
+    margin: 10px;
+}
+.customers-value{
+    float: right;
+    color:red ;
+}
+.companies-value{
+    float: right;
+    color: yellow;
+}
+.pendingC-value{
+    float: right;
+    color:blue ;
+}
+.details-pending-companies-area{
+    margin-top: 40px;
+    text-align: center;
+}
+.email-icon:hover{
+    margin-left: 20px;
+}
+.phone-icon:hover{
+
+    margin-left: 20px;
+}
+.address-icon:hover{
+    margin-left: 20px;
+}
+.card-icon:hover{
+    margin-left: 20px;
+}
+
+.c-Info{
+    color: gray;
+}
+.pendingCompanies-table tr:nth-child(even){
+    background-color: mediumseagreen;
+
+}
+.pending-table-head{
+    color: lightgreen;
+}
+.pending-companies-area{
+    background-color: white;
+    margin-top: 40px;
+    margin-left:20px ;
+}
+.customers-table tr:nth-child(even){
+    background-color: #5bc0de;
+
+}
+.customers-table-head{
+    color: steelblue;
+}
+.companies-table tr:nth-child(even){
+    background-color: coral;
+}
+.companies-table-head{
+    color:lightcoral ;
+}
+.customers-container-area{
+    background-color: white;
+    margin-top: 40px;
+    margin-left: 20px;
+}
+
+.companies-container-area{
+    background-color: white;
+    margin-top: 40px;
+    margin-left: 20px;
+}

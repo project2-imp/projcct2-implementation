@@ -1,0 +1,75 @@
+.header{
+    height: 800px;
+    background-image: url('../images/header.png');
+
+}
+a{
+    color: lightgray;
+
+}
+
+a:hover{
+    text-decoration: none;
+}
+.logo{
+    font-weight: bold;
+    font-family:'Comic Sans MS", cursive, sans-serif' ;
+    color:#337ab7;
+}
+
+.header-li{
+    font-size: 20px;
+    font-family: "Comic Sans MS";
+    font-weight: bold;
+    display: inline;
+    margin: 20px;
+
+
+}
+.header-li :hover{
+    color: white;
+}
+
+.customer-name{
+    font-size: 30px;
+    font-weight: bold;
+
+}
+.site-doc{
+
+    margin-top: 100px;
+}
+.doc-header{
+    color: white;
+    font-size: 50px;
+    font-family: "Comic Sans MS";
+    font-weight: bold;
+    margin-right: 80px;
+}
+.doc-body{
+    color: lightgray;
+    font-size: 30px;
+    font-family: "Comic Sans MS";
+    margin-right: 80px;
+
+}
+.browse-trips{
+    background-color: #9d9d9d;
+    color: white;
+
+
+}
+.search-place{
+    margin-top: 10px;
+}
+/* ####################### showTrips page ######################### */
+.trips-place{
+    border: dot-dot-dash;
+}
+
+.best-compaines-place{
+    border: dot-dot-dash;
+}
+
+
+
