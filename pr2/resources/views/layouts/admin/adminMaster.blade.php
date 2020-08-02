@@ -10,6 +10,9 @@
     <!-- Stylesheet-->
     <link rel="stylesheet" href="{{URL::asset('assets/css/bootstrap.css')}}" />
     <link rel="stylesheet" href="{{URL::asset('assets/css/adminStyle.css')}}" />
+    <link  href="assets/css/adminFormsStyle.css" rel="stylesheet" id="bootstrap-css">
+
+
 </head>
 <body>
 
@@ -18,7 +21,10 @@
 
 
                 <a class="navbar-brand logout-link" href="{{route('index')}}">log out</a>
-                <a class="navbar-brand name-link" href="#">admin name</a>
+                <a class="navbar-brand name-link" href="#"> {{$name[0]->name}}</a>
+                <a class="navbar-brand add-admin" href="#"> add new admin</a>
+
+
         </nav>
 
 @yield('content')
@@ -34,7 +40,27 @@
         <script href="{{URL::asset('assets/js/bootstrap.js')}}"></script>
 
         @yield('javascript')
+<script>
+    //-----------start add admin-----------------------
+    $(".add-admin").click(function () {
+        console.log("ali");
+        $.ajax(
+            {
+                type: "post",
+                url: " {{route('addAdmin')}}",
+                data: {
+                    '_token' : "{{csrf_token()}}",
+                    'name' : $(this).val(),
+                },
+                success: function ($data) {
+                    console.log($data);
 
+                }
+        );
+    });
+    //-----------start add admin-----------------------
+
+</script>
 
 </body>
 </html>

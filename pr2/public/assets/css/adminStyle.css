@@ -5,6 +5,9 @@ body{
     background-color: ghostwhite;
 
 }
+.add-admin{
+    float: right ;
+}
 .action-selector{
     background-color: lightsteelblue;
 }

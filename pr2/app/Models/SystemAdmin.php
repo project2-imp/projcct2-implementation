@@ -8,7 +8,7 @@ class SystemAdmin extends Model
 {
     //
     protected $table="systemadmins";
-
+    protected $fillable = ['adminName','email','password'];
     //start relations
 
     public function adminCompany(){

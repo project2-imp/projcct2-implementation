@@ -238,6 +238,7 @@
     });
     //------------end load pending comapnies-----------
 
+
     //-----------show more pending copmany info-------------------
     $("body").delegate(".more-details-link","click",function () {
         $(".details-pending-companies-area").slideUp();
