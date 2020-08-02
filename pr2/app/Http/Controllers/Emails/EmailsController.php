@@ -5,19 +5,26 @@ namespace App\Http\Controllers\Emails;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \App\Mail\sendMail;
-use Illuminate\Support\Facades\Mail;
+use Mail;
+//use Illuminate\Support\Facades\Mail;
 
 class EmailsController extends Controller
 {
-    //
-    public function SendCode($Customeremail,$code){
+    //start sendCode
+    /**
+     * @param $Customeremail
+     * @param $code
+     */
+    public function SendCode($Customeremail, $code){
 
-        $email=$Customeremail;
-        $details = [
-          'title' => 'E-BOOKING Company',
-          'body' => 'please enter verifaction code to complete register'
-        ];
 
-        Mail::to($email)->send(new sendMail($details));
+       \Illuminate\Support\Facades\Mail::send(['text'=>view('layouts.guest.sendByEmail',compact('code'))],['tempuser'=>$Customeremail],function($message) use ($Customeremail)
+       {
+           $message->from('ali.monther97@gmail.com','aliMonther');
+           $message->to($Customeremail)->subject('Input Code below in the verfiction field:');
+
+       }
+        );
     }
+    //end sendCode
 }

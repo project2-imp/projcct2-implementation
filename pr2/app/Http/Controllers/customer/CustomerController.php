@@ -38,6 +38,7 @@ class CustomerController extends Controller
                 'VCode'=>$VCode,
             ]
         );
+
             $eController = new EmailsController();
             $eController->SendCode($request->input('email'),$VCode);
             return view('layouts.guest.inputVCode');
