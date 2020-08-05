@@ -10,14 +10,13 @@
     <!-- Stylesheet-->
     <link rel="stylesheet" href="{{URL::asset('assets/css/bootstrap.css')}}" />
     <link rel="stylesheet" href="{{URL::asset('assets/css/adminStyle.css')}}" />
-    <link  href="assets/css/adminFormsStyle.css" rel="stylesheet" id="bootstrap-css">
 
 
 </head>
 <body>
 
 
-        <nav class="navbar navbar-expand-lg ">
+        <nav class="navbar navbar-expand-lg">
 
 
                 <a class="navbar-brand logout-link" href="{{route('index')}}">log out</a>

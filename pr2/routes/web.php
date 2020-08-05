@@ -76,6 +76,8 @@ Route::post('loginCompany','company\companyController@login')->name('loginCompan
 //---------------------------------
 Route::post('addTrip','company\companyController@addNewTrip')->name('addTrip');
 //---------------------------------
+Route::post('showTrips','trips\TripController@showTrips')->name('showTrips');
+//---------------------------------
 
 //=======end company routes========
 
@@ -98,7 +100,7 @@ Route::get('addAdmin',function (){
     return view('layouts.admin.addAdmin');
 })->name('addAdmin');
 //---------------------------------
-Route::post('addAdmin','admin\AdminController@addNewAdmin')->name('addAdmin');
+Route::post('addAdmin','admin\AdminController@addNewAdmin')->name('addNewAdmin');
 //---------------------------------
 Route::get('getCustomers','admin\adminController@getCustomersInfo')->name('getCustomers');
 //---------------------------------

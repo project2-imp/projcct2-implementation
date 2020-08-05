@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use phpDocumentor\Reflection\Types\Integer;
 use PhpParser\Node\Expr\Array_;
 
 class CompanyController extends Controller
@@ -121,19 +122,21 @@ class CompanyController extends Controller
          return "blocked";
      }
     else{
-        $companyID = Company::select('companyID')->where('name',$request->companyName)->first();
-        $trip = Trip::create(
-          [
-              'startStation'=>$request->startStation,
-              'stopStation'=>$request->stopStation,
-              'departureDate'=>$request->departureDate,
-              'numSeats'=>$request->seatsNum,
-              'priceForSeat'=>$request->price,
-              'companyID'=>$companyID,
-              'status'=>'active'
-          ]
+        $company = Company::select('companyID')->where('name',$request->companyName)->get();
+
+
+        Trip::create(
+        [
+            'startStation'=>$request->startStation,
+            'stopStation'=>$request->stopStation,
+            'departureDate'=>$request->departureDate,
+            'numSeats'=>$request->seatsNum,
+            'priceForSeat'=>$request->price,
+            'companyID'=>$company[0]->companyID,
+            'status'=>'active'
+        ]
         );
-        return view('welcome');
+        return "success";
     }
     }
     //end AddNewTrip

@@ -32,11 +32,32 @@
          <a class=" notification-link" href="#"> show </a>
 
      </div>
-      <!--  <div class="col-lg-2">
-            <ul class="new-pending-palce">
 
-            </ul>
-        </div>-->
+
+        <div class="col-lg-2 ">
+            <a class=" more-link" href="#"> more </a>
+                <ul class="more-option">
+                    <li><a class="add-admin-link" href="#">add new admin</a></li>
+                    <li><a class="back-link" href="#">back</a></li>
+
+                </ul>
+        </div>
+        <div class="col-lg-3 new-admin-palce">
+           <div class="success-add-admin-msg">
+               <span class="alert alert-success">Admin Added</span>
+           </div>
+            <div class="error-add-admin-msg">
+                <span class="alert alert-danger"> please try again</span>
+            </div>
+            <div  id="formContent">
+
+                <input type="text" id="name" class="fadeIn second admin-name" name="name" placeholder="name">
+                <input type="email" id="email" class="fadeIn second admin-email" name="email" placeholder="email">
+                <input type="password" id="password" class="fadeIn third admin-password" name="password" placeholder="password">
+                <input type="submit" class="fadeIn fourth add-admin-btn" value="Add">
+
+            </div>
+        </div>
     </div>
     <!-- end short information div-->
 
@@ -129,7 +150,7 @@
 
             </div>
             <!-- end browse customers div-->
-            <!-- browse companies div-->
+            <!--start browse companies div-->
             <div class="companies-container-area col-lg-12 col-xs-12">
 
                 <!-- Table -->
@@ -167,7 +188,47 @@
     $(".Accept-message").hide();
     $(".Reject-message").hide();
     $(".new-pending-palce").hide();
+    $(".new-admin-palce").hide();
+    $(".more-option").hide();
+    $(".back-link").hide();
+    $(".success-add-admin-msg").hide();
+    $(".error-add-admin-msg").hide();
     $(".details-pending-companies-area").hide();
+
+    //-------------start more-link--------------------
+        $(".more-link").click(function () {
+            $(".more-option").slideToggle();
+        });
+   //----------------end more-link--------------------
+
+    //-------------start add-admin-link--------------------
+    $(".add-admin-link").click(function () {
+        $(".custoemer-link").slideToggle();
+        $(".company-link").slideToggle();
+        $(".pendingCompany-link").slideToggle();
+        $(".new-admin-palce").slideToggle();
+        $(".add-admin-link").slideToggle();
+        $(".back-link").slideToggle();
+
+
+
+    });
+    //----------------end add-admin-link--------------------
+
+    //-------------start back-link--------------------
+    $(".back-link").click(function () {
+        $(".custoemer-link").slideToggle();
+        $(".success-add-admin-msg").fadeToggle();
+        $(".error-add-admin-msg").fadeToggle();
+        $(".company-link").slideToggle();
+        $(".pendingCompany-link").slideToggle();
+        $(".new-admin-palce").slideToggle();
+        $(".add-admin-link").slideToggle();
+        $(".back-link").slideToggle();
+    });
+    //----------------end back-link--------------------
+
+
     //------------------load customers----------------
     $.ajax({
         type: "GET",
@@ -320,6 +381,39 @@
 
     })
     //--------------end reject pending company-------
+
+    //--------------start add new admin--------------
+    $("body").delegate('.add-admin-btn','click',function () {
+        console.log('ali');
+        $.ajax({
+
+            type: "post",
+            url: "{{route('addNewAdmin')}}",
+            data:{
+                '_token': "{{csrf_token()}}",
+                'name': $(".admin-name").val(),
+                'email': $(".admin-email").val(),
+                'password': $(".admin-password").val(),
+            },
+            success: function ($data) {
+                console.log($data);
+                if($data == "success"){
+                    $(".success-add-admin-msg").fadeToggle();
+                    $(".error-add-admin-msg").hide();
+
+                }
+                else{
+                    $(".error-add-admin-msg").fadeToggle();
+                    $(".success-add-admin-msg").hide();
+                }
+                },
+            error: function ($reject) {
+                console.log($reject);
+            }
+        })
+
+    });
+    //--------------end add new admin----------------
 
 </script>
 

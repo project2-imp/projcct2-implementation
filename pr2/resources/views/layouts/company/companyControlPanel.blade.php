@@ -20,6 +20,56 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link add-trip-link" href="#"> Add trip</a>
+                    <!-- add trip list -->
+                    <ul>
+
+                        <div class="form-group trip-added-message">
+                            <label class="alert alert-success"> trip added succesfully</label>
+                        </div>
+                        <div class="form-group blocked-company-alert">
+                            <label class="alert alert-danger">your company is blocked you can't add any trips</label>
+                        </div>
+
+
+                        <div class=" col-lg-4 add-trip-area">
+
+                            <!-- ---start add trip area--->
+
+                            <input type="hidden" class="companyName" name="companyName" value="{{$companyName[0]->name}}">
+                            <div class="form-group ">
+                                <label for="usr">start station:</label>
+                                <input type="text" class="form-control startStation" name="startStation"   placeholder="start station">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pwd">stop station:</label>
+                                <input type="text" class="form-control stopStation" name="stopStation" placeholder="stop station">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pwd">Departure date:</label>
+                                <input type="date" class="form-control DepartureDate" name="DepartureDate" placeholder="Departure date">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pwd">number of seats:</label>
+                                <input type="number" class="form-control seatsNum" name="seatsNum" placeholder="number of seats">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pwd">price for 1 seat:</label>
+                                <input type="number" class="form-control price" name="price" placeholder="prise for 1 seat">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success add-trip-btn" value="add">
+                            </div>
+
+
+                        </div>
+                        <!-- ---end add trip area--->
+
+                    </ul>
                 </li>
 
             </ul>
@@ -28,7 +78,7 @@
 <!-- end nav -->
 
 <!-- start links -->
-    <div class="row">
+    <div class="row links">
         <div class="col-lg-3 completed-trips-number">
             <h3 class="completed-trips">payment requests:</h3>
         </div>
@@ -42,112 +92,142 @@
     </div>
 <!-- end links -->
 
-    <div class="row">
-        <!-- ---start content--->
-        <div class="col-lg-8 content">
-            <h1>ali</h1>
+<!-- ---start content--->
+    <div class="row content">
+        <!-- start active-trips-area -->
+        <div class="col-lg-8 active-trips-area">
+            <!-- Table -->
+            <h3 >Acrtive trips:</h3>
+            <table class="table active-trips-table">
+                <thead class="active-trips-table-head">
+                <tr>
+
+                    <th>Trip ID</th>
+                    <th>Start station</th>
+                    <th>stop station</th>
+                    <th>departureDate</th>
+                    <th>numSeats</th>
+                    <th>priceForSeat</th>
+                </tr>
+                </thead>
+                <tbody class="customers-table-content" style="color: gray">
+
+                </tbody>
+            </table>
         </div>
-        <!-- ---end content--->
+        <!-- start active-trips-area -->
 
-        <div class="form-group trip-added-message">
-            <label class="alert alert-success"> trip added succesfully</label>
+        <!-- start followers-area -->
+        <div class="col-lg-4 active-trips-area">
         </div>
-        <div class="form-group blocked-company-alert">
-            <label class="alert alert-danger">your company is blocked you can't add any trips</label>
-        </div>
-
-
-        <div class=" col-lg-4 add-trip-area">
-
-        <!-- ---start add trip area--->
-
-            <input type="hidden" name="companyName" value="{{$companyName[0]->name}}">
-            <div class="form-group ">
-                <label for="usr">start station:</label>
-                <input type="text" class="form-control" name="startStation"  placeholder="start station">
-            </div>
-
-            <div class="form-group">
-                <label for="pwd">stop station:</label>
-                <input type="text" class="form-control" name="stopStation" placeholder="stop station">
-            </div>
-
-            <div class="form-group">
-                <label for="pwd">Departure date:</label>
-                <input type="date" class="form-control" name="DepartureDate" placeholder="Departure date">
-            </div>
-
-            <div class="form-group">
-                <label for="pwd">number of seats:</label>
-                <input type="number" class="form-control" name="seatsNum" placeholder="number of seats">
-            </div>
-
-            <div class="form-group">
-                <label for="pwd">price for 1 seat:</label>
-                <input type="number" class="form-control" name="price" placeholder="prise for 1 seat">
-            </div>
-
-            <div class="form-group">
-                <input type="submit" class="btn btn-success add-trip-btn" value="add">
-            </div>
-
-
-            </div>
-        <!-- ---start add trip area--->
-
+        <!-- start followers-area -->
     </div>
+<!-- ---end content--->
+
 @stop
 @section('javascrip')
 
 <script>
+
+    var counter=0;
+    console.log(counter);
     $(".trip-added-message").hide();
     $(".blocked-company-alert").hide();
     $(".add-trip-area").hide();
     //start add trip link
     $(".add-trip-link").click(function () {
-        $(".add-trip-area").slideToggle();
+        counter++;
+    console.log(counter);
+        if(counter %2 == 0){
+            $(".add-trip-area").slideToggle();
+            $(".links").show(500);
+            $(".content").show(500);
+
+        }
+        else{
+            $(".links").hide(500);
+            $(".content").hide(500);
+            $(".add-trip-area").slideToggle();
+
+        }
         $(".trip-added-message").hide();
         $(".blocked-company-alert").hide();
+       // $(".trips-number").toggle();
+       // $(".customers-number").toggle();
+
 
     });
     //end add trip link
 
     //start addTrip proccess
-    $(".add-trip-btn").click(function () {
-        $(".add-trip-area").slideToggle();
-            $.ajax({
-               type: "post",
-               url: "{{route('addTrip')}}",
-               data: {
-                   '_token' :'{{csrf_token()}}',
-                   'companyName':$(".companyName").val(),
-                   'startStation':$(".startStation").val(),
-                   'stopStation':$(".stopStation").val(),
-                   'departureDate':$(".DepartureDate").val(),
-                   'seatsNum':$(".seatsNum").val(),
-                   'price':$(".price").val(),
-                },
-                success: function ($data) {
-                    console.log($data);
-                    if($data == 'blocked'){
-                        console.log("blocked");
+    $("body").delegate('.add-trip-btn','click',function () {
+        console.log('ali');
 
-                        $(".blocked-company-alert").slideDown();
+        $.ajax({
 
-                    }
-                    else{
-                        $(".trip-added-message").slideDown();
-                        console.log("accepted");
-                    }
+            type: "post",
+            url: "{{route('addTrip')}}",
+            data:{
+                '_token': "{{csrf_token()}}",
+                'companyName':$(".companyName").val(),
+                'startStation': $(".startStation").val(),
+                'stopStation': $(".stopStation").val(),
+                'departureDate': $(".DepartureDate").val(),
+                'seatsNum': $(".seatsNum").val(),
+                'price': $(".price").val(),
 
-
-                },
-                error: function ($reject) {
-                    console.log($reject);
+            },
+            success: function ($data) {
+                console.log($data);
+                if($data == "blocked"){
+                    $(".blocked-company-alert").slideToggle();
                 }
+                else{
+                    $(".trip-added-message").slideToggle();
+                }
+            },
+            error: function ($reject) {
+                console.log($reject);
+            }
+        })
 
-            });
-    })
+    });
     //end addTrip proccess
+
+    //------------------start load trips----------------
+
+    $.ajax({
+        type: "post",
+        url: "showTrips",
+        data:{
+            '_token': "{{csrf_token()}}",
+            'companyName': $(".companyName").val(),
+        },
+        success: function ($data) {
+            console.log($data);
+            $data.forEach(function (dt) {
+                for(var $i = 0; $i<dt.length ; $i++){
+                    $(".customers-table-content").append("<tr>"+
+                        "<td>"+dt[$i].tripID+"</td>"+
+                        "<td>"+dt[$i].startStation+"</td>"+
+                        "<td>"+dt[$i].stopStation+"</td>"+
+                        "<td>"+dt[$i].departureDate+"</td>"+
+                        "<td>"+dt[$i].numSeats+"</td>"+
+                        "<td>"+dt[$i].priceForSeat+"</td>"
+
+
+                        +"</tr>"
+                    );
+                }
+            });
+            setTimeout(function(){
+                loadTrips(); //this will send request again and again;
+            }, 1000)
+        },
+        error: function ($reject) {
+            console.log($reject);
+        }
+    });
+    //---------------end load trips---------------
 </script>
 @stop

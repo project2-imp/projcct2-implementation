@@ -54,17 +54,17 @@ class AdminController extends Controller
         ];
         $validator = Validator::make($request->all(),$rules);
         if($validator->fails()){
-            return redirect()->back()->withErrors($validator)->withInputs($request->all());
+            return "error";
         }
         else{
             $admin = SystemAdmin::create(
                 [
-                    'adminName'=>$request->input('name'),
-                    'email'=>$request->input('email'),
-                    'password'=>$request->input('password'),
+                    'adminName'=>$request->name,
+                    'email'=>$request->email,
+                    'password'=>$request->password,
                 ]
             );
-            return redirect()->back();
+            return "success";
         }
     }
     //start getCustomersNum

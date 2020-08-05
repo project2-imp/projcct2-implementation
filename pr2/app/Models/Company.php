@@ -8,8 +8,8 @@ class Company extends Model
 {
     //
     protected $table ="companys";
-    protected $fillable = ['name','email','phoneNumber','password','address','cardNumber','status','rating','created_at'];
-    protected $hidden = ['password','created_at'];
+    protected $fillable = ['companyID','name','email','phoneNumber','password','address','cardNumber','status','rating','created_at'];
+    protected $hidden = ['password'];
 
     /////////////// start relations ///////////////////
 
