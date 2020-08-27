@@ -1,3 +1,6 @@
+body{
+    background-image: linear-gradient(whitesmoke ,ghostwhite );
+}
 .header{
     height: 800px;
     background-image: url('../images/header.png');
@@ -65,11 +68,314 @@ a:hover{
 /* ####################### showTrips page ######################### */
 .trips-place{
     border: dot-dot-dash;
+    /*background-color: darkgrey;*/
+}
+.trips-card{
+    background-image: linear-gradient(lightgoldenrodyellow ,ghostwhite );
+    display: inline-block;
+    margin: 10px;
+    width: 350px;
+    border-radius:50px;
+
+}
+.trips-card:hover{
+    background-color: white;
+
+    color:green;
+}
+.card-title {
+ font-size: 30px;
+    color: coral;
+
+}
+ .trip-dep-date-title , .num-seats-value ,.price-For-Seat-title{
+    color:black;
+
+}
+.card-title{
+    margin-left: 30px;
+}
+.startStation-title {
+    font-size: 25px;
+    color:black;
+
+}
+.startStation-value {
+    font-size: 20px;
+    color:royalblue;
+
+}
+.stopStation-title {
+    font-size: 25px;
+    color:black;
+}
+.stopStation-value {
+    font-size: 20px;
+    color:royalblue;
+}
+.trip-dep-date-value , .num-seats-value{
+    color:green;
+    font-size: 15px;
+    font-weight: bold;
+}
+.price-For-Seat-value{
+    color: coral ;
 }
 
+.price-For-Seat-value:hover{
+    color: red ;
+}
 .best-compaines-place{
+   /* background-image: linear-gradient(goldenrod ,gold );*/
     border: dot-dot-dash;
 }
+.booking-btn{
+    margin-left: 120px;
+}
+.best-companies-card{
+background-image: linear-gradient(goldenrod,gold );
+
+  /*  background-image: linear-gradient(lightblue ,ghostwhite );
+*/
+    /*width: 500px;*/
+    padding: 20px;
+    margin:10px;
+    border-radius:50px;
+}
+/*########################## booking style ################################*/
+.booking-place{
+    margin: 450px;
+    margin-top:100px;
+}
+.more-option{
+    background-color: ghostwhite;
+    color: steelblue;
+}
+.action-selector{
+    background-color: lightsteelblue;
+}
+
+.new-pending-palce{
+    background-color: white;
+    color: black;
+}
 
 
+.companies-num{
+    font-size: 20px;
+    font-weight: bold;
+}
 
+
+.logout-link:hover{
+    color: red;
+}
+.name-link:hover{
+    color: green;
+}
+
+.details-area-head{
+    text-align: center;
+    font-weight: bold;
+    font-family: "Comic Sans MS";
+    color:lightgreen;
+}
+
+.table-content{
+    color:#26272b;
+}
+.scrollable{
+    height: 800px;
+    overflow: scroll;
+}
+.pending-companies-area{
+    text-align: center;
+
+}
+
+/*============================================*/
+.short-information{
+    background-color: white;
+    padding: 20px;
+    margin-top: 10px;
+}
+.custoemer-link{
+    color: white;
+    /*background-color: lightblue;*/
+    background-image: linear-gradient(  royalblue,lightblue);
+    border-radius:35px;
+    padding: 15px;
+    margin: 10px;
+}
+.company-link{
+    color: white;
+    background-image: linear-gradient(coral ,lightcoral);
+    margin: 10px;
+    border-radius:35px;
+    padding: 15px;
+}
+.pendingCompany-link{
+    color: white;
+    background-image: linear-gradient(mediumseagreen ,lightgreen);
+    margin: 10px;
+    border-radius:35px;
+    padding: 15px;
+}
+.other-link{
+    background-color: lightcoral;
+    margin: 10px;
+}
+.customers-value{
+    float: right;
+    color:yellow;
+}
+.companies-value{
+    float: right;
+    color: yellow;
+}
+.pendingC-value{
+    float: right;
+    color:yellow ;
+}
+.details-pending-companies-area{
+    margin-top: 40px;
+    text-align: center;
+}
+.email-icon:hover{
+    margin-left: 20px;
+}
+.phone-icon:hover{
+
+    margin-left: 20px;
+}
+.address-icon:hover{
+    margin-left: 20px;
+}
+.card-icon:hover{
+    margin-left: 20px;
+}
+
+.c-Info{
+    color: gray;
+}
+.pendingCompanies-table tr:nth-child(even){
+    /* background-color: mediumseagreen;
+ */
+}
+.pending-table-head{
+    color: lightgreen;
+}
+.pending-companies-area{
+    background-color: white;
+    margin-top: 40px;
+    margin-left:20px ;
+    -webkit-box-shadow: 0 30px 60px 0 red;
+    box-shadow: 0 30px 60px 0 rgba(0,0,1,0.3);
+}
+.customers-table tr:nth-child(even){
+    /* background-image: linear-gradient(  royalblue,lightblue);*/
+
+}
+.customers-table-head{
+    color: steelblue;
+}
+.companies-table tr:nth-child(even){
+    /* background-color: coral;
+ */}
+.companies-table-head{
+    color:lightcoral ;
+}
+.customers-container-area{
+    background-color: white;
+    margin-top: 40px;
+    margin-left: 20px;
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,1,0.3);
+    box-shadow: 0 30px 60px 0 rgba(0,0,1,0.3);
+}
+
+.companies-container-area{
+    background-color: white;
+    margin-top: 40px;
+    margin-left: 20px;
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,1,0.3);
+    box-shadow: 0 30px 60px 0 rgba(0,0,1,0.3);
+}
+/* start add new admin style*/
+
+#formContent {
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    background: #fff;
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    padding: 0px;
+    -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+input[type=button], input[type=submit], input[type=reset]  {
+    background-color: #56baed;
+    border: none;
+    color: white;
+    padding: 15px 80px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 13px;
+    -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
+    box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    margin: 5px 20px 40px 20px;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
+    background-color: goldenrod;
+    font-size: 20px;
+}
+
+input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {
+    -moz-transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+    -o-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    transform: scale(0.95);
+}
+
+input[type=number] , input[type=password],input[type=text]  {
+    background-color: #f6f6f6;
+    border: none;
+    color: #0d0d0d;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    width: 85%;
+    border: 2px solid #f6f6f6;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+
+.payment-way-par{
+
+}
+.cancel-btn{
+    background-color: coral;
+}

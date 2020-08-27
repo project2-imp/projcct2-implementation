@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use phpDocumentor\Reflection\Types\Integer;
 use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Scalar\String_;
+
 
 class CompanyController extends Controller
 {
@@ -19,14 +21,20 @@ class CompanyController extends Controller
             if($validator->fails()){
                 return redirect()->back()->withErrors($validator)->withInputs($request->all());
             }
-                $companyCard = $this->CreateVCard();
-                Company::create(
+            $companyCard = $this->CreateVCard();
+            $iconExtension = $request->companyIcon->getClientOriginalExtension();
+            $iconName=time().'.'.$iconExtension;
+            $path='uploads/companiesIcons';
+            $request->companyIcon->move($path,$iconName);
+            //dd($iconExtension);
+        Company::create(
                     [
                         'name'=>$request->input('companyName'),
                         'email'=>$request->input('email'),
                         'password'=>$request->input('password'),
                         'phoneNumber'=>$request->input('phoneNumber'),
                         'address'=>$request->input('address'),
+                        'imagePath'=>$iconName,
                         'cardNumber'=>$companyCard,
                         'rating'=>1,
                         'status'=>'pending'
@@ -153,4 +161,11 @@ class CompanyController extends Controller
 
     }
     //end BlockCompany
+
+    //start showBestCompanies
+    public function showBestCompanies(){
+        $companies = Company::select('name','address','rating')->orderBy('rating','desc')->get();
+        return $companies;
+    }
+    //end showBestCompanies
 }

@@ -14,16 +14,18 @@
     <link rel="stylesheet" href="{{URL::asset('assets/css/footerStyle.css')}}" />
 
 
+
 </head>
 
-<body>
+<body style="background-color: white">
 
 @include('includes.header')
 @yield('trips')
 @include('includes.footer')
 
 
-<script href="{{URL::asset('assets/js/bootstrap.min.js')}}"></script>
-<script href="{{URL::asset('assets/js/jquery-v3.5.0.js')}}"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script href="{{URL::asset('assets/js/bootstrap.js')}}"></script>
+@yield('javascript')
 </body>
 </html>

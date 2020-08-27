@@ -12,6 +12,10 @@
 */
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //=========start guest routes========
+use Illuminate\Support\Facades\Route;
+
+//use Illuminate\Routing\Route;
+
 Route::get('master', function () {
     $status = array(0);
     return view('layouts.master',compact('status'));
@@ -35,12 +39,17 @@ Route::get('/createCompanyAccount',function (){
     return view('layouts.guest.createCompany',compact('status'));
 })->name('createCompanyForm');
 //---------------------------------
+Route::get('getTrips','trips\TripController@getTrips')->name('getTrips');
+//---------------------------------
+Route::get('showBestCompanies','company\companyController@showBestCompanies')->name('showBestCompanies');
+//---------------------------------
 Route::post('createCustomerAccount','customer\CustomerController@signUP')->name('createCustomerAccount');
 //-------------------------------
 Route::post('createCompanyAccount','company\CompanyController@AddPendingCompany')->name('createCompanyAccount');
 //-------------------------------
 Route::post('/validationCode','customer\CustomerController@validateCode')->name('validationCode');
 //---------------------------------
+
 //=========end guest routes========
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -54,6 +63,8 @@ Route::get('/login',function (){
 Route::get('profile/{name}',function (){
     return view('layouts.customer.profile');
 })->name('CustomerProfile');
+//---------------------------------
+Route::post('bookingTrip','customer\CustomerController@bookingTrip')->name('bookingTrip');
 //---------------------------------
 Route::post('loginAccount','customer\CustomerController@login')->name('loginAccount');
 //---------------------------------
@@ -78,11 +89,19 @@ Route::post('addTrip','company\companyController@addNewTrip')->name('addTrip');
 //---------------------------------
 Route::post('showTrips','trips\TripController@showTrips')->name('showTrips');
 //---------------------------------
-
+Route::post('editTrip','trips\TripController@editTrip')->name('editTrip');
+//---------------------------------
+Route::post('deleteTrip','trips\TripController@deleteTrip')->name('deleteTrip');
+//---------------------------------
 //=======end company routes========
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//=======start passenger routes======
+Route::post('addPendingPassenger','passenger\PassengerController@addPendingPassenger')->name('addPendingPassenger');
+//=======end passenger routes========
 
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //=======start admin routes========
 
 //---------------------------------
@@ -102,11 +121,11 @@ Route::get('addAdmin',function (){
 //---------------------------------
 Route::post('addAdmin','admin\AdminController@addNewAdmin')->name('addNewAdmin');
 //---------------------------------
-Route::get('getCustomers','admin\adminController@getCustomersInfo')->name('getCustomers');
+Route::get('getCustomers','admin\AdminController@getCustomersInfo')->name('getCustomers');
 //---------------------------------
-route::get('getCompanies','admin\AdminController@getCompaniesInfo')->name('getCompanies');
+Route::get('getCompanies','admin\AdminController@getCompaniesInfo')->name('getCompanies');
 //---------------------------------
-route::get('getPendingCompanies','admin\AdminController@getPendingCompanies')->name('getPendingCompanies');
+Route::get('getPendingCompanies','Admin\AdminController@getPendingCompanies')->name('getPendingCompanies');
 //---------------------------------
 Route::post('custoemrsCount','admin\AdminController@getCustomersNum')->name('custoemrsCount');
 //---------------------------------
@@ -118,9 +137,22 @@ Route::post('acceptCompany','admin\AdminController@acceptCompany')->name('accept
 //---------------------------------
 Route::post('rejectCompany','admin\AdminController@rejectCompany')->name('rejectCompany');
 //---------------------------------
+Route::post('blockAccount','admin\AdminController@blockAccount')->name('blockAccount');
+//---------------------------------
+Route::post('unblockAccount','admin\AdminController@unblockAccount')->name('unblockAccount');
+//---------------------------------
+Route::post('blockCompany','admin\AdminController@blockCompany')->name('blockCompany');
+//---------------------------------
+Route::post('unblockCompany','admin\AdminController@unblockCompany')->name('unblockCompany');
+//---------------------------------
 
 //=======end admin routes========
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 Route::get('/testConnection', function () {
     try {
         DB::connection()->getPdo();
@@ -135,3 +167,4 @@ Route::get('/testConnection', function () {
     }
 });
 //---------------------------------
+

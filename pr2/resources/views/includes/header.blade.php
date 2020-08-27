@@ -15,27 +15,26 @@
         </ul>
     </div>
     <div class="col-lg-5 site-doc">
+        <div class="col-lg-12">
+            <div class="input-group search-place">
+
+                <input type="text" class="form-control" placeholder="Search for trips , companies">
+                <span class="input-group-btn">
+                <button class="btn btn-success" type="button">Go!</button>
+            </span>
+
+            </div>
+        </div>
         <div class="doc-header">YOUR FAVORITE TRIPS AND COMPANIES HERE</div>
         <div class="doc-body">
             <p>search and book trips for best of companies</p>
             <button class="btn btn-default browse-trips">browse trips</button>
         </div>
-    </div>
-    <div class="header-center">
-
 
     </div>
 
-<div class="row">
-    <div class="col-lg-8">
-        <div class="input-group search-place">
 
-            <input type="text" class="form-control" placeholder="Search for trips , companies">
-            <span class="input-group-btn">
-                <button class="btn btn-success" type="button">Go!</button>
-            </span>
 
-        </div>
-    </div>
-</div>
+
+
 </div>

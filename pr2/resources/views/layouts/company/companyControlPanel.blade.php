@@ -93,11 +93,11 @@
 <!-- end links -->
 
 <!-- ---start content--->
-    <div class="row content">
+    <div class="row content" id="content">
         <!-- start active-trips-area -->
         <div class="col-lg-8 active-trips-area">
             <!-- Table -->
-            <h3 >Acrtive trips:</h3>
+            <h3 style="color: #4cae4c;">Active trips:</h3>
             <table class="table active-trips-table">
                 <thead class="active-trips-table-head">
                 <tr>
@@ -109,16 +109,34 @@
                     <th>numSeats</th>
                     <th>priceForSeat</th>
                 </tr>
-                </thead>
+    </thead>
                 <tbody class="customers-table-content" style="color: gray">
 
                 </tbody>
             </table>
+            <!-- start edit-trip-area -->
+            <div class="edit-trip-area">
+                <div class="form-group ">
+                    <label for="usr">Departure Date:</label>
+                    <input type="date" class="form-control Date" name="DepartureDate"   placeholder="start station">
+                </div>
+
+                <div class="form-group">
+                    <label for="pwd">Number of Seats:</label>
+                    <input type="number" class="form-control seatsNumber" name="seatsNum" placeholder="stop station">
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success accept-edit-btn" tripId="" name="accept-edit" value="edit">
+                </div>
+            </div>
+            <!-- end edit-trip-area -->
+
         </div>
-        <!-- start active-trips-area -->
+        <!-- end active-trips-area -->
+
 
         <!-- start followers-area -->
-        <div class="col-lg-4 active-trips-area">
+        <div class="col-lg-4 pending-customers">
         </div>
         <!-- start followers-area -->
     </div>
@@ -128,16 +146,21 @@
 @section('javascrip')
 
 <script>
-
+    var tripID=0;
     var counter=0;
-    console.log(counter);
     $(".trip-added-message").hide();
     $(".blocked-company-alert").hide();
     $(".add-trip-area").hide();
+    $(".edit-trip-area").hide();
+    loadTrips();
+
     //start add trip link
     $(".add-trip-link").click(function () {
         counter++;
-    console.log(counter);
+        clear(".customers-table-content");
+        loadTrips();
+
+        console.log(counter);
         if(counter %2 == 0){
             $(".add-trip-area").slideToggle();
             $(".links").show(500);
@@ -148,6 +171,7 @@
             $(".links").hide(500);
             $(".content").hide(500);
             $(".add-trip-area").slideToggle();
+
 
         }
         $(".trip-added-message").hide();
@@ -183,7 +207,7 @@
                     $(".blocked-company-alert").slideToggle();
                 }
                 else{
-                    $(".trip-added-message").slideToggle();
+                    $(".trip-added-message").slideDown();
                 }
             },
             error: function ($reject) {
@@ -195,7 +219,7 @@
     //end addTrip proccess
 
     //------------------start load trips----------------
-
+    function loadTrips(){
     $.ajax({
         type: "post",
         url: "showTrips",
@@ -204,7 +228,7 @@
             'companyName': $(".companyName").val(),
         },
         success: function ($data) {
-            console.log($data);
+            var editBtn="<button class='btn btn-success edit-trip' value="+$data+">edit</button>";
             $data.forEach(function (dt) {
                 for(var $i = 0; $i<dt.length ; $i++){
                     $(".customers-table-content").append("<tr>"+
@@ -213,21 +237,106 @@
                         "<td>"+dt[$i].stopStation+"</td>"+
                         "<td>"+dt[$i].departureDate+"</td>"+
                         "<td>"+dt[$i].numSeats+"</td>"+
-                        "<td>"+dt[$i].priceForSeat+"</td>"
-
+                        "<td>"+dt[$i].priceForSeat+"</td>"+
+                        "<td>"+makeEditBtn('btn btn-success','edit-Trip',dt[$i].tripID,'edit',dt[$i].departureDate,dt[$i].numSeats)+"</td>"+
+                        "<td>"+makeDeleteBtn('btn btn-danger','delete-Trip',dt[$i].tripID,'delete')+"</td>"
 
                         +"</tr>"
                     );
                 }
             });
-            setTimeout(function(){
-                loadTrips(); //this will send request again and again;
-            }, 1000)
+
         },
         error: function ($reject) {
             console.log($reject);
         }
-    });
+    });};
     //---------------end load trips---------------
+
+    //--------------start edit trips--------------
+
+    $(".active-trips-table").delegate(".edit-Trip","click",function () {
+
+        tripID=$(this).val();
+        console.log("edit");
+        console.log("tripID="+tripID);
+        console.log($(this).val());
+        console.log($(this).attr('departureDate'));
+        console.log($(this).attr('numSeats'));
+        $(".Date").val($(this).attr('departureDate'));
+        $(".seatsNumber").val($(this).attr('numSeats'));
+        $(".edit-trip-area").show();
+        $(".active-trips-table").hide();
+
+    });
+    //--------------end edit trips--------------
+
+    //--------------start accept-edit-btn--------------
+    $("body").delegate(".accept-edit-btn","click",function () {
+        console.log("tripID="+tripID);
+       $.ajax({
+           type: "post",
+           url: "{{route('editTrip')}}",
+           data: {
+               '_token' : "{{csrf_token()}}",
+               'tripID': tripID,
+               'newDate': $(".Date").val(),
+               'newSeats': $(".seatsNumber").val(),
+           },
+           success: function ($data) {
+                if($data == 'updated'){
+                    clear(".customers-table-content");
+                    loadTrips();
+                    $(".edit-trip-area").hide();
+                    $(".active-trips-table").show();
+
+                }
+
+           },
+
+       });
+    });
+    //--------------end accept-edit-btn--------------
+
+
+    //--------------start delete trips--------------
+    $("body").delegate(".delete-Trip","click",function () {
+        console.log("delete");
+        $.ajax({
+
+           type: "post",
+           url: "{{route('deleteTrip')}}",
+           data:{
+               '_token' : "{{csrf_token()}}",
+               'tripID' : $(this).val(),
+           },
+            success: function ($data) {
+                if($data == "deleted"){
+                  console.log($data);
+                    clear(".customers-table-content");
+                    loadTrips();
+                }
+            }
+        });
+    })
+    //--------------end delete trips--------------
+
+    //--------start makeEditBtn---------------------
+    function makeEditBtn(btnType,className,value,btnName,departureDate,numSeats) {
+        return "<button class='"+btnType+" "+className+" ' value='"+value+"'  departureDate='"+departureDate+"' numSeats='"+numSeats +"'>"+btnName+"</button>";
+    }
+    //--------end makeEditBtn---------------------
+
+    //--------start makeDeleteBtn---------------------
+    function makeDeleteBtn(btnType,className,value,btnName) {
+        return "<button class='"+btnType+" "+className+" ' value="+value+">"+btnName+"</button>";
+    }
+    //--------end makeDeleteBtn---------------------
+
+    function clear(tagName) {
+        $(tagName).text("");
+
+    }
+
 </script>
 @stop

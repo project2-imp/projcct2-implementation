@@ -152,5 +152,11 @@ class CustomerController extends Controller
         }
     }//end login
 
+    //start bookingTrip
+    public function bookingTrip(Request $request){
+        $tripNumber=$request->tripID;
+        return view('layouts.customer.booking',compact('tripNumber'));
+    }
+    //end bookingTrip
 
 }

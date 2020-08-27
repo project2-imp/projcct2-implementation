@@ -59,18 +59,25 @@ color:#26272b;
 }
 .custoemer-link{
     color: white;
-    background-color: lightblue;
-    margin: 20px;
+    /*background-color: lightblue;*/
+    background-image: linear-gradient(  royalblue,lightblue);
+    border-radius:35px;
+    padding: 15px;
+    margin: 10px;
 }
 .company-link{
     color: white;
-    background-color: lightcoral;
-    margin: 20px;
+    background-image: linear-gradient(coral ,lightcoral);
+    margin: 10px;
+    border-radius:35px;
+    padding: 15px;
 }
 .pendingCompany-link{
     color: white;
-    background-color: lightgreen;
-    margin: 20px;
+    background-image: linear-gradient(mediumseagreen ,lightgreen);
+    margin: 10px;
+    border-radius:35px;
+    padding: 15px;
 }
 .other-link{
     background-color: lightcoral;
@@ -78,7 +85,7 @@ color:#26272b;
 }
 .customers-value{
     float: right;
-    color:red ;
+    color:yellow;
 }
 .companies-value{
     float: right;
@@ -86,7 +93,7 @@ color:#26272b;
 }
 .pendingC-value{
     float: right;
-    color:blue ;
+    color:yellow ;
 }
 .details-pending-companies-area{
     margin-top: 40px;
@@ -110,8 +117,8 @@ color:#26272b;
     color: gray;
 }
 .pendingCompanies-table tr:nth-child(even){
-    background-color: mediumseagreen;
-
+   /* background-color: mediumseagreen;
+*/
 }
 .pending-table-head{
     color: lightgreen;
@@ -124,15 +131,15 @@ color:#26272b;
     box-shadow: 0 30px 60px 0 rgba(0,0,1,0.3);
 }
 .customers-table tr:nth-child(even){
-    background-color: #5bc0de;
+   /* background-image: linear-gradient(  royalblue,lightblue);*/
 
 }
 .customers-table-head{
     color: steelblue;
 }
 .companies-table tr:nth-child(even){
-    background-color: coral;
-}
+   /* background-color: coral;
+*/}
 .companies-table-head{
     color:lightcoral ;
 }

@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Customer;
 use App\Models\SystemAdmin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use function MongoDB\BSON\toJSON;
 
@@ -109,7 +110,7 @@ class AdminController extends Controller
     //start getCustomersInfo
     public function getCustomersInfo(){
 
-        $customers = Customer::select()->get();
+        $customers = Customer::select()->orderBy('status', 'desc')->get();
         $arr = array($customers);
         return $arr;
     }
@@ -117,7 +118,7 @@ class AdminController extends Controller
 
     //start getCompaniesInfo
     public function getCompaniesInfo(){
-        $companies = Company::select()->where('status','accepted')->get();
+        $companies = Company::select()->where('status','!=','pending')->orderBy('status','desc')->get();
         $arr = array($companies);
         return $arr;
     }
@@ -152,6 +153,38 @@ class AdminController extends Controller
         return $message;
     }
     //end AcceptCompany()
+
+    //start blockAccount
+    public function blockAccount(Request $request){
+        DB::table('customers')->where('email',$request->customerEmail)
+            ->update(['status'=>'blocked']);
+        return "blocked";
+    }
+    //end blockAccount
+
+    //start unblockAccount
+    public function unblockAccount(Request $request){
+        DB::table('customers')->where('email',$request->customerEmail)
+            ->update(['status'=>'unblocked']);
+        return "unblocked";
+    }
+    //end unblockAccount
+
+    //start blockCompany
+    public function blockCompany(Request $request){
+        DB::table('companys')->where('email',$request->companyEmail)
+            ->update(['status'=>'blocked']);
+        return "blocked";
+    }
+    //end blockCompany
+
+    //start unblockCompany
+    public function unblockCompany(Request $request){
+        DB::table('companys')->where('email',$request->companyEmail)
+            ->update(['status'=>'unblock']);
+        return "unblocked";
+    }
+    //end unblockCompany
 
 
 }

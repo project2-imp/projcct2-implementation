@@ -76,7 +76,7 @@
                     <th>more details</th>
                 </tr>
                 </thead>
-                <tbody class="pending-table-body" style="color: gray">
+                <tbody class="pending-table-body" style="color: darkslategrey">
 
                 </tbody>
             </table>
@@ -138,18 +138,21 @@
                             <th>Phone Number</th>
                             <th>Address</th>
                             <th class="var-with-table">Status</th>
-                            <th class="more-details">Card Number</th>
-                            <th class="more-details">Card Balance</th>
+                           <!-- <th class="more-details">Card Number</th>
+                            <th class="more-details">Card Balance</th> -->
                         </tr>
                         </thead>
-                        <tbody class="customers-table-content" style="color: gray">
+                        <tbody class="customers-table-content" style="color: darkslategrey">
 
                         </tbody>
                     </table>
 
 
             </div>
-            <!-- end browse customers div-->
+<p>alialalialaia</p>
+
+
+        <!-- end browse customers div-->
             <!--start browse companies div-->
             <div class="companies-container-area col-lg-12 col-xs-12">
 
@@ -158,19 +161,18 @@
                 <table class="table companies-table">
                     <thead class="companies-table-head">
                     <tr>
-
+                        <th>Avatar</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone Number</th>
                         <th>Address</th>
                         <th class="var-with-table">Status</th>
-                        <th class="more-details">Card Number</th>
-                        <th class="more-details">Rating</th>
-
+                        <!-- <th class="more-details">Card Number</th>
+                        <th class="more-details">Rating</th> -->
 
                     </tr>
                     </thead>
-                    <tbody class="companies-table-content" style="color:gray">
+                    <tbody class="companies-table-content" style="color:darkslategrey">
 
                     </tbody>
                 </table>
@@ -194,6 +196,8 @@
     $(".success-add-admin-msg").hide();
     $(".error-add-admin-msg").hide();
     $(".details-pending-companies-area").hide();
+    loadCustoemrs();
+    loadCompanies();
 
     //-------------start more-link--------------------
         $(".more-link").click(function () {
@@ -225,33 +229,40 @@
         $(".new-admin-palce").slideToggle();
         $(".add-admin-link").slideToggle();
         $(".back-link").slideToggle();
+
     });
     //----------------end back-link--------------------
 
 
     //------------------load customers----------------
+    function loadCustoemrs(){
     $.ajax({
         type: "GET",
         url: "{{route('getCustomers')}}",
         success: function ($data) {
             $data.forEach(function (dt) {
+                console.log("aliddd");
+                console.log(dt);
                 for(var $i = 0; $i<dt.length ; $i++){
                     $(".customers-table-content").append("<tr>"+
                         "<td>"+dt[$i].name+"</td>"+
                         "<td>"+dt[$i].email+"</td>"+
                         "<td>"+dt[$i].phoneNumber+"</td>"+
                         "<td>"+dt[$i].address+"</td>"+
-                        "<td>"+dt[$i].status+"</td>"
+                        "<td>"+dt[$i].status+"</td>"+
+                        "<td>"+makeBlockUnblockBtn(dt[$i].email,dt[$i].status,"customer")+"</td>"+
+
 
                         +"</tr>"
                     );
                 }
             });
         },
-    });
+    });}
     //---------------end load customers---------------
 
     //----------------load companies------------------
+    function loadCompanies(){
     $.ajax({
         type: "GET",
         url: "{{route('getCompanies')}}",
@@ -260,11 +271,13 @@
             $dataa.forEach(function (dtt) {
                 for (var $i = 0 ; $i < dtt.length ; $i ++){
                     $(".companies-table-content").append("<tr>"+
+                        "<td>"+"<img src='{{url('/uploads/companiesIcons/"+dtt[$i].imaagePath+"')}}' >"+"</td>"+
                         "<td>"+dtt[$i].name+"</td>"+
                         "<td>"+dtt[$i].email+"</td>"+
                         "<td>"+dtt[$i].phoneNumber+"</td>"+
                         "<td>"+dtt[$i].adress+"</td>"+
                         "<td>"+dtt[$i].cardNumber+"</td>"+
+                        "<td>"+makeBlockUnblockBtn(dtt[$i].email,dtt[$i].status,"company")+"</td>"+
                         "</tr>"
                     );
                 }
@@ -274,7 +287,7 @@
             console.log($d);
 
         },
-    });
+    });}
     //------------------end load companies-------------
 
     //------------load pending companies---------------
@@ -414,6 +427,133 @@
 
     });
     //--------------end add new admin----------------
+
+    //--------------start block-account-btn----------
+        $(".customers-table").delegate(".block-customer-btn","click",function(){
+            $.ajax({
+
+                type: "post",
+                url: "{{route('blockAccount')}}",
+                data: {
+                    '_token':"{{csrf_token()}}",
+                    'customerEmail':$(this).val()
+                },
+                success: function ($data) {
+                    if($data == "blocked"){
+                        $(".customers-table").slideUp();
+                        clear(".customers-table-content");
+                        $(".customers-table").slideDown();
+                        loadCustoemrs();
+                    }
+                }
+
+
+            });
+        });
+    //--------------end block-account-btn----------
+
+    //--------------start unblock-account-btn----------
+    $(".customers-table").delegate(".unblock-customer-btn","click",function(){
+        $.ajax({
+
+            type: "post",
+            url: "{{route('unblockAccount')}}",
+            data: {
+                '_token':"{{csrf_token()}}",
+                'customerEmail':$(this).val()
+            },
+            success: function ($data) {
+                if($data == "unblocked"){
+                    $(".customers-table").slideUp();
+                    clear(".customers-table-content");
+                    $(".customers-table").slideDown();
+                    loadCustoemrs();
+                }
+            }
+
+
+        });
+    });
+    //--------------end unblock-account-btn----------
+
+    //--------------start block-company-btn----------
+    $(".companies-table").delegate(".block-company-btn","click",function(){
+        $.ajax({
+
+            type: "post",
+            url: "{{route('blockCompany')}}",
+            data: {
+                '_token':"{{csrf_token()}}",
+                'companyEmail':$(this).val()
+            },
+            success: function ($data) {
+                if($data == "blocked"){
+                    $(".companies-table").slideUp();
+                    clear(".companies-table-content");
+                    $(".companies-table").slideDown();
+                    loadCompanies();
+                    console.log($data);
+                }
+            }
+
+
+        });
+    });
+    //--------------end block-company-btn----------
+
+
+    //--------------start unblock-company-btn----------
+    $(".companies-table").delegate(".unblock-company-btn","click",function(){
+        $.ajax({
+
+            type: "post",
+            url: "{{route('unblockCompany')}}",
+            data: {
+                '_token':"{{csrf_token()}}",
+                'companyEmail':$(this).val()
+            },
+            success: function ($data) {
+                if($data == "unblocked"){
+                    $(".companies-table").slideUp();
+                    clear(".companies-table-content");
+                    $(".companies-table").slideDown();
+                    loadCompanies();
+                }
+            }
+
+
+        });
+    });
+    //--------------end unblock-company-btn----------
+
+    //start makeBlockUnblockBtn
+    function makeBlockUnblockBtn(value , status , type){
+        if (type == "customer"){
+
+
+        if(status == "blocked")
+        return "<button class='btn btn-danger unblock-customer-btn ' value='"+value+"' >unblock account</button>";
+        else
+            return "<button class='btn btn-success block-customer-btn ' value='"+value+"' >block account</button>";
+        }
+        else if (type == "company"){
+            if(status == "blocked")
+                return "<button class='btn btn-danger unblock-company-btn ' value='"+value+"' >unblock company</button>";
+            else
+                return "<button class='btn btn-success block-company-btn ' value='"+value+"' >block company</button>";
+
+        }
+        }
+    //end makeBlockUnblockBtn
+
+    //start clear content
+    function clear(tagName) {
+        $(tagName).text("");
+
+    }
+    //end clear content
+
+
 
 </script>
 

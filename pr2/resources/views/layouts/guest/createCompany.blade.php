@@ -11,7 +11,7 @@
 
 
 
-                        <form method="POST" id="signup-form" action="{{route('createCompanyAccount')}}">
+                        <form method="POST" id="signup-form" action="{{route('createCompanyAccount')}}" enctype="multipart/form-data">
 
                             {{ csrf_field() }}
 
@@ -57,6 +57,12 @@
                             @error('address')
                             <small class="form-text text-danger">{{$message}}</small>
                             @enderror
+
+                            <div class="form-group">
+                                <label class="alert alert-light">select company Icon</label>
+                                <input type="file" class=" form-control btn btn-dark"  name="companyIcon" />
+                            </div>
+
 
                             <div class="form-group">
                                 <input type="submit" name="submit" id="submit" class="form-submit" value="create new company"/>

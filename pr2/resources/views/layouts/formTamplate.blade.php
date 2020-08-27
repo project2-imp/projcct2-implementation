@@ -24,13 +24,14 @@
 <form method="GET" action="{{route('index')}}">
 <div class="form-group">
 
-
 </div>
 </form>
 <!-- JS -->
 
 <script href="{{URL::asset('assets/js/bootstrap.min.js')}}"></script>
 <script href="{{URL::asset('assets/js/jquery-v3.5.0.js')}}"></script>
+
 <script src="asstes/js/main.js"></script>
+
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
