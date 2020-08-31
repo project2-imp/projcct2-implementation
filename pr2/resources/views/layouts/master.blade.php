@@ -17,7 +17,7 @@
 
 </head>
 
-<body style="background-color: white">
+<body >
 
 @include('includes.header')
 @yield('trips')

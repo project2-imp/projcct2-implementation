@@ -4,6 +4,8 @@ namespace App\Http\Controllers\company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Customer;
+use App\Models\CustomerTrip;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -164,8 +166,29 @@ class CompanyController extends Controller
 
     //start showBestCompanies
     public function showBestCompanies(){
-        $companies = Company::select('name','address','rating')->orderBy('rating','desc')->get();
+        $companies = Company::select('name','address','rating','imagePath')->orderBy('rating','desc')->get();
         return $companies;
     }
     //end showBestCompanies
+
+    //start getPendingCustomers
+    public function getPendingCustomers(){
+        $pendingCustomers=CustomerTrip::select('customerID','tripID','seatsNumber')->where('status','pending')->get();
+
+        return $pendingCustomers;
+    }
+    //end getPendingCustomers
+
+    //start getMorePendingCustoemrs
+     public function getMorePendingCustoemrs(Request $request){
+        $customerInfo = Customer::select('name','phoneNumber','email')->where('customerID',$request->customerID)->first();
+        if($customerInfo !=null)
+        return $customerInfo;
+        else{
+            return "error";
+        }
+
+    }
+    //end getMorePendingCustoemrs
+
 }

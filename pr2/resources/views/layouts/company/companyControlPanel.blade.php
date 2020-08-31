@@ -134,9 +134,13 @@
         </div>
         <!-- end active-trips-area -->
 
-
-        <!-- start followers-area -->
+        <!-- start pending-customers-area -->
         <div class="col-lg-4 pending-customers">
+            <button class="btn btn-info pending-customers-btn">pending customers</button>
+            <ul class="list-group pending-customers-list">
+
+
+            </ul>
         </div>
         <!-- start followers-area -->
     </div>
@@ -152,6 +156,7 @@
     $(".blocked-company-alert").hide();
     $(".add-trip-area").hide();
     $(".edit-trip-area").hide();
+    $(".pending-customers-list").hide();
     loadTrips();
 
     //start add trip link
@@ -185,7 +190,7 @@
 
     //start addTrip proccess
     $("body").delegate('.add-trip-btn','click',function () {
-        console.log('ali');
+
 
         $.ajax({
 
@@ -321,6 +326,99 @@
     })
     //--------------end delete trips--------------
 
+    //--------------start pending-customers-btn--------------
+    $(".pending-customers-btn").click(function () {
+        getPendingCustomers();
+        //show pending customers list
+        $(".pending-customers-list").slideToggle();
+    });
+    //--------------end pending-customers-btn--------------
+
+    //start more-pending-customers-btn
+    $(".pending-customers").delegate('.more-pending-customers-btn','click',function () {
+        var tripID = $(this).attr('tripID');
+        var customerID = $(this).attr('customerID');
+        $.ajax({
+            type: "post",
+            url: "{{route('getMorePendingCustoemrs')}}",
+            data:{
+                '_token' : "{{csrf_token()}}",
+                'customerID': $(this).attr('customerID'),
+            },
+            success: function ($data) {
+                console.log("monther");
+                console.log($data);
+                clear(".pending-customers");
+                $(".pending-customers-list").slideUp();
+                $(".pending-customers").append('<div class="card" style="width: 18rem;">'+
+                    '<img src="..." class="card-img-top" alt="...">'+
+                    '<div class="card-body">'+
+                    '<img src="assets/images/adminIcons/customer.png" width="40px" height="40px">'+
+                    '<h5 class="card-title pending-customer-name">'+$data.name+'</h5>'+
+                    '<img src="assets/images/adminIcons/email.png" width="40px" height="40px">'+
+                '<p class="card-text pending-customer-email">'+$data.email+'</p>'+
+                    '<img src="assets/images/adminIcons/phone.png" width="40px" height="40px">'+
+                    '<p class="card-text pending-customer-phone">'+$data.phoneNumber+'</p>'+
+                '<div class="btn-toolbar" role="group">'+
+                '<button tripID='+tripID+' class="btn btn-primary accept-cach-payment" customerID='+customerID+' >accept</button>'+
+                '<button tripID='+tripID+' class=" btn  btn-danger reject-cach-payment" customerID='+customerID+' >reject</button>'+
+                    '</div>'+
+                    '</br>'+
+                '<a href="#" class="btn btn-dark">back</a>'+
+                '</div>'+
+                '</div>');
+
+            },
+        });
+    });
+    //end more pending-customers-btn
+
+    //start accept-cach-payment
+     $(".pending-customers").delegate(".accept-cach-payment","click",function(){
+       console.log("tripID:"+$(this).attr('tripID'));
+         console.log("customer:"+$(this).attr('customerID'));
+
+         $.ajax({
+           type: "post",
+           url: "{{route('addPassenger')}}",
+           data:{
+            '_token': "{{csrf_token()}}",
+            'customerID' :$(this).attr('customerID'),
+            'tripID' :$(this).attr('tripID'),
+           },
+            success: function ($data) {
+                console.log("alalalal");
+
+                console.log($data);
+            }
+
+        });
+     });
+    //end accept-cach-payment
+
+    //start reject-cach-payment
+    $(".pending-customers").delegate(".reject-cach-payment","click",function(){
+        console.log("tripID:"+$(this).attr('tripID'));
+        console.log("customer:"+$(this).attr('customerID'));
+
+        $.ajax({
+            type: "post",
+            url: "{{route('deletePassenger')}}",
+            data:{
+                '_token': "{{csrf_token()}}",
+                'customerID' :$(this).attr('customerID'),
+                'tripID' :$(this).attr('tripID'),
+            },
+            success: function ($data) {
+                console.log("deleted");
+
+                console.log($data);
+            }
+
+        });
+    });
+    //end reject-cach-payment
+
     //--------start makeEditBtn---------------------
     function makeEditBtn(btnType,className,value,btnName,departureDate,numSeats) {
         return "<button class='"+btnType+" "+className+" ' value='"+value+"'  departureDate='"+departureDate+"' numSeats='"+numSeats +"'>"+btnName+"</button>";
@@ -338,5 +436,40 @@
 
     }
 
+    //start getPendingCustomers
+    function getPendingCustomers() {
+        $.ajax({
+            type: "get",
+            url: "{{route('getPendingCustomers')}}",
+            success: function ($data) {
+                console.log($data);
+                for($i=0 ; $i <10;$i++){
+                    $(".pending-customers-list").append(
+                        "<a href='#'  seatsNum="+$data[$i].seatsNumber+" tripID="+$data[$i].tripID+" class='more-pending-customers-btn' customerID="+$data[$i].customerID+"><li class='list-group-item'><span style='color:lightseagreen'>tripID:</span><span style='color:coral'> "+$data[$i].tripID+"</span>"+"<span style='color:lightseagreen'> number of seats:</span> <span style='color:coral'>"+$data[$i].seatsNumber+"</a></li>"
+                    );
+                }
+            },
+        });
+    }
+    //end getPendingCustomers
+
+    //start getMorePendingCustoemrs
+    function getMorePendingCustoemrs() {
+        $.ajax({
+           type: "post",
+           url: "{{route('getMorePendingCustoemrs')}}",
+           data:{
+               '_token' : "{{csrf_token()}}",
+               'customerID': $(this).attr('tripID'),
+
+           },
+           success: function ($data) {
+               console.log($data);
+               clear(".customers-table-content");
+
+           },
+        });
+    }
+    //end getMorePendingCustoemrs
 </script>
 @stop

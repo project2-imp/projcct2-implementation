@@ -1,6 +1,9 @@
 body{
-    background-image: linear-gradient(whitesmoke ,ghostwhite );
+   /* background-image: linear-gradient(whitesmoke ,ghostwhite );
+*/
+    background-color: #100e17;
 }
+
 .header{
     height: 800px;
     background-image: url('../images/header.png');
@@ -70,77 +73,111 @@ a:hover{
     border: dot-dot-dash;
     /*background-color: darkgrey;*/
 }
-.trips-card{
-    background-image: linear-gradient(lightgoldenrodyellow ,ghostwhite );
+
+
+.card {
     display: inline-block;
-    margin: 10px;
-    width: 350px;
-    border-radius:50px;
 
+    background-color: #17141d;
+    border-radius: 10px;
+    box-shadow: -1rem 0 3rem #000;
+    /*   margin-left: -50px; */
+    transition: 0.4s ease-out;
+    position: relative;
+    left: 0px;
 }
-.trips-card:hover{
-    background-color: white;
 
-    color:green;
+.card:not(:first-child) {
+    margin-left: -50px;
 }
-.card-title {
- font-size: 30px;
-    color: coral;
 
+.card:hover {
+    transform: translateY(-20px);
+    transition: 0.4s ease-out;
 }
- .trip-dep-date-title , .num-seats-value ,.price-For-Seat-title{
-    color:black;
 
+.card:hover ~ .card {
+    position: relative;
+    left: 50px;
+    transition: 0.4s ease-out;
 }
 .card-title{
-    margin-left: 30px;
+    color: white;
+    font-weight: 300;
+    position: absolute;
+    left: 20px;
+    top: 15px;
 }
-.startStation-title {
-    font-size: 25px;
-    color:black;
 
+.bar {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    height: 5px;
+    width: 150px;
 }
-.startStation-value {
-    font-size: 20px;
-    color:royalblue;
 
+.emptybar {
+    background-color: #2e3033;
+    width: 100%;
+    height: 100%;
 }
-.stopStation-title {
-    font-size: 25px;
-    color:black;
+
+.filledbar {
+    position: absolute;
+    top: 0px;
+    z-index: 3;
+    width: 0px;
+    height: 100%;
+    background: rgb(0,154,217);
+    background: linear-gradient(90deg, rgba(0,154,217,1) 0%, rgba(217,147,0,1) 65%, rgba(255,186,0,1) 100%);
+    transition: 0.6s ease-out;
 }
-.stopStation-value {
-    font-size: 20px;
-    color:royalblue;
+
+.card:hover .filledbar {
+    width: 120px;
+    transition: 0.4s ease-out;
 }
-.trip-dep-date-value , .num-seats-value{
-    color:green;
-    font-size: 15px;
+.circle {
+    position: absolute;
+    top: 150px;
+    left: calc(50% - 60px);
+}
+.stroke {
+    stroke: white;
+    stroke-dasharray: 360;
+    stroke-dashoffset: 360;
+    transition: 0.6s ease-out;
+}
+
+svg {
+    fill: #17141d;
+    stroke-width: 2px;
+}
+
+.card:hover .stroke {
+    stroke-dashoffset: 100;
+    transition: 0.6s ease-out;
+}
+/*+++++++++++++++++++*/
+
+.best-compaines-place{
+    background-image: linear-gradient( #17141d,black);
+}
+.best-companies-title ,.trips-title{
+    color: lightgray;
+    margin-left: 450px;
     font-weight: bold;
 }
-.price-For-Seat-value{
-    color: coral ;
-}
-
-.price-For-Seat-value:hover{
-    color: red ;
-}
-.best-compaines-place{
-   /* background-image: linear-gradient(goldenrod ,gold );*/
-    border: dot-dot-dash;
-}
-.booking-btn{
-    margin-left: 120px;
+.trips-title{
+    margin-left: 550px;
 }
 .best-companies-card{
-background-image: linear-gradient(goldenrod,gold );
 
-  /*  background-image: linear-gradient(lightblue ,ghostwhite );
-*/
-    /*width: 500px;*/
-    padding: 20px;
-    margin:10px;
-    border-radius:50px;
+    display: inline-block;
+    margin:5px;
+
+
 }
 /*########################## booking style ################################*/
 .booking-place{
@@ -192,7 +229,9 @@ background-image: linear-gradient(goldenrod,gold );
     text-align: center;
 
 }
-
+.startStation-value,.stopStation-value,.trip-dep-date-value,.num-seats-value,.price-For-Seat-value{
+    color:white;
+}
 /*============================================*/
 .short-information{
     background-color: white;
@@ -262,9 +301,11 @@ background-image: linear-gradient(goldenrod,gold );
     /* background-color: mediumseagreen;
  */
 }
+
 .pending-table-head{
     color: lightgreen;
 }
+
 .pending-companies-area{
     background-color: white;
     margin-top: 40px;
@@ -272,19 +313,24 @@ background-image: linear-gradient(goldenrod,gold );
     -webkit-box-shadow: 0 30px 60px 0 red;
     box-shadow: 0 30px 60px 0 rgba(0,0,1,0.3);
 }
+
 .customers-table tr:nth-child(even){
     /* background-image: linear-gradient(  royalblue,lightblue);*/
 
 }
+
 .customers-table-head{
     color: steelblue;
 }
+
 .companies-table tr:nth-child(even){
     /* background-color: coral;
  */}
+
 .companies-table-head{
     color:lightcoral ;
 }
+
 .customers-container-area{
     background-color: white;
     margin-top: 40px;
@@ -372,10 +418,10 @@ input[type=number] , input[type=password],input[type=text]  {
     border-radius: 5px 5px 5px 5px;
 }
 
-
 .payment-way-par{
 
 }
+
 .cancel-btn{
     background-color: coral;
 }

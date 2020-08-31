@@ -4,7 +4,10 @@ namespace App\Http\Controllers\passenger;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\CustomerTrip;
+use App\Models\Trip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 class PassengerController extends Controller
 {
     //start addPendingPassenger
@@ -37,8 +40,23 @@ class PassengerController extends Controller
                 }
             }
         }
-
-
-
     //end addPendingPassenger
+
+    //start addPassenger
+    public function addPassenger(Request $request){
+        DB::table('customerstrips')->where('customerID',$request->customerID)
+                                        ->where('tripID',$request->tripID)
+            ->update(['status'=>'accepted']);
+        return "success";
+    }
+    //end addPassenger
+
+    //start deletePassenger
+    public function deletePassenger(Request $request){
+        CustomerTrip::where("tripID",$request->tripID)
+            ->where("customerID",$request->customerID)->delete();
+        return "success";
+    }
+    //end deletePassenger
+
 }
