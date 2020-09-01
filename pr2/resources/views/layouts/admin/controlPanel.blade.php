@@ -198,6 +198,7 @@
     $(".details-pending-companies-area").hide();
     loadCustoemrs();
     loadCompanies();
+    loadPendingCompanies();
 
     //-------------start more-link--------------------
         $(".more-link").click(function () {
@@ -292,7 +293,7 @@
     //------------------end load companies-------------
 
     //------------load pending companies---------------
-
+    function loadPendingCompanies(){
     $.ajax({
         method: "Get",
         url: "{{route('getPendingCompanies')}}",
@@ -310,38 +311,19 @@
             });
         }
 
-    });
+    });}
     //------------end load pending comapnies-----------
 
 
     //-----------show more pending copmany info-------------------
+
     $("body").delegate(".more-details-link","click",function () {
         $(".details-pending-companies-area").slideUp();
         $(".details-pending-companies-area").slideDown();
         var $AcceptBtnClassName = "class='btn btn-success btn-accept'";
         var $AcceptBtnValue="monther";
         console.log("ali");
-        $.ajax({
-           type: "post",
-           url: " {{route('companyInfo')}}",
-           data: {
-               '_token' : "{{csrf_token()}}",
-               'name' : $(this).val(),
-           },
-           success: function ($data) {
-                console.log($data);
-
-                $(".companyName-content").html("<h1>"+$data[0].name+"</h1>");
-                $(".email-content").html("<p>"+$data[0].email+"</p>");
-                $(".phone-content").html("<p>"+$data[0].phoneNumber+"</p>");
-                $(".address-content").html("<p>"+$data[0].address+"</p>");
-                $(".card-content").html("<p>"+$data[0].cardNumber+"</p>");
-                $(".btn-accept-place").html("<button  class='btn btn-success btn-accept 'value='  "+$data[0].name+" ' >Accept</button>");
-                $(".btn-reject-place").html("<button  class='btn btn-danger  btn-reject 'value=' "+ $data[0].name+" ' >Reject</button>");
-
-           },
-        });
-
+        morePenCustomerInfo($(this).val());
 
     });
     //-----------end show more pending copmany info----
@@ -359,11 +341,19 @@
 
            success: function ($data) {
                 console.log($data);
-                $(".details-pending-companies-area").fadeOut();
-                $(".Accept-message").show(1000);
-                $(".details-pending-companies-area").fadeIn();
-               $(".Accept-message").hide();
-           },
+               console.log("alialill");
+               $(".pending-table-body").slideUp();
+               clear(".pending-table-body");
+                loadPendingCompanies();
+               $(".pending-table-body").slideDown();
+               $(".details-pending-companies-area").slideUp();
+               clear(".companies-table-content");
+               loadCompanies();
+                },
+            error: function ($reject) {
+                console.log($reject);
+               alert("try again");
+            }
 
         });
 
@@ -382,11 +372,11 @@
             },
             success: function ($data) {
                     console.log($data);
-                    $(".details-pending-companies-area").fadeOut();
-                    $(".Reject-message").show();
-                    $(".details-pending-companies-area").fadeIn();
-                    $(".Reject-message").hide();
-
+                $(".pending-table-body").slideUp();
+                clear(".pending-table-body");
+                loadPendingCompanies();
+                $(".pending-table-body").slideDown();
+                $(".details-pending-companies-area").slideUp();
                     },
             error: function ($reject) {
                 console.log($reject);
@@ -561,7 +551,30 @@
     }
     //end clear content
 
+    // start morePenCustomerInfo
+    function morePenCustomerInfo( link){
+        $.ajax({
+            type: "post",
+            url: " {{route('companyInfo')}}",
+            data: {
+                '_token' : "{{csrf_token()}}",
+                'name' : link,
+            },
+            success: function ($data) {
+                console.log($data);
 
+                $(".companyName-content").html("<h1>"+$data[0].name+"</h1>");
+                $(".email-content").html("<p>"+$data[0].email+"</p>");
+                $(".phone-content").html("<p>"+$data[0].phoneNumber+"</p>");
+                $(".address-content").html("<p>"+$data[0].address+"</p>");
+                $(".card-content").html("<p>"+$data[0].cardNumber+"</p>");
+                $(".btn-accept-place").html("<button  class='btn btn-success btn-accept 'value='  "+$data[0].name+" ' >Accept</button>");
+                $(".btn-reject-place").html("<button  class='btn btn-danger  btn-reject 'value=' "+ $data[0].name+" ' >Reject</button>");
+
+            },
+        });
+    }
+    // end morePenCustomerInfo
 
 </script>
 

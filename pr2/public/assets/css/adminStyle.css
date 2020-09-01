@@ -96,6 +96,7 @@ color:#26272b;
     color:yellow ;
 }
 .details-pending-companies-area{
+
     margin-top: 40px;
     text-align: center;
 }
@@ -121,7 +122,8 @@ color:#26272b;
 */
 }
 .pending-table-head{
-    color: lightgreen;
+    background-color: lightgreen;
+    color: white;
 }
 .pending-companies-area{
     background-color: white;
@@ -135,13 +137,15 @@ color:#26272b;
 
 }
 .customers-table-head{
-    color: steelblue;
+    background-color: steelblue;
+    color:white;
 }
 .companies-table tr:nth-child(even){
    /* background-color: coral;
 */}
 .companies-table-head{
-    color:lightcoral ;
+    background-color:lightcoral ;
+    color: white;
 }
 .customers-container-area{
     background-color: white;

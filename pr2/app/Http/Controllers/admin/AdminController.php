@@ -142,8 +142,8 @@ class AdminController extends Controller
     public function acceptCompany(Request $request){
         $companyEmail = Company::select('email')->where('name',$request->name)->first();
         $companyInfo = Company::where('name',$request->name)->update(['status'=>'accepted']);
-        $eController = new EmailsController();
-        $eController->acceptAccountMsg($companyEmail);
+       // $eController = new EmailsController();
+        //$eController->acceptAccountMsg($companyEmail);
         $arr = array('company is accepted');
         return $arr;
     }
@@ -153,8 +153,8 @@ class AdminController extends Controller
     public function rejectCompany(Request $request){
         $companyEmail = Company::select('email')->where('name',$request->name)->first();
         $company = Company::where('name',$request->name)->delete();
-        $eController = new EmailsController();
-        $eController->rejectAccountMsg($companyEmail);
+       // $eController = new EmailsController();
+       // $eController->rejectAccountMsg($companyEmail);
         $message = array('company deleted');
         return $message;
     }
