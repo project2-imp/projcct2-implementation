@@ -1,8 +1,8 @@
 <div class="row header">
     <div class="col-lg-7">
         <ul class="header " >
-
-            @if($status[0] === 1)
+                <li role="presentation" class="header-li brand"><img src="{{url('assets/images/logo/logo.jpg')}}" style="width:100px;height:100px"></li>
+        @if($status[0] === 1)
                 <li role="presentation" class="header-li"><a href="{{route('index')}}">log out</a></li>
                 <li role="presentation" class="header-li customer-name"><a href="{{route('CustomerProfile',$status[1]->name)}}">{{$status[1]->name}}</a></li>
             @else

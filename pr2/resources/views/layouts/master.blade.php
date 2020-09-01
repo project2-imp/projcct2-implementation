@@ -23,7 +23,6 @@
 @yield('trips')
 @include('includes.footer')
 
-
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script href="{{URL::asset('assets/js/bootstrap.js')}}"></script>
 @yield('javascript')

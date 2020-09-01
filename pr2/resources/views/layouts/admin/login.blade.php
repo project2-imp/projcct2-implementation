@@ -24,7 +24,16 @@
         <form method="post" action="{{route('admin/adminPanel')}}">
             {{ csrf_field() }}
             <input type="email" id="login" class="fadeIn second" name="email" placeholder="login">
+                    @error('email')
+                        </br>
+                        <small class="email-error" style="color:red;">{{$message}}</small>
+                    @enderror
             <input type="password" id="password" class="fadeIn third" name="password" placeholder="password">
+                    @error('password')
+                        </br>
+                        <small class="password-error" style="color:red;">{{$message}}</small>
+                        </br>
+                    @enderror
             <input type="submit" class="fadeIn fourth" value="Log In">
         </form>
 

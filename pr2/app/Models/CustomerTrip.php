@@ -8,7 +8,7 @@ class CustomerTrip extends Model
 {
     //
     protected $table="customersTrips";
-    protected $fillable=['customerID','tripID','status','seatsNumber'];
+    protected $fillable=['customerID','tripID','status','seatsNumber','companyID'];
     //start relations
 
     public function trip(){

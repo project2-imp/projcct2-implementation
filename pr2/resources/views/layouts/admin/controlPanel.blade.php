@@ -129,6 +129,7 @@
 
                     <!-- Table -->
                     <h3 style="color: steelblue">Customers details:</h3>
+                    <h4 class="customer-spinner"></h4>
                     <table class="table customers-table">
                         <thead class="customers-table-head">
                         <tr>
@@ -149,7 +150,6 @@
 
 
             </div>
-<p>alialalialaia</p>
 
 
         <!-- end browse customers div-->
@@ -270,8 +270,9 @@
             console.log($dataa);
             $dataa.forEach(function (dtt) {
                 for (var $i = 0 ; $i < dtt.length ; $i ++){
+                    var $imagePath ="/uploads/companiesIcons/"+dtt[$i].imagePath ;
                     $(".companies-table-content").append("<tr>"+
-                        "<td>"+"<img src='{{url('/uploads/companiesIcons/"+dtt[$i].imaagePath+"')}}' >"+"</td>"+
+                        "<td>"+"<img src="+$imagePath+" style='width: 50px; height: 50px ;border-radius:50px' >"+"</td>"+
                         "<td>"+dtt[$i].name+"</td>"+
                         "<td>"+dtt[$i].email+"</td>"+
                         "<td>"+dtt[$i].phoneNumber+"</td>"+
@@ -355,7 +356,7 @@
                 '_token': "{{csrf_token()}}",
                 'name': $(this).val(),
             },
-            
+
            success: function ($data) {
                 console.log($data);
                 $(".details-pending-companies-area").fadeOut();
@@ -430,6 +431,11 @@
 
     //--------------start block-account-btn----------
         $(".customers-table").delegate(".block-customer-btn","click",function(){
+
+            $(".customer-spinner").fadeIn().html(' <p>waiting...</p> <div class="spinner-border text-light" role="status">'+
+                '<span class="sr-only">Loading...</span>'+
+                '</div>');
+
             $.ajax({
 
                 type: "post",
@@ -440,15 +446,17 @@
                 },
                 success: function ($data) {
                     if($data == "blocked"){
-                        $(".customers-table").slideUp();
+
                         clear(".customers-table-content");
                         $(".customers-table").slideDown();
                         loadCustoemrs();
+                        $(".customer-spinner").fadeOut();
                     }
                 }
 
 
             });
+
         });
     //--------------end block-account-btn----------
 

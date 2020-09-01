@@ -172,8 +172,10 @@ class CompanyController extends Controller
     //end showBestCompanies
 
     //start getPendingCustomers
-    public function getPendingCustomers(){
-        $pendingCustomers=CustomerTrip::select('customerID','tripID','seatsNumber')->where('status','pending')->get();
+    public function getPendingCustomers($companyName){
+        $companyID = Company::select('companyID')->where('name',$companyName)->first();
+        $pendingCustomers=CustomerTrip::select('customerID','tripID','seatsNumber')->where('status','pending')
+            ->where('companyID',$companyID->companyID)->get();
 
         return $pendingCustomers;
     }

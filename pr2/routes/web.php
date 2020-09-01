@@ -85,7 +85,7 @@ Route::post('loginCompany','company\companyController@login')->name('loginCompan
 //---------------------------------
 Route::post('addTrip','company\companyController@addNewTrip')->name('addTrip');
 //---------------------------------
-Route::get('getPendingCustomers','company\companyController@getPendingCustomers')->name('getPendingCustomers');
+Route::get('getPendingCustomers/{companyName}','company\companyController@getPendingCustomers')->name('getPendingCustomers');
 //---------------------------------
 Route::post('getMorePendingCustoemrs','company\companyController@getMorePendingCustoemrs')->name('getMorePendingCustoemrs');
 
@@ -99,7 +99,7 @@ Route::post('editTrip','trips\TripController@editTrip')->name('editTrip');
 //---------------------------------
 Route::post('deleteTrip','trips\TripController@deleteTrip')->name('deleteTrip');
 //---------------------------------
-Route::get('getTrips','trips\TripController@getTrips')->name('getTrips');
+Route::get('getTrips/{customerEmail}','trips\TripController@getTrips')->name('getTrips');
 
 //=======end trips routes========
 

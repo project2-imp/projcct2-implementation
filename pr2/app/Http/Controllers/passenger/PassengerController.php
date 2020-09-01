@@ -30,7 +30,7 @@ class PassengerController extends Controller
                             'tripID'=>$request->tripID,
                             'status'=>'pending',
                             'seatsNumber'=>$request->seatsNumber,
-
+                            'companyID'=>$request->companyID,
                         ]
                     );
                     return "passenger added";

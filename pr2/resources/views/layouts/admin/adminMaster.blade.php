@@ -17,8 +17,8 @@
 
 
         <nav class="navbar navbar-expand-lg">
-                <a class="navbar-brand logout-link" href="{{route('index')}}">log out</a>
-                <a class="navbar-brand name-link" href="#"> {{$name[0]->name}}</a>
+                <a class="navbar-brand logout-link" href="/admin">log out</a>
+                <a class="navbar-brand name-link" href="#">  {{$name[0]->adminName}}  </a>
                 <a class="navbar-brand add-admin" href="#"> add new admin</a>
         </nav>
 

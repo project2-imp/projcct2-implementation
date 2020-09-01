@@ -140,7 +140,8 @@ class CustomerController extends Controller
           $customer = Customer::select('email')->where('email',$request->input('email'))
                                                ->where('password',$request->input('password'))->first();
             if($customer != null){
-                $customerName = Customer::select('name')->where('email',$request->input('email'))->first();
+                $customerName = Customer::select('email','name')->where('email',$request->input('email'))->first();
+
                 $status=array(1,$customerName);
                return view('layouts.index',compact('status'));
             }

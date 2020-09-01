@@ -32,13 +32,13 @@ class AdminController extends Controller
             $admin = SystemAdmin::select('email')->where('email',$request->input('email'))
                 ->where('password',$request->input('password'))->first();
             if($admin != null){
-                $adminName = Customer::select('name')->where('email',$request->input('email'))->first();
+                $adminName = SystemAdmin::select('adminName')->where('email',$request->input('email'))->first();
                 $name=array($adminName);
                 return view('layouts.admin.controlPanel',compact('name'));
             }
-            else{
-                $arr = array('errorr email or password');
-                return view('layouts.customer.login',compact('arr'));
+            else if($admin === null){
+                $arr = array("['email or password incorrect']");
+                  return redirect()->back();//,compact('arr')
             }
 
         }
@@ -68,6 +68,8 @@ class AdminController extends Controller
             return "success";
         }
     }
+    //end addNewAdmin
+
     //start getCustomersNum
     public function getCustomersNum(){
         $custoemrsNum = Customer::count('name');
@@ -75,6 +77,7 @@ class AdminController extends Controller
         return $custoemrsNum;
         //return view('layouts.admin.adminMaster',compact('arr'));
     }//end getCustomersNum
+    //end getCustomersNum
 
     //start getCompaniesNum
     public function getCompaniesNum(){
@@ -82,6 +85,7 @@ class AdminController extends Controller
         $companiesNum = Company::count('name');
         return $companiesNum;
     }//end getCompaniesNum
+    //end getCompaniesNum
 
     //start getInformation
     public function getInformation(){
@@ -92,12 +96,14 @@ class AdminController extends Controller
         //$arr1=array(0);
         return view('layouts.admin.adminMaster');//,compact('arr')
     }//end getInformation
+    //end getInformation
 
     //start getPendingCompanyNum
     public function getPendingCompanyNum(){
         $pendingCompanies = Company::where('status','pending')->count('name');
         return $pendingCompanies;
     }
+    //end getPendingCompanyNum
 
     //start getPendingCompaniesDetails
     public function getPendingCompanies(){
@@ -132,7 +138,7 @@ class AdminController extends Controller
     }
     //end getCompaniesInfo
 
-    //start AcceptCompany()
+    //start AcceptCompany
     public function acceptCompany(Request $request){
         $companyEmail = Company::select('email')->where('name',$request->name)->first();
         $companyInfo = Company::where('name',$request->name)->update(['status'=>'accepted']);
@@ -141,9 +147,9 @@ class AdminController extends Controller
         $arr = array('company is accepted');
         return $arr;
     }
-    //end AcceptCompany()
+    //end AcceptCompany
 
-    //start rejectCompany()
+    //start rejectCompany
     public function rejectCompany(Request $request){
         $companyEmail = Company::select('email')->where('name',$request->name)->first();
         $company = Company::where('name',$request->name)->delete();
@@ -152,13 +158,21 @@ class AdminController extends Controller
         $message = array('company deleted');
         return $message;
     }
-    //end AcceptCompany()
+    //end AcceptCompany
 
     //start blockAccount
     public function blockAccount(Request $request){
         DB::table('customers')->where('email',$request->customerEmail)
             ->update(['status'=>'blocked']);
-        return "blocked";
+        $email = new EmailsController();
+       $message= $email->sendBlockMSG($request->customerEmail,"customer");
+       if($message === "blocked" ){
+           return "blocked";
+       }
+       else {
+           return "error";
+
+       }
     }
     //end blockAccount
 
@@ -174,7 +188,15 @@ class AdminController extends Controller
     public function blockCompany(Request $request){
         DB::table('companys')->where('email',$request->companyEmail)
             ->update(['status'=>'blocked']);
+
+        $email = new EmailsController();
+        $message = $email->sendBlockMSG($request->companyEmail,"company");
+        if($message === "blocked"){
         return "blocked";
+        }
+        else {
+            return "error";
+        }
     }
     //end blockCompany
 

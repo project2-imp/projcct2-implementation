@@ -438,9 +438,11 @@
 
     //start getPendingCustomers
     function getPendingCustomers() {
+        var companyName = $(".companyName").val() ;
         $.ajax({
             type: "get",
-            url: "{{route('getPendingCustomers')}}",
+            url: "{{url('getPendingCustomers')}}/"+companyName,
+
             success: function ($data) {
                 console.log($data);
                 for($i=0 ; $i <10;$i++){

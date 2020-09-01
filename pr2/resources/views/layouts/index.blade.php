@@ -1,14 +1,20 @@
 @extends('layouts.master')
 @section('trips')
-
+    <div>
+        @if($status[0] === 1)
+            <input type="hidden" class="customerID" value={{$status[1]->email}} >
+        @elseif($status[0] === 0)
+                <input type="hidden" class="customerID" value="guest" >
+        @endif
+    </div>
    <div class="row">
-
+       <h1 class="best-companies-title">Best Companies</h1>
        <div class="col-lg-12 best-compaines-place">
-           <h1 class="best-companies-title">Best Companies</h1>
+
        </div>
 
+       <h1 class="trips-title">Trips</h1>
        <div class="col-lg-12 col-xs12 trips-place">
-           <h1 class="trips-title">Trips</h1>
        </div>
    </div>
 
@@ -55,6 +61,8 @@
 
 
 <script>
+    var companyID;
+    var tripID;
     $(".booking-place").hide();
     $(".payment-cash-place").hide();
     $(".payment-byCard-place").hide();
@@ -65,9 +73,14 @@
     showBestCompanies();
     //start showTrips
     function showTrips() {
+        $(".trips-place").fadeIn().html('<div class="spinner-border text-light" role="status">'+
+            '<span class="sr-only">Loading...</span>'+
+        '</div>');
+        var customerID=$(".customerID").val();
         $.ajax({
+
            type: "get",
-           url: "{{route('getTrips')}}",
+           url: "{{url('getTrips')}}/"+customerID,
 
            success: function ($data) {
                console.log($data);
@@ -77,7 +90,7 @@
                    //console.log($data[x].tripID);
                     $(".trips-place").append("<div class='card trips-card' >"+
                        "<div class='card-head'>"+
-                        "<img  src='"+'uploads/companiesIcons/'+$data[1][$x][0].imagePath+"' class='card-img-top' alt='company logo'>"+
+                        "<img  src='"+'uploads/companiesIcons/'+$data[1][$x][0].imagePath+"' class='card-img-top' alt='company logo' style='width: 300px; height: 200px'> "+
                         "</div>"+
                         "<div class='card-body'>"+
                         "<div class='bar'>" +
@@ -89,7 +102,7 @@
                         "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/dep-date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[0][$x].departureDate + "</span>"+ "</br>"+
                         "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[0][$x].numSeats+"</span>"+"</br>"+
                         "<span class='price-For-Seat-title'>"+"<img src=assets/images/tripIcons/price.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='price-For-Seat-value'>"+$data[0][$x].priceForSeat+"sp"+"</span>"+"</p>"+
-                        " <a href='#' class='btn btn-dark booking-btn' value="+$data[0][$x].tripID+">book a trip</a>"+
+                        " <a href='#' class='btn btn-dark booking-btn' companyID='"+$data[0][$x].companyID+"' value="+$data[0][$x].tripID+">book a trip</a>"+
 
                         "</div>"+
                         "</div>"
@@ -108,6 +121,9 @@
 
     //start showBestCompanies
     function showBestCompanies() {
+        $(".best-compaines-place").fadeIn().html('<div class="spinner-border text-light" role="status">'+
+            '<span class="sr-only">Loading...</span>'+
+            '</div>');
         $.ajax({
             type: "get",
             url: "{{route('showBestCompanies')}}",
@@ -118,7 +134,7 @@
                 for(var $x = 0 ; $x <5 ; $x++){
 
                     $(".best-compaines-place").append("<div class='card best-companies-card ' style='width: 18rem;'>"+
-                        "<img src='uploads/companiesIcons/"+$data[$x].imagePath+" ' class='card-img-top' alt='company Logo' style='width: 250px; height: 250px;'>"+
+                        "<img src='uploads/companiesIcons/"+$data[$x].imagePath+" ' class='card-img-top' alt='company Logo' style='width: 250px; height: 200px;'>"+
                         "<div class='card-body'>"+
                     "<a href='#' class='btn btn-primary'>more details</a>"+
                     "</div>"+
@@ -139,6 +155,8 @@
         $(".best-compaines-place").hide();
         $(".customer-footer").hide();
         $(".booking-place").slideDown();
+        companyID= $(this).attr('companyID');
+        tripID= $(this).attr('value');
 
     })
     //end booking-btn
@@ -162,6 +180,8 @@
     $(".booking-place").delegate('.accept-cach-payment','click',function () {
 
         console.log("number:"+$(".booking-seats").val());
+       console.log("comanyID:"+companyID);
+        console.log("tripID:"+tripID);
         $.ajax({
 
             type: "post",
@@ -171,7 +191,8 @@
                 password: $(".customer-password").val(),
                 phoneNumber: $(".customer-phoneNumber").val(),
                 seatsNumber:$(".booking-seats").val(),
-                tripID: $(".booking-btn").attr('value'),
+                tripID: tripID,
+                companyID: companyID,
 
             },
             success: function ($data) {

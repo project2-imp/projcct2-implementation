@@ -27,6 +27,25 @@ class EmailsController extends Controller
     }
     //end sendCode
 
+    //start sendBlockMSG
+        public function sendBlockMSG($accountEmail , $accountType){
+            \Illuminate\Support\Facades\Mail::send(['text'=>view('layouts.customer.blockMSG',compact('accountEmail'))],['tempuser'=>$accountEmail],function($message) use ($accountEmail)
+            {
+                $message->from('ali.monther97@gmail.com','aliMonther');
+                $message->to($accountEmail)->subject('visit support team for more information');
+
+            });
+        return "blocked";
+        }
+    //end sendBlockMSG
+
+
+    //start sendBlockMSG
+    public function sendUNblockMSG($accountEmail , $accountType){
+
+    }
+    //end sendBlockMSG
+
     //start AcceptAccountMsg
     public function acceptAccountMsg($companyEmail){
 

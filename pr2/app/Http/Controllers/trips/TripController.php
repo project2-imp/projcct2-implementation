@@ -4,6 +4,7 @@ namespace App\Http\Controllers\trips;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Customer;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,16 +45,24 @@ class TripController extends Controller
         return "deleted";
     }
     //end deleteTrip
-    //start getTrips
-    public function getTrips(){
 
-        $trips = Trip::get();
-        $companies = array();
-        for($i = 0 ;$i<sizeof($trips);$i++){
-            $companies[$i]=Company::select('name','imagePath')->where('companyID',$trips[$i]->companyID)->get();
+    //start getTrips
+    public function getTrips($customerEmail){
+        $email = Customer::select('email')->where('email',$customerEmail)->first();
+        if($email == null){
+            $trips = Trip::get();
+            $companies = array();
+            for($i = 0 ;$i<sizeof($trips);$i++){
+                $companies[$i]=Company::select('name','imagePath')->where('companyID',$trips[$i]->companyID)->get();
+            }
+            $arr = array($trips,$companies);
+            return $arr;
         }
-        $arr = array($trips,$companies);
-        return $arr;
+        else{
+            return "customer show trips algorithem";
+        }
+
+
     }
     //end getTrips
 
