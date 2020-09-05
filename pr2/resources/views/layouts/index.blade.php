@@ -31,6 +31,7 @@
             <input type="number" id="booking-seats" class="fadeIn second booking-seats" name="booking-seats"  min="1" max="5" placeholder="number of seats" >
                 <p>___________________________________</p>
                 <h3 class="payment-way-par">select payment way</h3>
+
                 <input type="submit" class="fadeIn fourth payment-cash-btn" value="payment cash">
                 <!-- start payment-cash-place-->
                     <div class="payment-cash-place">
@@ -45,7 +46,20 @@
                 <input type="submit" class="fadeIn fourth payment-byCard-btn" value="payment by card ">
                 <!-- start payment-byCard-place-->
                     <div class="payment-byCard-place">
-                        <h3> payment by card place</h3>
+                        <small class="info-error" style="color:red">your information incorrect </small>
+                        <small class="error-payment-msg" style="color: red;"></small>
+
+                        <p>email</p>
+                        <input type="email" class="fadeIn fourth customer-email" placeholder="">
+
+                        <p>password</p>
+                        <input type="password" class="fadeIn fourth customer-byCard-password" placeholder="" >
+
+                        <p>card number</p>
+                        <input type="number" class="fadeIn fourth customer-card" placeholder="" >
+
+                        <input type="submit" class="fadeIn fourth  btn btn-danger accept-card-payment " value="accept">
+
                     </div>
                 <!-- end payment-byCard-place-->
                 </br>
@@ -53,7 +67,10 @@
         </div><!-- end formContent-->
     </div><!-- end fadeInDown-->
 </div><!-- end booking-place-->
+    <div class="companies-area ">
 
+        <button class="btn btn-info">click </button>
+    </div>
 @stop
 
 
@@ -63,6 +80,7 @@
 <script>
     var companyID;
     var tripID;
+    var seatPrice;
     $(".booking-place").hide();
     $(".payment-cash-place").hide();
     $(".payment-byCard-place").hide();
@@ -77,20 +95,22 @@
             '<span class="sr-only">Loading...</span>'+
         '</div>');
         var customerID=$(".customerID").val();
+        console.log("customerID:"+customerID);
         $.ajax({
 
            type: "get",
            url: "{{url('getTrips')}}/"+customerID,
 
            success: function ($data) {
+               console.log("dataaaa:");
                console.log($data);
                     console.log("aaaaa");
-               console.log($data.length);
+               console.log("length:"+$data[0].length);
                for(var $x=0; $x<$data[0].length;$x++){
-                   //console.log($data[x].tripID);
-                    $(".trips-place").append("<div class='card trips-card' >"+
+
+                    $(".trips-place").append("<div class='card trips-card'>"+
                        "<div class='card-head'>"+
-                        "<img  src='"+'uploads/companiesIcons/'+$data[1][$x][0].imagePath+"' class='card-img-top' alt='company logo' style='width: 300px; height: 200px'> "+
+                       "<img  src='"+'uploads/companiesIcons/'+$data[1][$x][0].imagePath+"' class='card-img-top' alt='company logo' style='width: 300px; height: 200px'> "+
                         "</div>"+
                         "<div class='card-body'>"+
                         "<div class='bar'>" +
@@ -101,8 +121,9 @@
                         "<span class='stopStation-title'>"+"<img src=assets/images/tripIcons/stop-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='stopStation-value'>" +$data[0][$x].stopStation + "</span>"+"</h5>"+
                         "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/dep-date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[0][$x].departureDate + "</span>"+ "</br>"+
                         "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[0][$x].numSeats+"</span>"+"</br>"+
-                        "<span class='price-For-Seat-title'>"+"<img src=assets/images/tripIcons/price.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='price-For-Seat-value'>"+$data[0][$x].priceForSeat+"sp"+"</span>"+"</p>"+
-                        " <a href='#' class='btn btn-dark booking-btn' companyID='"+$data[0][$x].companyID+"' value="+$data[0][$x].tripID+">book a trip</a>"+
+                        "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[0][$x].availableSeats+"</span>"+"</br>"+
+                        "<span class='price-For-Seat-title'>"+"<img src=assets/images/tripIcons/price.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='price-For-Seat-value' style='color:red'>"+$data[0][$x].priceForSeat+"sp"+"</span>"+"</p>"+
+                        " <a href='#' class='btn btn-dark booking-btn' seatPrice='"+$data[0][$x].priceForSeat+"' companyID='"+$data[0][$x].companyID+"' value="+$data[0][$x].tripID+">book a trip</a>"+
 
                         "</div>"+
                         "</div>"
@@ -128,7 +149,7 @@
             type: "get",
             url: "{{route('showBestCompanies')}}",
             success: function ($data) {
-                console.log($data);
+                //console.log($data);
                 console.log("ali");
 
                 for(var $x = 0 ; $x <5 ; $x++){
@@ -155,9 +176,9 @@
         $(".best-compaines-place").hide();
         $(".customer-footer").hide();
         $(".booking-place").slideDown();
-        companyID= $(this).attr('companyID');
-        tripID= $(this).attr('value');
-
+        companyID = $(this).attr('companyID');
+        tripID = $(this).attr('value');
+        seatPrice = $(this).attr('seatPrice');
     })
     //end booking-btn
 
@@ -220,6 +241,43 @@
     });
     //end accept-cach-payment
 
+    //start accept-card-payment
+    $(".booking-place").delegate('.accept-card-payment','click',function(){
+        console.log("comanyID:"+companyID);
+        console.log("tripID:"+tripID);
+        console.log("seatPrice:"+seatPrice);
+        console.log("number of seats:"+ $(".booking-seats").val());
+        console.log("customer email:"+ $(".customer-email").val());
+        console.log("customer password:"+ $(".customer-byCard-password").val());
+        console.log("customer caed number:"+ $(".customer-card").val());
+
+        $.ajax({
+           type: "post",
+           url: "{{route('customerCardPayment')}}",
+           data: {
+               _token: "{{csrf_token()}}",
+               companyID: companyID,
+               tripID: tripID,
+               seatPrice: seatPrice,
+               seatsNumber: $(".booking-seats").val(),
+               email: $(".customer-email").val(),
+               password: $(".customer-byCard-password").val(),
+               cardNumber:  $(".customer-card").val(),
+           },
+            success: function ($data) {
+
+               if($data =="booking successfully" ){
+                   alert('booking successfully');
+                   backBtn();
+
+               }else{
+                   $(".error-payment-msg").fadeIn().text($data).delay(2000).fadeOut();
+               }
+            }
+        });
+
+    });
+    //end accept-card-payment
     function backBtn(){
         $(".header").fadeIn();
         $(".trips-place").fadeIn();
@@ -227,6 +285,10 @@
         $(".customer-footer").fadeToggle();
         $(".booking-place").fadeToggle();
     }
+
+    /*$(".get-companies").click(function () {
+        alert("ali");
+    })*/
 </script>
 
 @stop

@@ -11,52 +11,79 @@ use Illuminate\Support\Facades\DB;
 class PassengerController extends Controller
 {
     //start addPendingPassenger
-    public function addPendingPassenger(Request $request){
-
-
-            if($request->seatsNumber >5){
-                return "error in number of seats";
-            }
-            else{
-                $customerID = Customer::select('customerID')->where('phoneNumber',$request->phoneNumber)
-                    ->where('password',$request->password)->first();
-
-
-                if($customerID !=null){
-
-                    CustomerTrip::create(
-                        [
-                            'customerID'=>$customerID->customerID,
-                            'tripID'=>$request->tripID,
-                            'status'=>'pending',
-                            'seatsNumber'=>$request->seatsNumber,
-                            'companyID'=>$request->companyID,
-                        ]
-                    );
-                    return "passenger added";
+    public function addPendingPassenger(Request $request)
+    {
+        if ($request->seatsNumber > 5) {
+            return "error in number of seats";
+        } else {
+            $customerID = Customer::select('customerID')->where('phoneNumber', $request->phoneNumber)
+                ->where('password', $request->password)->first();
+            if ($customerID != null) {
+                $decrease = $this->DecreaseSeats($request->tripID , $request->seatsNumber);
+                if($decrease == "seats Decreased" ){
+                    $newPassenger = $this->addNewPassenger($customerID->customerID, $request->tripID, $request->companyID, "pending", $request->seatsNumber);
+                    return $newPassenger;
                 }
                 else{
-                    return "error in customer info";
+                    return "alimono";
                 }
+
+
+            } else {
+                return "error in customer info";
             }
         }
+    }
     //end addPendingPassenger
 
     //start addPassenger
-    public function addPassenger(Request $request){
-        DB::table('customerstrips')->where('customerID',$request->customerID)
-                                        ->where('tripID',$request->tripID)
-            ->update(['status'=>'accepted']);
+    public function addPassenger(Request $request)
+    {
+        DB::table('customerstrips')->where('customerID', $request->customerID)
+            ->where('tripID', $request->tripID)
+            ->update(['status' => 'accepted']);
+
         return "success";
     }
     //end addPassenger
 
+    //start addNewPassenger
+    public function addNewPassenger($customerID, $tripID, $companyID, $status, $seatsNum)
+    {
+        CustomerTrip::create(
+            [
+                'customerID' => $customerID,
+                'tripID' => $tripID,
+                'status' => $status,
+                'seatsNumber' => $seatsNum,
+                'companyID' => $companyID,
+            ]
+        );
+        return "passenger added";
+    }
+    //end addNewPassenger
+
     //start deletePassenger
-    public function deletePassenger(Request $request){
-        CustomerTrip::where("tripID",$request->tripID)
-            ->where("customerID",$request->customerID)->delete();
+    public function deletePassenger(Request $request)
+    {
+        CustomerTrip::where("tripID", $request->tripID)
+            ->where("customerID", $request->customerID)->delete();
         return "success";
     }
     //end deletePassenger
 
+    //start DecreaseSeats
+    public function DecreaseSeats($tripID,$seatsNumber)
+    {
+        $availableSeats = Trip::select('availableSeats')->where('tripID', $tripID)->first();
+        if ($availableSeats->availableSeats - $seatsNumber >= 0) {
+            DB::table('trips')->where('tripID', $tripID)
+                ->update(['availableSeats' => $availableSeats->availableSeats - $seatsNumber]);
+            return "seats Decreased";
+        }
+        else {
+            return "error in number of seats";
+        }
+        //end DecreaseSeats
+    }
 }

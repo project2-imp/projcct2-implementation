@@ -128,6 +128,7 @@ class CompanyController extends Controller
 
     //start AddNewTrip
     public function addNewTrip(Request $request){
+
      if($this->blockedCompany($request->companyName) === true){
          return "blocked";
      }
@@ -141,19 +142,21 @@ class CompanyController extends Controller
             'stopStation'=>$request->stopStation,
             'departureDate'=>$request->departureDate,
             'numSeats'=>$request->seatsNum,
+            'availableSeats'=>$request->seatsNum,
             'priceForSeat'=>$request->price,
             'companyID'=>$company[0]->companyID,
-            'status'=>'active'
+            'status'=>'active',
         ]
         );
         return "success";
     }
+
     }
     //end AddNewTrip
 
     //start BlockCompany
     public function blockedCompany($companyName){
-        $company = Company::select('status')->where('name','aaaa')->first();
+        $company = Company::select('status')->where('name',$companyName)->first();
         if($company->status == 'blocked'){
             return true;
         }
@@ -193,4 +196,10 @@ class CompanyController extends Controller
     }
     //end getMorePendingCustoemrs
 
+    //start getCompanies
+    public function getCompanies(){
+        $companies = Company::all();
+        return $companies;
+    }
+    //end getCompanies
 }

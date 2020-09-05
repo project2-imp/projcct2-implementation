@@ -66,7 +66,8 @@ Route::post('bookingTrip','customer\CustomerController@bookingTrip')->name('book
 //---------------------------------
 Route::post('loginAccount','customer\CustomerController@login')->name('loginAccount');
 //---------------------------------
-
+Route::post('customerCardPayment','customer\CustomerController@customerCardPayment')->name('customerCardPayment');
+//---------------------------------
 //=======end customer routes=====
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -82,6 +83,8 @@ Route::get('companyMaster',function (){
 });
 //---------------------------------
 Route::post('loginCompany','company\companyController@login')->name('loginCompany');
+//---------------------------------
+Route::get('getCompanies','company\companyController@getCompanies')->name('getCompanies');
 //---------------------------------
 Route::post('addTrip','company\companyController@addNewTrip')->name('addTrip');
 //---------------------------------

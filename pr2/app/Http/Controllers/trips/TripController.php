@@ -46,7 +46,7 @@ class TripController extends Controller
     }
     //end deleteTrip
 
-    //start getTrips
+    //start getTrips for index page
     public function getTrips($customerEmail){
         $email = Customer::select('email')->where('email',$customerEmail)->first();
         if($email == null){
@@ -64,7 +64,7 @@ class TripController extends Controller
 
 
     }
-    //end getTrips
+    //end getTrips for index page
 
 
 }

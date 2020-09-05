@@ -385,6 +385,7 @@
             '_token': "{{csrf_token()}}",
             'customerID' :$(this).attr('customerID'),
             'tripID' :$(this).attr('tripID'),
+
            },
             success: function ($data) {
                 console.log("alalalal");
