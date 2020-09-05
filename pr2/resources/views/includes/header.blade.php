@@ -13,7 +13,7 @@
                 <li role="presentation" class="header-li signup"><a href="{{route('signUP')}}" >sign up</a></li>
             @endif
             <li role="presentation" class="header-li home"><a href="{{route('index')}}">Home</a></li>
-            <li role="presentation" class="header-li get-companies"><a href="#">companies</a></li>
+            <li role="presentation" class="header-li get-companies"><button type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#myModal">companies</button></li>
             <li role="presentation" class="header-li about-us"><a href="#">about us</a></li>
         </ul>
 
@@ -56,20 +56,46 @@
        type: "get",
        url: "{{route('getCompanies')}}",
        success: function ($data) {
-            $(".header").fadeOut();
+           console.log("comcom");
+           console.log($data);
+
            console.log("length");
            console.log($data[0].length);
            for(var $x = 0 ; $x <$data[0].length ; $x++) {
-               $(".companies-area").append('<div class="row">'+
-                   '<div class="col-md-3 col-sm-6">'+
-                   '<div class="card card-block">'+
-                   '<h4 class="card-title text-right"><i class="material-icons">'+$data[0][$x].name+'</i></h4>'+
-                   '<img src="uploads/companiesIcons/'+$data[0][$x].imagePath+'" alt="company Icon">'+
-                   '<h5 class="card-title mt-3 mb-3">'+$data[0][$x].name+'</h5>'+
-                   '<p class="card-text">'+$data[0][$x].address+'</p>'+
-                   '<p class="card-text">'+$data[0][$x].phoneNumber+'</p>'+
+               var val=$data[0][$x].rating;
+               var value = val.toString();
+               var rating = value+"%";
+               console.log(rating);
+
+
+               $(".modal-body").append('<ul class="list-group">'+
+                   '<li class="list-group-item companyIcon"><img src="uploads/companiesIcons/'+$data[0][$x].imagePath+'" alt="company Icon">'+ '</li>'+
+
+                   '<li class="list-group-item"><div class="progress">\n' +
+                   '  <div class="progress-bar progress-bar-success " role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style=" width:'+rating+' " >\n' +
+                   +$data[0][$x].rating+"%"+
+
+
+                   '</div>\n' +
+                   '<li class="rating-place">'+
+                   '<div class="btn-group btn-group-sm" role="group">'+
+
+                   '<a class="btn btn-dark rate-up">  <img src="assets/images/companyIcons/plus.png" style="width:15px;height:15px;"></a>'+
+                   '<a class="btn btn-danger ">Rating</a> '+
+                   '<a class="btn btn-dark rate-down"><img src="assets/images/companyIcons/minus.png" style="width:15px;height: 15px;"></a> '+
+
                    '</div>'+
-                   '</div>'
+                   '</li>'+
+                   '</li>'+
+                   '<li class="list-group-item">' +'<span class="address-icon"><img src="assets/images/adminIcons/address.png" style="width: 55px;height: 55px"> </span>' +'<span>'+$data[0][$x].address+'</span>'+'</li>'+
+                   '<li class="list-group-item">'+'<span class="address-icon"><img src="assets/images/adminIcons/email.png" style="width: 55px;height: 55px"> </span>' +'<span>'+$data[0][$x].email+'</span>'+'</li>'+
+                   '<li class="list-group-item">'+'<span class="address-icon"><img src="assets/images/adminIcons/phone.png" style="width: 55px;height: 55px"> </span>' +'<span>'+$data[0][$x].phoneNumber+'</span>'+'</li>'+
+
+                   '</div>'+
+
+
+                   '</li>'+
+                   '</ul>'
            );
 
            }

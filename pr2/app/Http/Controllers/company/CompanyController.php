@@ -198,7 +198,7 @@ class CompanyController extends Controller
 
     //start getCompanies
     public function getCompanies(){
-        $companies = Company::all();
+        $companies = Company::select()->orderBy('rating','desc')->get();
         return $companies;
     }
     //end getCompanies

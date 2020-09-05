@@ -18,6 +18,10 @@
        </div>
    </div>
 
+    <!-- ------------------------------- -->
+
+
+    <!-- ------------------------------- -->
    <!-- start booking-place-->
 <div class="booking-place">
     <div class="wrapper fadeInDown"><!-- start fadeInDown-->
@@ -66,10 +70,37 @@
                 <button  class="fadeIn fourth btn btn-danger cancel-btn" >cancel</button>
         </div><!-- end formContent-->
     </div><!-- end fadeInDown-->
-</div><!-- end booking-place-->
+</div>
+    <!-- end booking-place-->
     <div class="companies-area ">
 
-        <button class="btn btn-info">click </button>
+        <div class="container">
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content" style="background-color: white">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Companies</h4>
+                        </div>
+                        <div class="modal-body">
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
     </div>
 @stop
 
@@ -154,7 +185,7 @@
 
                 for(var $x = 0 ; $x <5 ; $x++){
 
-                    $(".best-compaines-place").append("<div class='card best-companies-card ' style='width: 18rem;'>"+
+                    $(".best-compaines-place").append("<div  class='card best-companies-card ' style='width: 18rem;'>"+
                         "<img src='uploads/companiesIcons/"+$data[$x].imagePath+" ' class='card-img-top' alt='company Logo' style='width: 250px; height: 200px;'>"+
                         "<div class='card-body'>"+
                     "<a href='#' class='btn btn-primary'>more details</a>"+
@@ -289,6 +320,10 @@
     /*$(".get-companies").click(function () {
         alert("ali");
     })*/
+/*$(".testbtn").click(function () {
+    $(".modal").trigger();
+})*/
+
 </script>
 
 @stop
