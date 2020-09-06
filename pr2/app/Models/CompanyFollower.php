@@ -8,7 +8,7 @@ class CompanyFollower extends Model
 {
     //
     protected $table="companiesFollowers";
-
+    protected $fillable=['companyID','customerID'];
     //start relations
 
     public function customer(){

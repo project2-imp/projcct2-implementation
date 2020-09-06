@@ -4,6 +4,7 @@ namespace App\Http\Controllers\company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\CompanyFollower;
 use App\Models\Customer;
 use App\Models\CustomerTrip;
 use App\Models\Trip;
@@ -202,4 +203,20 @@ class CompanyController extends Controller
         return $companies;
     }
     //end getCompanies
+
+    //start checkFollower
+    public function checkFollower(Request $request){
+        $status = CompanyFollower::select()->where('companyID',$request->companyID)
+            ->where('customerID',$request->customerID)->first();
+        if($status !=null){
+            return "follower";
+        }
+        else{
+            return "nonFollower";
+        }
+    }
+
+    //end checkFollower
+
+
 }

@@ -68,6 +68,11 @@ Route::post('loginAccount','customer\CustomerController@login')->name('loginAcco
 //---------------------------------
 Route::post('customerCardPayment','customer\CustomerController@customerCardPayment')->name('customerCardPayment');
 //---------------------------------
+Route::post('followCompany','customer\CustomerController@followCompany')->name('followCompany');
+//---------------------------------
+Route::post('cancelFollowCompany','customer\CustomerController@cancelFollowCompany')->name('cancelFollowCompany');
+//---------------------------------
+
 //=======end customer routes=====
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -91,6 +96,8 @@ Route::post('addTrip','company\companyController@addNewTrip')->name('addTrip');
 Route::get('getPendingCustomers/{companyName}','company\companyController@getPendingCustomers')->name('getPendingCustomers');
 //---------------------------------
 Route::post('getMorePendingCustoemrs','company\companyController@getMorePendingCustoemrs')->name('getMorePendingCustoemrs');
+//---------------------------------
+Route::post('checkFollower','company\companyController@checkFollower')->name('checkFollower');
 
 //---------------------------------
 //=======end company routes========

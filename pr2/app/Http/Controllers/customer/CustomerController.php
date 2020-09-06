@@ -7,8 +7,10 @@ use App\Http\Controllers\passenger\PassengerController;
 use App\Http\Controllers\payment\PaymentController;
 use App\Models\Card;
 use App\Models\Company;
+use App\Models\CompanyFollower;
 use App\Models\Customer;
 use App\Models\PendingCustomer;
+use App\Models\Trip;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -153,7 +155,7 @@ class CustomerController extends Controller
             //if exist
             if($customer != null){
                 //get customer email && name
-                $customerName = Customer::select('email','name')->where('email',$request->input('email'))->first();
+                $customerName = Customer::select('customerID','email','name')->where('email',$request->input('email'))->first();
                 $status=array(1,$customerName);
                //pass customer info to the view
                 return view('layouts.index',compact('status'));
@@ -169,7 +171,7 @@ class CustomerController extends Controller
     //end login
 
 
-    
+
     //start bookingTrip
     /**
      * @param Request $request
@@ -286,4 +288,25 @@ class CustomerController extends Controller
 
     }
     //end getCustomerInfo
+
+    //start followCompany
+    public function followCompany(Request $request){
+         CompanyFollower::create(
+           [
+               'companyID'=>$request->companyID,
+               'customerID'=>$request->customerID,
+           ]
+         );
+    return "new follower";
+    }
+    //end followCompany
+
+    //start cancelFollowCompany
+    public function cancelFollowCompany(Request $request){
+        CompanyFollower::where("companyID",$request->companyID)
+                       ->where('customerID',$request->customerID)->delete();
+        return "deleted";
+    }
+    //end cancelFollowCompany
+
 }
