@@ -23,6 +23,5 @@ class AdminCompany extends Model
 
     }
 
-
     //end relations
 }

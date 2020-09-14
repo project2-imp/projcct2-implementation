@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\CompanyFollower;
 use App\Models\Customer;
 use App\Models\CustomerTrip;
+use App\Models\Report;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -116,7 +117,7 @@ class CompanyController extends Controller
                           ->where('password',$request->input('password'))
                           ->where('status','!=','pending')->first();
         if($company != null){
-            $Name  = Company::select('name')->where('email',$request->input('email'))->first();
+            $Name  = Company::select('name','imagePath')->where('email',$request->input('email'))->first();
             $companyName = array($Name);
             return view('layouts.company.companyControlPanel',compact('companyName'));
         }
@@ -218,5 +219,49 @@ class CompanyController extends Controller
 
     //end checkFollower
 
+    //start getFollowersNum
+    public function getFollowersNum(Request $request){
+        $company=Company::select("companyID")->where('name',$request->companyID)->first();
+        $followers = CompanyFollower::where('companyID',$company->companyID)->count();
+        return $followers;
+    }
+    //end getFollowersNum
 
+
+    //start getFollowers
+    public function getFollowers(Request $request){
+        $company=Company::select('companyID')->where('name',$request->companyName)->first();
+        $followers = CompanyFollower::select('customerID')->where('companyID',$company->companyID)->get();
+        $arr=array(sizeof($followers));
+        $customers=array(sizeof($followers));
+        for ($i=0;$i<sizeof($followers);$i++){
+            $customers[$i]=Customer::select()->where('customerID',$followers[$i]->customerID)->first();
+        }
+        return $customers;
+    }
+    //end getFollowers
+
+
+    //start loadFollowingCompanies
+    public function loadFollowingCompanies($customerID){
+        $companiesNum = CompanyFollower::where('customerID',$customerID)->count();
+        return $companiesNum;
+    }
+    //end loadFollowingCompanies
+
+
+    //start reportCustomer
+    public function reportCustomer(Request $request){
+
+    $company = Company::select('companyID')->where('name',$request->companyName)->first();
+        Report::create(
+            [
+                'customerID'=>$request->customerID,
+                'companyID'=>$company->companyID,
+                'reportContent'=>$request->repostContent,
+            ]
+        );
+    return "Report added";
+    }
+    //end reportCustomer
 }

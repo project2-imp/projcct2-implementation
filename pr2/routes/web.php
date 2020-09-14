@@ -58,9 +58,7 @@ Route::get('/login',function (){
     return view('layouts.customer.login');
 })->name('login');
 //---------------------------------
-Route::get('profile/{name}',function (){
-    return view('layouts.customer.profile');
-})->name('CustomerProfile');
+Route::get('profile/{customerID}','customer\CustomerController@getCustomerProfile')->name('CustomerProfile');
 //---------------------------------
 Route::post('bookingTrip','customer\CustomerController@bookingTrip')->name('bookingTrip');
 //---------------------------------
@@ -72,6 +70,19 @@ Route::post('followCompany','customer\CustomerController@followCompany')->name('
 //---------------------------------
 Route::post('cancelFollowCompany','customer\CustomerController@cancelFollowCompany')->name('cancelFollowCompany');
 //---------------------------------
+Route::get('getProfileInfo/{customerID}','customer\CustomerController@getProfileInfo')->name('getProfileInfo');
+//---------------------------------
+Route::post('editProfile','customer\CustomerController@editProfile')->name('editProfile');
+//---------------------------------
+Route::get('loadActiveTrips/{customerID}','customer\CustomerController@loadActiveTrips')->name('loadActiveTrips');
+//---------------------------------
+Route::get('customerSearch/{customerID}/{searchContent}','customer\CustomerController@customerSearch')->name('customerSearch');
+//---------------------------------
+Route::post('customerSearchHistory','customer\CustomerController@customerSearchHistory')->name('customerSearchHistory');
+//---------------------------------
+Route::get('showTripsResult/{companyID}','customer\CustomerController@showTripsResult')->name('showTrips');
+//---------------------------------
+
 
 //=======end customer routes=====
 
@@ -98,6 +109,15 @@ Route::get('getPendingCustomers/{companyName}','company\companyController@getPen
 Route::post('getMorePendingCustoemrs','company\companyController@getMorePendingCustoemrs')->name('getMorePendingCustoemrs');
 //---------------------------------
 Route::post('checkFollower','company\companyController@checkFollower')->name('checkFollower');
+//---------------------------------
+Route::post('getFollowers','company\companyController@getFollowers')->name('getFollowers');
+//---------------------------------
+Route::post('getFollowersNum','company\companyController@getFollowersNum')->name('getFollowersNum');
+//---------------------------------
+Route::get('loadFollowingCompanies/{customerID}','company\companyController@loadFollowingCompanies')->name('loadFollowingCompanies');
+//---------------------------------
+Route::post('reportCustomer','company\companyController@reportCustomer')->name('reportCustomer');
+
 
 //---------------------------------
 //=======end company routes========
@@ -110,6 +130,10 @@ Route::post('editTrip','trips\TripController@editTrip')->name('editTrip');
 Route::post('deleteTrip','trips\TripController@deleteTrip')->name('deleteTrip');
 //---------------------------------
 Route::get('getTrips/{customerEmail}','trips\TripController@getTrips')->name('getTrips');
+//---------------------------------
+Route::post('getTripsNum','trips\TripController@getTripsNum')->name('getTripsNum');
+//---------------------------------
+Route::get('getActiveTrips/{customerID}','trips\TripController@getActiveTrips')->name('getActiveTrips');
 
 //=======end trips routes========
 
@@ -120,7 +144,6 @@ Route::post('addPendingPassenger','passenger\PassengerController@addPendingPasse
 Route::post('addPassenger','passenger\PassengerController@addPassenger')->name('addPassenger');
 //---------------------------------
 Route::post('deletedPassenger','passenger\PassengerController@deletePassenger')->name('deletePassenger');
-
 //=======end passenger routes========
 
 
@@ -168,6 +191,8 @@ Route::post('blockCompany','admin\AdminController@blockCompany')->name('blockCom
 //---------------------------------
 Route::post('unblockCompany','admin\AdminController@unblockCompany')->name('unblockCompany');
 //---------------------------------
+Route::get('getReports','admin\AdminController@getReports')->name('getReports');
+//---------------------------------
 
 //=======end admin routes========
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -190,4 +215,4 @@ Route::get('/testConnection', function () {
     }
 });
 //---------------------------------
-
+Route::get('getTime','trips\TripController@getCompletedTrips')->name('getCompletedTrips');

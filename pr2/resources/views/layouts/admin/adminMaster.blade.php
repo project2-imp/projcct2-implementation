@@ -6,9 +6,14 @@
 
     <title>Laravel</title>
     <!-- Fonts -->
+     <!--<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{URL::asset('assets/css/bootstrap.css')}}" /> -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <!-- Stylesheet-->
-    <link rel="stylesheet" href="{{URL::asset('assets/css/bootstrap.css')}}" />
+
+
     <link rel="stylesheet" href="{{URL::asset('assets/css/adminStyle.css')}}" />
 
 
@@ -19,7 +24,7 @@
         <nav class="navbar navbar-expand-lg">
                 <a class="navbar-brand logout-link" href="/admin">log out</a>
                 <a class="navbar-brand name-link" href="#">  {{$name[0]->adminName}}  </a>
-                <a class="navbar-brand add-admin" href="#"> add new admin</a>
+                <a class="navbar-brand add-admin add-admin-link" href="#"> add new admin</a>
         </nav>
 
 @yield('content')
@@ -30,9 +35,12 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
         -->
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-        <script href="{{URL::asset('assets/js/bootstrap.js')}}"></script>
+        <script href="{{URL::asset('assets/js/bootstrap.js')}}"></script> -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
         @yield('javascript')
 <script>
@@ -44,16 +52,25 @@
                 type: "post",
                 url: " {{route('addAdmin')}}",
                 data: {
-                    '_token' : "{{csrf_token()}}",
-                    'name' : $(this).val(),
+                    '_token': "{{csrf_token()}}",
+                    'name': $(this).val(),
                 },
                 success: function ($data) {
                     console.log($data);
 
                 },
+            }
         );
     });
     //-----------start add admin-----------------------
+
+    //--------start browse reports-----------
+    $(".reports-link").click(function () {
+        $(".reports-content").slideDown();
+    })
+
+    //--------end browse reports-------------
+
 
 </script>
 

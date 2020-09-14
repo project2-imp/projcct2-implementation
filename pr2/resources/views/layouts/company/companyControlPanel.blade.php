@@ -4,13 +4,12 @@
 <!-- start nav -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">{{ $companyName[0]->name }}</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" profile-link href="#"><img src="{{url('/assets/images/companyIcons/profile.png')}}" style="width:50px;height:60px;"> <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" profile-link href="#"><img class=" companyIcon" src='uploads/companiesIcons/{{ $companyName[0]->imagePath}}' style="width:50px;height:60px;"> <span class="sr-only">(current)</span></a>
+
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">My Trips</a>
@@ -77,72 +76,127 @@
     </nav>
 <!-- end nav -->
 
-<!-- start links -->
-    <div class="row links">
-        <div class="col-lg-3 completed-trips-number">
-            <h3 class="completed-trips">payment requests:</h3>
+<div class="row">
+    <div class="col-lg-10 active-trips-area">
+        <!-- Table -->
+        <h3 style="color: #4cae4c;">Active trips:</h3>
+        <table class="table active-trips-table">
+            <thead class="active-trips-table-head">
+            <tr>
+
+                <th>Trip ID</th>
+                <th>Start station</th>
+                <th>stop station</th>
+                <th>departureDate</th>
+                <th>numSeats</th>
+                <th>priceForSeat</th>
+            </tr>
+            </thead>
+            <tbody class="customers-table-content" style="color: gray">
+
+            </tbody>
+        </table>
+        <!-- start edit-trip-area -->
+        <div class="edit-trip-area">
+            <div class="form-group ">
+                <label for="usr">Departure Date:</label>
+                <input type="date" class="form-control Date" name="DepartureDate"   placeholder="start station">
+            </div>
+
+            <div class="form-group">
+                <label for="pwd">Number of Seats:</label>
+                <input type="number" class="form-control seatsNumber" name="seatsNum" placeholder="stop station">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-success accept-edit-btn" tripId="" name="accept-edit" value="edit">
+            </div>
         </div>
-        <div class="col-lg-3 trips-number">
-            <h3>trips number</h3>
-        </div>
-        <div class="col-lg-3 customers-number">
-            <h3>customers number</h3>
+        <!-- end edit-trip-area -->
+
+    </div>
+    <div class="col-lg-2" >
+        <!-- start links -->
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                    <a class="followers-btn" data-toggle="modal" data-target="#myFollowers">Followers:</a>
+                    <span class="customers-number" style="color: coral"></span>
+            </li>
+            <li class="list-group-item">
+                <h4 class="trips-numbertitle"  style="color: #337ab7">trips number:</h4>
+                <span class="trips-number" style="color: coral"></span>
+            </li>
+            <li class="list-group-item">
+                <button class="btn btn-info pending-customers-btn">pending customers</button>
+                <ul class="list-group pending-customers-list">
+
+
+                </ul>
+
+
+            </li>
+
+        </ul>
+
+
+
+
+
+
+
+
+
+
+            <div class="col-lg-12 pending-customers">
+            </div>
+
+        <!-- end links -->
+    </div>
+
+</div>
+
+
+
+<!-- start followers modal-->
+<div class="followers-place">
+<div class="container">
+
+<div class="modal fade" id="myFollowers" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <input type="text" class="form-control report-content" placeholder="input report resaion ... " style="height: 100px; margin-top: 10px">
+                <button class="btn btn-success accept-report-btn"  customerID="'+$data[$x].customerID+'" style="margin-left: 240px;margin-top: 5px">send</button>
+                <h4 class="report-result" style=" color:green; margin-left: 220px "></h4>
+                <h4 class="modal-title">Followers</h4>
+            </div>
+            <div class="modal-body">
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
 
     </div>
-<!-- end links -->
+</div>
+
+</div>
+</div>
+<!-- end followers modal-->
 
 <!-- ---start content--->
     <div class="row content" id="content">
         <!-- start active-trips-area -->
         <div class="col-lg-8 active-trips-area">
-            <!-- Table -->
-            <h3 style="color: #4cae4c;">Active trips:</h3>
-            <table class="table active-trips-table">
-                <thead class="active-trips-table-head">
-                <tr>
-
-                    <th>Trip ID</th>
-                    <th>Start station</th>
-                    <th>stop station</th>
-                    <th>departureDate</th>
-                    <th>numSeats</th>
-                    <th>priceForSeat</th>
-                </tr>
-    </thead>
-                <tbody class="customers-table-content" style="color: gray">
-
-                </tbody>
-            </table>
-            <!-- start edit-trip-area -->
-            <div class="edit-trip-area">
-                <div class="form-group ">
-                    <label for="usr">Departure Date:</label>
-                    <input type="date" class="form-control Date" name="DepartureDate"   placeholder="start station">
-                </div>
-
-                <div class="form-group">
-                    <label for="pwd">Number of Seats:</label>
-                    <input type="number" class="form-control seatsNumber" name="seatsNum" placeholder="stop station">
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-success accept-edit-btn" tripId="" name="accept-edit" value="edit">
-                </div>
-            </div>
-            <!-- end edit-trip-area -->
 
         </div>
         <!-- end active-trips-area -->
 
-        <!-- start pending-customers-area -->
-        <div class="col-lg-4 pending-customers">
-            <button class="btn btn-info pending-customers-btn">pending customers</button>
-            <ul class="list-group pending-customers-list">
 
-
-            </ul>
-        </div>
-        <!-- start followers-area -->
     </div>
 <!-- ---end content--->
 
@@ -152,13 +206,19 @@
 <script>
     var tripID=0;
     var counter=0;
+    var customerID;
+    var reportCounter=0;
+    var companyName =  $(".companyName").val();
     $(".trip-added-message").hide();
     $(".blocked-company-alert").hide();
     $(".add-trip-area").hide();
     $(".edit-trip-area").hide();
     $(".pending-customers-list").hide();
-    loadTrips();
 
+
+    loadTrips();
+    loadFollowers();
+    loadTripsNum();
     //start add trip link
     $(".add-trip-link").click(function () {
         counter++;
@@ -170,19 +230,18 @@
             $(".add-trip-area").slideToggle();
             $(".links").show(500);
             $(".content").show(500);
-
+            $(".active-trips-area").show(500);
         }
         else{
             $(".links").hide(500);
             $(".content").hide(500);
             $(".add-trip-area").slideToggle();
-
+            $(".active-trips-area").hide(500);
 
         }
         $(".trip-added-message").hide();
         $(".blocked-company-alert").hide();
-       // $(".trips-number").toggle();
-       // $(".customers-number").toggle();
+
 
 
     });
@@ -223,6 +282,45 @@
     });
     //end addTrip proccess
 
+
+    //start loadFollowers num
+
+    function loadFollowers(){
+        console.log();
+        $.ajax({
+           type: "post",
+           url: "{{route('getFollowersNum')}}",
+            data:{
+               _token:"{{csrf_token()}}",
+               companyID: $(".companyName").val(),
+            },
+            success: function ($data) {
+                  $(".customers-number").append('<h4>'+$data+'</h4>');
+            },
+            error: function ($data) {
+            console.log($data);
+
+               },
+        });
+    }
+    //end loadFollowers num
+
+    //start loadTripsNum
+        function loadTripsNum() {
+            $.ajax({
+               type: "post",
+               url:"{{route('getTripsNum')}}",
+               data: {
+                _token: "{{csrf_token()}}",
+                companyName: $(".companyName").val(),
+               },
+                success: function ($data) {
+                   console.log($data);
+                    $(".trips-number").append('<h4>'+$data+'</h4>');
+                },
+            });
+        }
+    //end loadTripsNum
     //------------------start load trips----------------
     function loadTrips(){
     $.ajax({
@@ -420,6 +518,39 @@
     });
     //end reject-cach-payment
 
+
+    //start getFollowers
+    $(".followers-btn").click(function () {
+        $(".followers-place").slideDown();
+       $.ajax({
+            type: "post",
+           url:"{{route('getFollowers')}}",
+            data:{
+                companyName: $(".companyName").val(),
+                _token:"{{csrf_token()}}",
+
+            },
+            success:function ($data) {
+
+                console.log($data);
+
+                for(var $x = 0 ; $x <$data.length ; $x++) {
+                 $(".modal-body").append('<ul class="list-group">'+
+                        //'<li class="list-group-item companyIcon"><img src="uploads/customersIcon/'+$data[0][$x].imagePath+'" alt="customer Icon">'+ '</li>'+
+                        '<li class="list-group-item">' +'<span class="address-icon"><img src="assets/images/adminIcons/address.png" style="width: 55px;height: 55px"> </span>' +'<span>'+$data[$x].address+'</span>'+'</li>'+
+                        '<li class="list-group-item">'+'<span class="address-icon"><img src="assets/images/adminIcons/email.png" style="width: 55px;height: 55px"> </span>' +'<span>'+$data[$x].email+'</span>'+'</li>'+
+                        '<li class="list-group-item">'+'<span class="address-icon"><img src="assets/images/adminIcons/phone.png" style="width: 55px;height: 55px"> </span>' +'<span>'+$data[$x].phoneNumber+'</span>'+'</li>'+
+                        '<li class="list-group-item"><button class="btn btn-warning report-btn" customerID="'+$data[$x].customerID+'">report</button></li>'+
+                     '</ul>'
+
+                 );}
+                $(".report-content").hide();
+                $(".accept-report-btn").hide();
+           },
+        });
+    });
+    //end getFollowers
+
     //--------start makeEditBtn---------------------
     function makeEditBtn(btnType,className,value,btnName,departureDate,numSeats) {
         return "<button class='"+btnType+" "+className+" ' value='"+value+"'  departureDate='"+departureDate+"' numSeats='"+numSeats +"'>"+btnName+"</button>";
@@ -474,5 +605,50 @@
         });
     }
     //end getMorePendingCustoemrs
+
+    //start reoport-btn
+    $(".modal-body").delegate('.report-btn','click',function () {
+        reportCounter++;
+        customerID=$(this).attr('customerID');
+        console.log("customer:"+$(this).attr('customerID'));
+        $(".report-content").slideToggle();
+        $(".accept-report-btn").slideToggle();
+        if(reportCounter %2 == 1){
+            $('html,.modal').animate({
+                scrollTop: $(".modal-header").offset().top
+            }, 'slow');
+        }
+
+
+    });
+    //end reoport-btn
+
+    //send accept-report-btn
+    $(".modal-header").delegate('.accept-report-btn','click',function () {
+
+        $.ajax({
+
+            type: "post",
+            url: "{{route('reportCustomer')}}",
+            data: {
+                _token: "{{csrf_token()}}",
+                customerID: customerID,
+                companyName:companyName,
+                repostContent:$(".report-content").val(),
+            },
+            success: function($data){
+                console.log($data);
+                $(".report-result").text($data);
+
+
+            },
+            error: function($data){
+                console.log($data);
+            },
+
+        });
+    });
+
+    //end accept-report-btn
 </script>
 @stop

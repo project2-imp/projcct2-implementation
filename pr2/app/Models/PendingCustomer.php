@@ -8,6 +8,6 @@ class PendingCustomer extends Model
 {
     //
     protected $table="pendingCustomers";
-    protected $fillable=['name','email','password','phoneNumber','address','VCode'];
+    protected $fillable=['name','email','password','phoneNumber','address','VCode','imagePath'];
     protected $hidden=['created_at','updated_at'];
 }

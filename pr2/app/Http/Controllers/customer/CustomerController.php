@@ -9,6 +9,8 @@ use App\Models\Card;
 use App\Models\Company;
 use App\Models\CompanyFollower;
 use App\Models\Customer;
+use App\Models\CustomerSearch;
+use App\Models\CustomerTrip;
 use App\Models\PendingCustomer;
 use App\Models\Trip;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +23,10 @@ use phpDocumentor\Reflection\DocBlock\Tags\PropertyWrite;
 
 class CustomerController extends Controller
 {
+
+public function getCustomerProfile(){
+    return view('layouts.customer.Profile');
+}
 
     //start signUP
     /**
@@ -36,6 +42,11 @@ class CustomerController extends Controller
             return redirect()->back()->withErrors($val)->withInput($request->all());
         }
         $VCode=$this->GenerateCode();
+        $iconExtension = $request->customerIcon->getClientOriginalExtension();
+        $iconName=time().'.'.$iconExtension;
+        $path='uploads/customersIcons';
+        $request->customerIcon->move($path,$iconName);
+
         PendingCustomer::create(
             [
                 'name'=>$request->input('name'),
@@ -43,6 +54,7 @@ class CustomerController extends Controller
                 'password'=>$request->input('password'),
                 'phoneNumber'=>$request->input('phoneNumber'),
                 'address'=>$request->input('address'),
+                'imagePath'=>$iconName,
                 'VCode'=>$VCode,
             ]
         );
@@ -100,6 +112,22 @@ class CustomerController extends Controller
 
     }//end getRules
 
+
+    //start getUpdateRules
+    public function getUpdateRules(){
+        /* -------DOC------------
+     * get rules for customer that update his information
+     * */
+        return $rules=[
+            'name'=>'required|max:100|min:3|alpha',
+            'email'=>'required|unique:customers,email|max:100',
+            'password'=>'required|max:255',
+            'phoneNumber'=>'required|unique:customers,phoneNumber|max:11',
+            'address'=>'required|max:255|min:6'
+        ];
+
+    }//end getUpdateRules
+
     //start AddCustomer
     /**
      * @param $customerEmail
@@ -123,6 +151,7 @@ class CustomerController extends Controller
                 'password'=>$customerInfo->password,
                 'phoneNumber'=>$customerInfo->phoneNumber,
                 'address'=>$customerInfo->address,
+                'imagePath'=>$customerInfo->imagePath,
                 'status'=>'newCustomer',
             ]
         );
@@ -155,7 +184,7 @@ class CustomerController extends Controller
             //if exist
             if($customer != null){
                 //get customer email && name
-                $customerName = Customer::select('customerID','email','name')->where('email',$request->input('email'))->first();
+                $customerName = Customer::select('customerID','email','name','imagePath')->where('email',$request->input('email'))->first();
                 $status=array(1,$customerName);
                //pass customer info to the view
                 return view('layouts.index',compact('status'));
@@ -309,4 +338,108 @@ class CustomerController extends Controller
     }
     //end cancelFollowCompany
 
+    //start getProfileInfo
+    public function getProfileInfo($customerID){
+        $customer = Customer::select()->where('customerID',$customerID)->first();
+        return $customer;
+    }
+    //end getProfileInfo
+
+    //start editProfile
+    public function editProfile(Request $request){
+
+        $customer = Customer::select('email','phoneNumber')->where('customerID',$request->customerID)->get();
+        $newEmail = Customer::select('email')->where('email',$request->newEmail)->get();
+        $newPhone = Customer::select('phoneNumber')->where('phoneNumber',$request->newPhoneNumber)->get();
+        $customer2 = Customer::select('name','password','address')->where('customerID',$request->customerID)->first();
+
+                 if($customer2->name != $request->newName){
+                     DB::table('customers')->where('customerID',$request->customerID)
+                         ->update(['name'=>$request->newName]);
+                 }
+
+                 if($customer[0]->email != $request->newEmail){
+
+                     if ($customer[0]->email != $request->newEmail  && sizeof($newEmail) == 0 ){
+                         DB::table('customers')->where('customerID',$request->customerID)
+                             ->update(['email'=>$request->newEmail]);
+                     }
+                     else if($customer[0]->email != $request->newEmail  && sizeof($newEmail) > 0 ){
+                         return "email exist!! try another email";
+                     }
+                 }
+
+                 if($customer2->address != $request->newAddress){
+                     DB::table('customers')->where('customerID',$request->customerID)
+                         ->update(['address'=>$request->newAddress]);
+                 }
+
+                 if($customer[0]->phoneNumber != $request->newPhoneNumber){
+                  if ($customer[0]->phoneNumber != $request->newPhoneNumber  && sizeof($newPhone) == 0 ){
+
+                      DB::table('customers')->where('customerID',$request->customerID)
+                          ->update(['phoneNumber'=>$request->newPhoneNumber]);
+                     }
+                     else if($customer[0]->phoneNumber != $request->newPhoneNumber  && sizeof($newPhone) > 0 ){
+                         return "phone number exist !!! try another phone number";
+                     }
+
+                 }
+                 if($customer2->password != $request->newPassword){
+                     DB::table('customers')->where('customerID',$request->customerID)
+                         ->update(['password'=>$request->newPassword]);
+                 }
+
+                 return "information updated";
+
+
+    }
+    //end editProfile
+
+    //start customerSearch
+    public function customerSearch($customerID,$searchContent){
+
+
+          $search = CustomerSearch::select('searchContent')->where('customerID',$customerID)
+                ->where('searchContent',$searchContent)->first();
+
+            if($search == null){
+                CustomerSearch::create(
+                    [
+                        'searchContent'=>$searchContent,
+                        'customerID'=>$customerID
+                    ]
+                );
+            }
+        $companiesResult = Company::select()->where('name','like','%'.$searchContent.'%')
+                        ->orWhere('address','like','%'.$searchContent.'%')->get();
+
+        $tripsResult = Trip::select()->where('startStation','like','%'.$searchContent.'%')
+            ->orWhere('stopStation','like','%'.$searchContent.'%')
+            ->orWhere('departureDate','like','%'.$searchContent.'%')->get();
+        $finalResult = array($companiesResult,$tripsResult);
+        return $finalResult;
+    }
+    //end customerSearch
+
+    //start customerSearchHistory
+    public function customerSearchHistory(Request $request){
+        if($request->customerID != null){
+            $search = CustomerSearch::select('searchContent')->where('customerID',$request->customerID)
+                ->where('searchContent','like','%'.$request->searchContent.'%')->limit(5)->get();
+            return $search;
+
+        }
+        else if ($request->customerID == null){
+            $search = CustomerSearch::select('searchContent')->where('searchContent','like','%'.$request->searchContent.'%')->limit(5)->get();
+            return $search;
+        }
+    }
+    //end customerSearchHistory
+
+    public function showTripsResult($companyID){
+
+        $trips = Trip::select()->where('companyID',$companyID)->get();
+        return $trips;
+    }
 }

@@ -79,6 +79,14 @@ color:#26272b;
     border-radius:35px;
     padding: 15px;
 }
+.reports-link{
+    color: white;
+    background-image: linear-gradient(darkgray,lightgray );
+    margin: 10px;
+    border-radius:35px;
+    padding: 15px;
+
+}
 .other-link{
     background-color: lightcoral;
     margin: 10px;

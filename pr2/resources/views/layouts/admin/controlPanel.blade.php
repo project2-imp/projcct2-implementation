@@ -34,13 +34,11 @@
      </div>
 
 
-        <div class="col-lg-2 ">
-            <a class=" more-link" href="#"> more </a>
-                <ul class="more-option">
-                    <li><a class="add-admin-link" href="#">add new admin</a></li>
-                    <li><a class="back-link" href="#">back</a></li>
+        <div class="col-lg-2 reports-link">
+            <h3 class="total-pendingC">All reports:</h3>
+            <p class="pendingC-value">26</p>
+            <li role="presentation" class="header-li get-companies"><button  class="btn btn-dark btn-lg reports-btn" data-toggle="modal" data-target="#myReports">show reports</button></li>
 
-                </ul>
         </div>
         <div class="col-lg-3 new-admin-palce">
            <div class="success-add-admin-msg">
@@ -55,6 +53,7 @@
                 <input type="email" id="email" class="fadeIn second admin-email" name="email" placeholder="email">
                 <input type="password" id="password" class="fadeIn third admin-password" name="password" placeholder="password">
                 <input type="submit" class="fadeIn fourth add-admin-btn" value="Add">
+                <button class="btn btn-dark back-link" href="#">back</button>
 
             </div>
         </div>
@@ -183,6 +182,29 @@
             <div class="col-lg-4 blocked-users"></div>
         </div>
     <!-- end browse customers & companies div-->
+    <img src="{{url('/assets/images/adminIcons/email.png')}}">
+    <!-- start reports modal -->
+    <div class="reports-content">  </div>
+    <div class="modal fade" id="myReports" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reports</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- end reports modal -->
 @stop
 
 @section('javascript')
@@ -576,6 +598,22 @@
     }
     // end morePenCustomerInfo
 
+    //start getReports
+        $("body").delegate('.reports-btn','click',function () {
+           $.ajax({
+              type: "get",
+               url: "{{route('getReports')}}",
+               success: function ($data) {
+                   console.log($data);
+               },
+               error: function ($d) {
+                   console.log($d);
+               },
+
+
+           });
+        });
+    //end getReports
 </script>
 
 @stop

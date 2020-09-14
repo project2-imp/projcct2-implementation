@@ -16,6 +16,7 @@
        <h1 class="trips-title">Trips</h1>
        <div class="col-lg-12 col-xs12 trips-place">
        </div>
+
    </div>
 
     <!-- ------------------------------- -->
@@ -72,6 +73,8 @@
     </div><!-- end fadeInDown-->
 </div>
     <!-- end booking-place-->
+
+    <!-- start companies area-->
     <div class="companies-area ">
 
         <div class="container">
@@ -102,6 +105,8 @@
 
         </div>
     </div>
+    <!-- end companies area-->
+
 @stop
 
 
@@ -118,6 +123,7 @@
     $(".seats-error").hide();
     $(".info-error").hide();
     $(".booking-pending-msg").hide();
+
     showTrips();
     showBestCompanies();
     //start showTrips
@@ -144,10 +150,7 @@
                        "<img  src='"+'uploads/companiesIcons/'+$data[1][$x][0].imagePath+"' class='card-img-top' alt='company logo' style='width: 300px; height: 200px'> "+
                         "</div>"+
                         "<div class='card-body'>"+
-                        "<div class='bar'>" +
-                        "<div class='emptybar'></div>"+
-                        "<div class='filledbar'></div>"+
-                        "</div>"+
+
                         "<h5 class='startStation'>"+"<span class='startStation-title'>"+"<img src=assets/images/tripIcons/start-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='startStation-value'>"+ $data[0][$x].startStation +"</span>" +"</br>" +
                         "<span class='stopStation-title'>"+"<img src=assets/images/tripIcons/stop-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='stopStation-value'>" +$data[0][$x].stopStation + "</span>"+"</h5>"+
                         "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/dep-date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[0][$x].departureDate + "</span>"+ "</br>"+
@@ -185,11 +188,9 @@
 
                 for(var $x = 0 ; $x <5 ; $x++){
 
-                    $(".best-compaines-place").append("<div  class='card best-companies-card ' style='width: 18rem;'>"+
+                    $(".best-compaines-place").append("<div  class='card best-companies-card ' >"+
                         "<img src='uploads/companiesIcons/"+$data[$x].imagePath+" ' class='card-img-top' alt='company Logo' style='width: 250px; height: 200px;'>"+
-                        "<div class='card-body'>"+
-                    "<a href='#' class='btn btn-primary'>more details</a>"+
-                    "</div>"+
+
                     "</div>"
                     );
                 }
@@ -201,20 +202,22 @@
     //end showBestCompanies
 
     //start booking-btn
-    $(".trips-place").delegate('.booking-btn','click',function () {
+    $("body").delegate('.booking-btn','click',function () {
         $(".header").hide();
         $(".trips-place").hide();
         $(".best-compaines-place").hide();
         $(".customer-footer").hide();
         $(".booking-place").slideDown();
+        $('#result-search-modal').modal('up');
         companyID = $(this).attr('companyID');
         tripID = $(this).attr('value');
         seatPrice = $(this).attr('seatPrice');
-    })
+        console.log("booking btn ");
+    });
     //end booking-btn
 
     //start payment-cash-btn
-    $(".booking-place").delegate('.payment-cash-btn','click',function () {
+    $(".booking-place").delegate('.payment-cash-btn','click',function ()    {
         $(".payment-cash-place").slideToggle();
     });//end payment-cash-btn
 
@@ -225,8 +228,12 @@
 
     //start cancel-btn
     $(".booking-place").delegate('.cancel-btn','click',function () {
-       backBtn();
-    });//end cancel-btn
+
+            backBtn();
+        location.reload();
+
+
+        });//end cancel-btn
 
     //start accept-cach-payment
     $(".booking-place").delegate('.accept-cach-payment','click',function () {
@@ -267,6 +274,7 @@
                     alert('booking pending waiting to accepting from company admin');
                     backBtn();
                 }
+
             }
         });
     });
@@ -300,7 +308,7 @@
                if($data =="booking successfully" ){
                    alert('booking successfully');
                    backBtn();
-
+                   location.reload();
                }else{
                    $(".error-payment-msg").fadeIn().text($data).delay(2000).fadeOut();
                }
@@ -309,6 +317,8 @@
 
     });
     //end accept-card-payment
+
+   //start backBtn
     function backBtn(){
         $(".header").fadeIn();
         $(".trips-place").fadeIn();
@@ -316,14 +326,56 @@
         $(".customer-footer").fadeToggle();
         $(".booking-place").fadeToggle();
     }
+    //back backBtn
 
-    /*$(".get-companies").click(function () {
-        alert("ali");
-    })*/
-/*$(".testbtn").click(function () {
-    $(".modal").trigger();
-})*/
 
+
+    //start showTrips
+    function showCompanyTrips(companyID){
+        $.ajax({
+            type: "get",
+            url: "{{url('showTripsResult')}}/"+companyID,
+            success: function($data){
+                console.log($data);
+               // $('#result-search-modal').modal('toggle');
+                clear(".companies-result");
+                for(var $x=0; $x<$data.length;$x++){
+
+                    $(".companies-result").append("<div class='card trips-card'>"+
+
+                        "<div class='card-body'>"+
+                        "<div class='bar'>" +
+                        "<div class='emptybar'></div>"+
+                        "<div class='filledbar'></div>"+
+                        "</div>"+
+                        "<h5 class='startStation'>"+"<span class='startStation-title'>"+"<img src=assets/images/tripIcons/start-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='startStation-value'>"+ $data[$x].startStation +"</span>" +"</br>" +
+                        "<span class='stopStation-title'>"+"<img src=assets/images/tripIcons/stop-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='stopStation-value'>" +$data[$x].stopStation + "</span>"+"</h5>"+
+                        "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/dep-date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[$x].departureDate + "</span>"+ "</br>"+
+                        "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[$x].numSeats+"</span>"+"</br>"+
+                        "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[$x].availableSeats+"</span>"+"</br>"+
+                        "<span class='price-For-Seat-title'>"+"<img src=assets/images/tripIcons/price.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='price-For-Seat-value' style='color:red'>"+$data[$x].priceForSeat+"sp"+"</span>"+"</p>"+
+                        " <a href='#' class='btn btn-dark booking-btn' seatPrice='"+$data[$x].priceForSeat+"' companyID='"+$data[$x].companyID+"' value="+$data[$x].tripID+">book a trip</a>"+
+
+                        "</div>"+
+                        "</div>"
+
+                    );
+                }
+
+            },
+            error: function($da){
+                console.log($da);
+            },
+        })
+    }
+    //end showTrips
+
+    //start show companyTripsResault
+    $(".companies-result-place").delegate('.trips-resault','click',function(){
+        console.log($(this).attr('companyID'));
+        showCompanyTrips($(this).attr('companyID'));
+    });
+    //end show companyTripsResault
 </script>
 
 @stop

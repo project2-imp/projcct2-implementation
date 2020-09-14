@@ -5,9 +5,14 @@ namespace App\Http\Controllers\trips;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Customer;
+use App\Models\CustomerTrip;
+use App\Models\Report;
 use App\Models\Trip;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class TripController extends Controller
 {
@@ -66,5 +71,32 @@ class TripController extends Controller
     }
     //end getTrips for index page
 
+    //start getTripsNum
+    public function getTripsNum(Request $request){
+        $company = Company::select('companyID')->where('name',$request->companyName)->first();
+        $trips = Trip::where('companyID',$company->companyID)->count();
+        return $trips;
+    }
+    //end getTripsNum
 
+    //start getActiveTrips
+    public function getActiveTrips($customerID){
+        $trips = CustomerTrip::select('tripID','seatsNumber')->where('customerID',$customerID)->get();
+        $customerTrips = array(sizeof($trips));
+        for($i=0;$i<sizeof($trips);$i++){
+            $customerTrips[$i]=Trip::select('startStation','stopStation','departureDate','priceForSeat')->where('tripID',$trips[$i]->tripID)->first();
+
+        }
+        $finalInfo = array($customerTrips,$trips);
+    return $finalInfo;
+
+
+    }
+    //end getActiveTrips
+
+    //start getCompletedTrips
+    public function getCompletedTrips(){
+
+    }
+    //end getCompletedTrips
 }

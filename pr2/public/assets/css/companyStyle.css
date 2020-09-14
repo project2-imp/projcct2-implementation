@@ -1,20 +1,23 @@
 body{
+}
+a{
+    margin: 15px;
 
-}
-.completed-trips-number{
-    background-color: lightgreen;
-    margin: 20px;
-    height: 100px;
-}
-.trips-number{
-    background-color: lightblue;
-    margin: 20px;
 
+    list-style-type: none;
+    font-size: 20px;
 }
-.customers-number{
-    background-color: gray;
-    margin: 20px;
+ul{
+    list-style-type:none;
 }
+.companyIcon{
+    border-radius:50% ;
+}
+
+.trips-numbertitle,.customers-number,.trips-number{
+    display: inline-block;
+}
+
 .content{
 
 }

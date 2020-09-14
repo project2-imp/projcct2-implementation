@@ -8,7 +8,7 @@ class CustomerSearch extends Model
 {
     //
     protected $table="customerSearchs";
-
+    protected $fillable=['SearchID','searchContent','customerID','created_at','updated_at'];
     //start relations
 
     public function customer(){

@@ -9,7 +9,7 @@ class Customer extends Model
     //
 
     protected $table="customers";
-    protected $fillable=['name','email','password','phoneNumber','address'];
+    protected $fillable=['customerID','name','email','password','phoneNumber','address','imagePath'];
     protected $hidden=['created_at','updated_at'];
     /////////////// start relations ///////////////////
 
@@ -32,6 +32,11 @@ class Customer extends Model
     public function companyFollowers(){
 
         return $this->hasMany('App\Models\CompanyFollower','customerID','customerID');
+    }
+
+    public function report(){
+
+        return $this->hasOne('App\Models\Report','customerID','customerID');
     }
 
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Emails\EmailsController;
 use App\Models\Company;
 use App\Models\Customer;
+use App\Models\Report;
 use App\Models\SystemAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -208,5 +209,17 @@ class AdminController extends Controller
     }
     //end unblockCompany
 
+    //start getReports
+    public function getReports(){
 
+
+        $reports = Report::select('customerID')->get();
+        $customers = array(sizeof($reports));
+        for($i = 0 ; $i < sizeof($reports); $i++){
+            $customers[$i] = Customer::select('name','email','phoneNumber','address','imagePath')->where('customerID',$reports[$i]->customerID)->first();
+        }
+        return $customers;
+    }
+
+    //end getReports
 }

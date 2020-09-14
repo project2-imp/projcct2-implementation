@@ -1,0 +1,41 @@
+
+.profile-info{
+
+    margin: 50px;
+
+}
+.form-control,.profile-icon{
+    display:inline-block;
+}
+.content{
+}
+
+.active-trips{
+    margin-top: 100px;
+
+}
+
+.table-header{
+    background-color: dodgerblue;
+
+}
+td{
+    font-weight: bold;
+}
+.seats-num{
+    text-align: center;
+}
+.short-title{
+    font-weight: bold;
+
+}
+.following-companies-val ,.all-trips-val,.completed-trips-val,.active-trips-val{
+    float: right;
+    color: green;
+    font-weight: bold;
+}
+.active-trips-val{
+    color:coral;
+}
+
+

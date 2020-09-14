@@ -7,7 +7,7 @@
         <div class="container">
             <div class="signup-content">
 
-                <form method="POST" id="signup-form" action="{{route('createCustomerAccount')}}">
+                <form method="POST" id="signup-form" action="{{route('createCustomerAccount')}}" enctype="multipart/form-data">
 
                     {{ csrf_field() }}
 
@@ -55,8 +55,17 @@
                     @enderror
 
                     <div class="form-group">
+                        <label class="alert alert-light">select profile picutre</label>
+                        <input type="file" class=" form-control btn btn-dark"  name="customerIcon" />
+                    </div>
+                    @error('image')
+                    <small class="form-text text-danger">{{$message}}</small>
+                    @enderror
+
+                    <div class="form-group">
                         <input type="submit" name="submit" id="submit" class="form-submit" value="Sign up"/>
                     </div>
+
 
                 </form>
 
