@@ -139,11 +139,11 @@
            url: "{{url('getTrips')}}/"+customerID,
 
            success: function ($data) {
-               console.log("dataaaa:");
+               console.log("data after simillteryy:");
                console.log($data);
                     console.log("aaaaa");
                console.log("length:"+$data[0].length);
-               for(var $x=0; $x<$data[0].length;$x++){
+               for(var $x=$data[0].length-1; $x>=0;$x--){
 
                     $(".trips-place").append("<div class='card trips-card'>"+
                        "<div class='card-head'>"+

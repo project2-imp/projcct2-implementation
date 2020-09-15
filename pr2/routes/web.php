@@ -12,6 +12,7 @@
 */
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //=========start guest routes========
+use App\Models\Trip;
 use Illuminate\Support\Facades\Route;
 
 //use Illuminate\Routing\Route;
@@ -216,3 +217,35 @@ Route::get('/testConnection', function () {
 });
 //---------------------------------
 Route::get('getTime','trips\TripController@getCompletedTrips')->name('getCompletedTrips');
+
+
+//==============================================================================
+Route::get('recom', function () {
+    //data/products-data.json
+    $products = json_decode(file_get_contents(storage_path('//data/myTrips.json')));
+    //$trips = Trip::all();
+    //$fileName = 'myTrips.json';
+    //file_put_contents($fileName,json_encode($trips));
+    print_r($products) ;
+    echo "<br>";
+    echo "_________________________________________________________________________";
+    echo "<br>";
+
+    //correct 1
+    $selectedId = intval(app('request')->input('id') ?? '84');
+    $selectedProduct = $products[0];
+
+    $selectedProducts = array_filter($products, function ($product) use ($selectedId) { return $product->tripID === $selectedId; });
+    if (count($selectedProducts)) {
+        $selectedProduct = $selectedProducts[array_keys($selectedProducts)[0]];
+    }
+    //correct 1
+
+    $productSimilarity = new App\ProductSimilarity($products);
+    $similarityMatrix  = $productSimilarity->calculateSimilarityMatrix();
+    $products          = $productSimilarity->getProductsSortedBySimularity($selectedId, $similarityMatrix);
+
+    print_r($products) ;
+  //  return view('welcome', compact('selectedId', 'selectedProduct', 'products'));
+});
+//==============================================================================

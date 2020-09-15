@@ -80,7 +80,8 @@
 
 @section('headerJS')
     <script>
-
+        var customerID =$(".customerID").val();
+        console.log("customerID:"+customerID);
         //start reload after colse modal
         $(".close").click(function () {
             $('#result-search-modal').on('hidden.bs.modal', function () {
@@ -90,7 +91,6 @@
         //end reload after colse modal
 
         $(".search-history").hide();
-        var customerID =$(".customerID").val();
 
     $(".browse-trips").click(function () {
         $('html,body').animate({
@@ -168,37 +168,43 @@
 
     function makeFollowCancelFollowBtn( customerID,companyID) {
 
-        $.ajax({
-            type: "post",
-            url: "{{route('checkFollower')}}",
-            data:{
-                _token:"{{csrf_token()}}",
-                customerID:customerID,
-                companyID:companyID,
-            },
-            success: function ($data) {
-                console.log($data);
+            if(customerID !='guest'){
+                $.ajax({
+                    type: "post",
+                    url: "{{route('checkFollower')}}",
+                    data:{
+                        _token:"{{csrf_token()}}",
+                        customerID:customerID,
+                        companyID:companyID,
+                    },
+                    success: function ($data) {
+                        console.log($data);
 
-                if($data == 'follower'){
-                    console.log("ali");
-                    $("."+companyID).html('<a class="btn btn-danger cancel-follow-btn " companyID="'+companyID+'" >unfollow</a>');
-
-
-
-                }
-                 else if ('nonFollower'){
-                    console.log("mortada");
-                    $("."+companyID).html('<a class="btn btn-info follow-btn " companyID="'+companyID+'" >follow</a>');
+                        if($data == 'follower'){
+                            console.log("ali");
+                            $("."+companyID).html('<a class="btn btn-danger cancel-follow-btn " companyID="'+companyID+'" >unfollow</a>');
 
 
-                            }
 
-            },
-            error:function ($r) {
-                console.log($r);
+                        }
+                        else if ('nonFollower'){
+                            console.log("mortada");
+                            $("."+companyID).html('<a class="btn btn-info follow-btn " companyID="'+companyID+'" >follow</a>');
 
+
+                        }
+
+                    },
+                    error:function ($r) {
+                        console.log($r);
+
+                    }
+                });
             }
-        });
+            else{
+            $("."+companyID).html('<p>""</p>');
+        }
+
     }
 
   //start accept-follow-btn
