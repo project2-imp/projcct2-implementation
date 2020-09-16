@@ -43,7 +43,7 @@ class PassengerController extends Controller
             ->where('tripID', $request->tripID)
             ->update(['status' => 'accepted']);
 
-        return "success";
+        return "customer accepted";
     }
     //end addPassenger
 
@@ -68,7 +68,7 @@ class PassengerController extends Controller
     {
         CustomerTrip::where("tripID", $request->tripID)
             ->where("customerID", $request->customerID)->delete();
-        return "success";
+        return "customer deleted";
     }
     //end deletePassenger
 

@@ -333,36 +333,39 @@
 
 
                     }
-                    if($data[0][1] == null){
-                        $(".trips-result-place").html("<p> no Trips found !</p>");
-                    }
-                    else{
+
                         console.log("tripssss");
-                        console.log($data[0][1]);
+                        console.log($data[0]);
+                        if($data[1] == null){
+                            $(".trips-result-place").html("<p> no Trips found !</p>");
+                        }
+                        else{
+                            for($x=0;$x<$data[1].length;$x++)
+                            {
 
-                        for($x=0;$x<$data[1].length;$x++)
-                        {
+                                $(".trips-result-place").append("<div class='card resault-trips-card'>"+
 
-                        $(".trips-result-place").append("<div class='card trips-card'>"+
+                                    "<div class='card-body'>"+
+                                    "<div class='bar'>" +
+                                    "<div class='emptybar'></div>"+
+                                    "<div class='filledbar'></div>"+
+                                    "</div>"+
+                                    "<h5 class='startStation'>"+"<span class='startStation-title'>"+"<img src=assets/images/tripIcons/start-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='startStation-value'>"+ $data[1][$x].startStation +"</span>" +"</br>" +
+                                    "<span class='stopStation-title'>"+"<img src=assets/images/tripIcons/stop-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='stopStation-value'>" +$data[1][$x].stopStation + "</span>"+"</h5>"+
+                                    "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/dep-date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[1][$x].departureDate + "</span>"+ "</br>"+
+                                    "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[1][$x].numSeats+"</span>"+"</br>"+
+                                    "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[1][$x].availableSeats+"</span>"+"</br>"+
+                                    "<span class='price-For-Seat-title'>"+"<img src=assets/images/tripIcons/price.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='price-For-Seat-value' style='color:red'>"+$data[1][$x].priceForSeat+"sp"+"</span>"+"</p>"+
+                                    " <button href='#' class='btn btn-dark btn-sm booking-btn' seatPrice='"+$data[1][$x].priceForSeat+"' companyID='"+$data[1][$x].companyID+"' value="+$data[1][$x].tripID+">book a trip</button>"+
 
-                            "<div class='card-body'>"+
-                            "<div class='bar'>" +
-                            "<div class='emptybar'></div>"+
-                            "<div class='filledbar'></div>"+
-                            "</div>"+
-                            "<h5 class='startStation'>"+"<span class='startStation-title'>"+"<img src=assets/images/tripIcons/start-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='startStation-value'>"+ $data[1][$x].startStation +"</span>" +"</br>" +
-                            "<span class='stopStation-title'>"+"<img src=assets/images/tripIcons/stop-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='stopStation-value'>" +$data[1][$x].stopStation + "</span>"+"</h5>"+
-                            "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/dep-date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[1][$x].departureDate + "</span>"+ "</br>"+
-                            "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[1][$x].numSeats+"</span>"+"</br>"+
-                            "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[1][$x].availableSeats+"</span>"+"</br>"+
-                            "<span class='price-For-Seat-title'>"+"<img src=assets/images/tripIcons/price.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='price-For-Seat-value' style='color:red'>"+$data[1][$x].priceForSeat+"sp"+"</span>"+"</p>"+
-                            " <a href='#' class='btn btn-dark booking-btn' seatPrice='"+$data[1][$x].priceForSeat+"' companyID='"+$data[1][$x].companyID+"' value="+$data[1][$x].tripID+">book a trip</a>"+
+                                    "</div>"+
+                                    "</div>");
+                            }
+                        }
 
-                            "</div>"+
-                            "</div>");
-                                }
 
-                    }
+
+
                 },
                 error: function ($da) {
 

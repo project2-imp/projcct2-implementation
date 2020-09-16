@@ -3,6 +3,7 @@
 
 <!-- start nav -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">logout</a>
         <a class="navbar-brand" href="#">{{ $companyName[0]->name }}</a>
 
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -12,10 +13,10 @@
 
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">My Trips</a>
+                    <a class="nav-link show-active-trips" href="#">My Trips</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"> Customers</a>
+                    <a class=" pending-customers-btn"  href="#" data-toggle="modal" data-target="#myPendingCustomers">pending customers</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link add-trip-link" href="#"> Add trip</a>
@@ -76,8 +77,55 @@
     </nav>
 <!-- end nav -->
 
+<!--start profile info -->
+<div class=" row company-profile-info">
+    <div class="progress company-rating">
+        <div class="progress-bar company-rating" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">
+            <p class="rating-label"></p>
+        </div>
+    </div>
+    <div class=" row jumbotron">
+      <div class="col-lg-8 col-sm-12">
+         <!-- profile info-->
+            <div class="company-info">
+            </div>
+
+      </div>
+        <!--  start short info-->
+        <div class="col-lg-4 col-sm-12">
+
+                <!-- start links -->
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <a  href="#" class="followers-btn" data-toggle="modal" data-target="#myFollowers">Followers:</a>
+                        <span class="customers-number" style="color: coral"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <h4 class="trips-numbertitle"  style="color: #337ab7">trips number:</h4>
+                        <span class="trips-number" style="color: coral"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <ul class="list-group pending-customers-list">
+                        </ul>
+                    </li>
+                </ul>
+                 <!-- <div class="col-lg-12 pending-customers">
+                </div> -->
+
+                <!-- end links -->
+        </div>
+        <!--  end short info-->
+
+
+    </div>
+
+
+</div>
+<!--end profile info -->
+
+<!--start active trips area -->
 <div class="row">
-    <div class="col-lg-10 active-trips-area">
+    <div class="col-lg-12 active-trips-area">
         <!-- Table -->
         <h3 style="color: #4cae4c;">Active trips:</h3>
         <table class="table active-trips-table">
@@ -114,53 +162,16 @@
         <!-- end edit-trip-area -->
 
     </div>
-    <div class="col-lg-2" >
-        <!-- start links -->
-
-        <ul class="list-group">
-            <li class="list-group-item">
-                    <a class="followers-btn" data-toggle="modal" data-target="#myFollowers">Followers:</a>
-                    <span class="customers-number" style="color: coral"></span>
-            </li>
-            <li class="list-group-item">
-                <h4 class="trips-numbertitle"  style="color: #337ab7">trips number:</h4>
-                <span class="trips-number" style="color: coral"></span>
-            </li>
-            <li class="list-group-item">
-                <button class="btn btn-info pending-customers-btn">pending customers</button>
-                <ul class="list-group pending-customers-list">
-
-
-                </ul>
-
-
-            </li>
-
-        </ul>
-
-
-
-
-
-
-
-
-
-
-            <div class="col-lg-12 pending-customers">
-            </div>
-
-        <!-- end links -->
-    </div>
+   <!-- last -->
 
 </div>
-
+<!--end active trips area -->
 
 
 <!-- start followers modal-->
 <div class="followers-place">
 <div class="container">
-
+<!-- start followers area-->
 <div class="modal fade" id="myFollowers" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -177,21 +188,52 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default close" data-dismiss="modal">Close</button>
             </div>
         </div>
 
     </div>
 </div>
-
+    <!-- end followers area-->
 </div>
 </div>
 <!-- end followers modal-->
 
+<!-- start pending-customers area-->
+<div class="pending-customers-place">
+    <div class="container">
+        <!-- start pending-customers area-->
+        <div class="modal fade" id="myPendingCustomers" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content" style="background-color: white">
+                    <div class="modal-header pending-customers-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                         <h4 class="modal-title">pending customers</h4>
+                    </div>
+                    <div class="modal-body pending-customers-content">
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default close" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- end pending-customers area-->
+    </div>
+</div>
+
+<!-- end pending-customers area-->
+
+
+
 <!-- ---start content--->
-    <div class="row content" id="content">
+    <div class="row " id="content">
         <!-- start active-trips-area -->
-        <div class="col-lg-8 active-trips-area">
+        <div class="col-lg-12 active-trips-area">
 
         </div>
         <!-- end active-trips-area -->
@@ -214,11 +256,20 @@
     $(".add-trip-area").hide();
     $(".edit-trip-area").hide();
     $(".pending-customers-list").hide();
+    $(".close").click(function () {
+        $('#myPendingCustomers').on('hidden.bs.modal', function () {
+            location.reload();
+        });});
+    $(".close").click(function () {
 
+        $('#myFollowers').on('hidden.bs.modal', function () {
+            location.reload();
+        });});
 
     loadTrips();
     loadFollowers();
     loadTripsNum();
+    loadProfileInfo();
     //start add trip link
     $(".add-trip-link").click(function () {
         counter++;
@@ -231,12 +282,15 @@
             $(".links").show(500);
             $(".content").show(500);
             $(".active-trips-area").show(500);
+            $(".company-profile-info").show(500);
+
         }
         else{
             $(".links").hide(500);
             $(".content").hide(500);
             $(".add-trip-area").slideToggle();
             $(".active-trips-area").hide(500);
+            $(".company-profile-info").hide(500);
 
         }
         $(".trip-added-message").hide();
@@ -282,6 +336,14 @@
     });
     //end addTrip proccess
 
+
+    //start show-active-trips
+    $(".show-active-trips").click(function () {
+        $('html,body').animate({
+            scrollTop: $(".active-trips-area").offset().top
+        }, 'slow');
+    });
+    //end show-active-trips
 
     //start loadFollowers num
 
@@ -428,7 +490,7 @@
     $(".pending-customers-btn").click(function () {
         getPendingCustomers();
         //show pending customers list
-        $(".pending-customers-list").slideToggle();
+
     });
     //--------------end pending-customers-btn--------------
 
@@ -472,7 +534,7 @@
     //end more pending-customers-btn
 
     //start accept-cach-payment
-     $(".pending-customers").delegate(".accept-cach-payment","click",function(){
+     $(".pending-customers-content").delegate(".accept-cach-payment","click",function(){
        console.log("tripID:"+$(this).attr('tripID'));
          console.log("customer:"+$(this).attr('customerID'));
 
@@ -487,8 +549,16 @@
            },
             success: function ($data) {
                 console.log("alalalal");
-
                 console.log($data);
+                if($data == "customer accepted"){
+                    alert($data);
+                    clear(".pending-customers-content");
+                    getPendingCustomers();
+
+                }
+
+                else  alert("error try again");
+
             }
 
         });
@@ -496,7 +566,7 @@
     //end accept-cach-payment
 
     //start reject-cach-payment
-    $(".pending-customers").delegate(".reject-cach-payment","click",function(){
+    $(".pending-customers-content").delegate(".reject-cach-payment","click",function(){
         console.log("tripID:"+$(this).attr('tripID'));
         console.log("customer:"+$(this).attr('customerID'));
 
@@ -510,7 +580,14 @@
             },
             success: function ($data) {
                 console.log("deleted");
+                if($data == "customer deleted")
+                {
+                    alert($data);
+                    clear(".pending-customers-content");
+                    getPendingCustomers();
 
+                }
+                else alert("error try again");
                 console.log($data);
             }
 
@@ -577,11 +654,29 @@
 
             success: function ($data) {
                 console.log($data);
-                for($i=0 ; $i <10;$i++){
-                    $(".pending-customers-list").append(
-                        "<a href='#'  seatsNum="+$data[$i].seatsNumber+" tripID="+$data[$i].tripID+" class='more-pending-customers-btn' customerID="+$data[$i].customerID+"><li class='list-group-item'><span style='color:lightseagreen'>tripID:</span><span style='color:coral'> "+$data[$i].tripID+"</span>"+"<span style='color:lightseagreen'> number of seats:</span> <span style='color:coral'>"+$data[$i].seatsNumber+"</a></li>"
-                    );
+                if($data[0] == null){
+                    $(".pending-customers-content").html('<label class="alert-primary">no Pending customers</label>');
                 }
+                else{
+                    for($i=0 ; $i <$data[0].length;$i++){
+                        $(".pending-customers-content").append('<ul class="list-group">' +
+                            '<li class="list-group-item"><span>trip ID:'+$data[0][$i].tripID+'</span></li>'+
+                            '<li class="list-group-item"><img src="assets/images/customerIcons/name.png" style="width: 50px;height:50px;"><span>'+$data[1][$i].name+'</span></li>'+
+                            '<li class="list-group-item"><img src="assets/images/customerIcons/email.png" style="width: 50px;height:50px;"><span>'+$data[1][$i].email+'</span></li>'+
+                            '<li class="list-group-item"><img src="assets/images/customerIcons/phone.png" style="width: 50px;height:50px;"><span>'+$data[1][$i].phoneNumber+'</span></li>'+
+                            '<li class="list-group-item"><img src="assets/images/customerIcons/address.png" style="width: 50px;height:50px;"><span>'+$data[1][$i].address+'</span></li>'+
+                            '<li class="list-group-item"><img src="assets/images/tripIcons/seats.png" style="width: 50px;height:50px;"><span>'+$data[0][$i].seatsNumber+'</span></li>'+
+                            '<li class="list-group-item"><div class="btn-group" role="group" aria-label="...">' +
+                            '<button type="button"  class="btn btn-success accept-cach-payment" tripID="'+$data[0][$i].tripID+'" customerID="'+$data[0][$i].customerID+'">accept</button>'+
+                            '<button type="button"  class="btn btn-danger reject-cach-payment" tripID="'+$data[0][$i].tripID+'" customerID="'+$data[0][$i].customerID+'">reject</button>'+
+
+
+                            '</div>'+
+                            '</li>'+
+                            '</ul>');
+                    }
+                }
+
             },
         });
     }
@@ -650,5 +745,77 @@
     });
 
     //end accept-report-btn
+
+    //start profile info
+        function loadProfileInfo() {
+            $.ajax({
+
+               type: "get",
+               url: "{{url('getCompanyInfo')}}/"+companyName,
+                success:function ($data) {
+                   var value = $data.rating;
+                    var val = value.toString();
+                    var rating = val+"%";
+                    if(value >= 0 && value <=30){
+                        $(".company-rating").addClass("progress-bar-danger");
+                    }
+                    else if (value >30 && value<=50){
+                         $(".company-rating").addClass("progress-bar-warning");
+                    }
+                    else if (value >50 && value<=70){
+                        $(".company-rating").addClass("progress-bar-info");
+                    }
+                    else if (value >70 ){
+                        $(".company-rating").addClass("progress-bar-success");
+                    }
+                   $(".rating-label").text("rating:"+rating);
+                   $(".company-rating").css("width",rating);
+                    console.log($data);
+                    $(".company-info").append('<ul class="list-group"> <li class="list-group-item active"></li><li> <div class="card" style="">'+
+                        '<img src="" >'+
+                        '<div class="card-body">' +
+                        ' <h4 class="card-title"> <span><img class="name-icon" src="{{url('assets/images/customerIcons/name.png')}}" style="width: 50px;height: 50px;"></span> <h3 class="pr-name"  value="'+$data.name+'">'+$data.name+'</h4>' +
+                        '<p class="card-text"><img class="profile-icon" src="{{url('assets/images/customerIcons/email.png')}}" style="width: 50px;height: 50px;"> <input class="form-control pr-email" type="email" value="' +$data.email+'"></p>' +
+                        '<p class="card-text"><img class="profile-icon" src="{{url('assets/images/customerIcons/password.png')}}" style="width: 50px;height: 50px;"><input class="form-control pr-password" type="text" value="' +$data.password+'"></p>' +
+                        '<p class="card-text"><img class="profile-icon" src="{{url('assets/images/customerIcons/phone.png')}}" style="width: 50px;height: 50px;"> <input class="form-control pr-phone"  type="text" value="' +$data.phoneNumber+'"></p>' +
+                        '<p class="card-text"><img class="profile-icon" src="{{url('assets/images/customerIcons/address.png')}}" style="width: 50px;height: 50px;"> <input class="form-control pr-address" type="text" value="' +$data.address+'"></p>' +
+                        '<br>'+
+                        '<button class="btn btn-info edit-companyProfile-btn">edit profile</button>' +
+
+                        '</div>' +
+
+
+                        '</div> </li>   </ul> ');
+                }
+            });
+
+        }
+    //end profile info
+
+    // start edit-companyProfile-btn
+    $(".company-info").delegate('.edit-companyProfile-btn','click',function () {
+
+        $.ajax({
+
+           type: "post",
+           url: "{{route('editCompanyInfo')}}",
+           data: {
+               _token: " {{csrf_token()}}",
+               companyName: companyName,
+               newEmail: $(".pr-email").val(),
+               newPassword: $(".pr-password").val(),
+               newPhoneNumber: $(".pr-phone").val(),
+               newAddress: $(".pr-address").val(),
+           },
+            success:function ($data) {
+               console.log($data);
+                alert($data);
+                clear(".company-info");
+                loadProfileInfo();
+
+            }
+        });
+    });
+    //end edit-companyProfile-btn
 </script>
 @stop

@@ -17,12 +17,12 @@
                 </ul>
             </div>
             <div class="col-lg-3">
-                <h3 class="social-title">scial media</h3>
+                <h3 class="social-title">Social media</h3>
                 <ul>
-                    <li class="facebook-li"><a><img src="" alt="facebook"></a></li>
-                    <li class="twitter-li"><a><img src="" alt="twitter"></a></li>
-                    <li class="instagram-li"><a><img src="" alt="instagram"></a></li>
-                    <li class="linkedin-li"><a><img src="" alt="linkedin"></a></li>
+                    <li class="facebook-li"><a href="#"><img src="assets/images/footerImage/facebook.png" alt="facebook" style="width: 50px;height: 50px;"></a></li>
+                    <li class="twitter-li"><a href="#"><img src="assets/images/footerImage/twitter.png" alt="twitter" style="width: 50px;height: 50px;"></a></li>
+                    <li class="instagram-li"><a href="#"><img src="assets/images/footerImage/instagram.png" alt="instagram" style="width: 50px;height: 50px;"></a></li>
+                    <li class="linkedin-li"><a href="#"><img src="assets/images/footerImage/linkedin.png" alt="linkedin" style="width: 50px;height: 50px;"></a></li>
 
                 </ul>
             </div>

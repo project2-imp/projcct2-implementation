@@ -180,7 +180,10 @@ public function getCustomerProfile(){
         //info is correct
         else{
             //check if customer info exist in the database
-            $customer = Customer::select('email')->where('email',$request->input('email'));
+           // $customer = Customer::select('email')->where('email',$request->input('email'));
+            $customer = Customer::select('email')->where('email',$request->input('email'))
+                ->where('password',$request->input('password'))->first();
+
             //if exist
             if($customer != null){
                 //get customer email && name

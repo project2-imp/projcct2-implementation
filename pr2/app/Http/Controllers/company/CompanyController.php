@@ -9,7 +9,9 @@ use App\Models\Customer;
 use App\Models\CustomerTrip;
 use App\Models\Report;
 use App\Models\Trip;
+use Composer\Autoload\ClassLoader;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use phpDocumentor\Reflection\Types\Integer;
 use PhpParser\Node\Expr\Array_;
@@ -181,8 +183,14 @@ class CompanyController extends Controller
         $companyID = Company::select('companyID')->where('name',$companyName)->first();
         $pendingCustomers=CustomerTrip::select('customerID','tripID','seatsNumber')->where('status','pending')
             ->where('companyID',$companyID->companyID)->get();
+        $customers = array();
+        for($i=0;$i<sizeof($pendingCustomers);$i++){
+            $customers[$i]= Customer::select('name','email','phoneNumber','address')->where('customerID',$pendingCustomers[$i]->customerID)->first();
+        }
+        $finalResault = array($pendingCustomers,$customers);
+        //return $pendingCustomers;
 
-        return $pendingCustomers;
+        return $finalResault;
     }
     //end getPendingCustomers
 
@@ -264,4 +272,58 @@ class CompanyController extends Controller
     return "Report added";
     }
     //end reportCustomer
+
+    //start getCompanyInfo
+    public function getCompanyInfo($companyName){
+    $company = Company::select()->where('name',$companyName)->first();
+    return $company;
+    }
+    //end getCompanyInfo
+
+    //start editCompanyInfo
+    public function editCompanyInfo(Request $request){
+        $company = Company::select('email','phoneNumber')->where('name',$request->companyName)->get();
+        $newEmail = Company::select('email')->where('email',$request->newEmail)->get();
+        $newPhone = Company::select('phoneNumber')->where('phoneNumber',$request->newPhoneNumber)->get();
+        $company2 = Company::select('password','address')->where('name',$request->companyName)->first();
+
+        if($company[0]->email != $request->newEmail){
+
+            if ($company[0]->email != $request->newEmail  && sizeof($newEmail) == 0 ){
+                DB::table('companys')->where('name',$request->companyName)
+                    ->update(['email'=>$request->newEmail]);
+            }
+            else if($company[0]->email != $request->newEmail  && sizeof($newEmail) > 0 ){
+                return "email exist!! try another email";
+            }
+        }
+
+        if($company2->address != $request->newAddress){
+            DB::table('companys')->where('name',$request->companyName)
+                ->update(['address'=>$request->newAddress]);
+        }
+
+        if($company[0]->phoneNumber != $request->newPhoneNumber){
+            if ($company[0]->phoneNumber != $request->newPhoneNumber  && sizeof($newPhone) == 0 ){
+
+                DB::table('companys')->where('name',$request->companyName)
+                    ->update(['phoneNumber'=>$request->newPhoneNumber]);
+            }
+            else if($company[0]->phoneNumber != $request->newPhoneNumber  && sizeof($newPhone) > 0 ){
+                return "phone number exist !!! try another phone number";
+            }
+
+        }
+
+        if($company2->password != $request->newPassword){
+            DB::table('companys')->where('name',$request->companyName)
+                ->update(['password'=>$request->newPassword]);
+        }
+
+        return "information updated";
+
+
+        return $request;
+    }
+    //end editCompanyInfo
 }

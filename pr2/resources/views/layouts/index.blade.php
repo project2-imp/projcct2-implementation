@@ -96,7 +96,7 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default close" data-dismiss="modal">Close</button>
                         </div>
                     </div>
 
@@ -123,9 +123,15 @@
     $(".seats-error").hide();
     $(".info-error").hide();
     $(".booking-pending-msg").hide();
-
     showTrips();
     showBestCompanies();
+    $(".close").click(function () {
+        $('#myModal').on('hidden.bs.modal', function () {
+            location.reload();
+        });
+    });
+
+
     //start showTrips
     function showTrips() {
         $(".trips-place").fadeIn().html('<div class="spinner-border text-light" role="status">'+
@@ -208,7 +214,9 @@
         $(".best-compaines-place").hide();
         $(".customer-footer").hide();
         $(".booking-place").slideDown();
-        $('#result-search-modal').modal('up');
+        //$("#result-search-modal").hide();
+        $("#result-search-modal").modal("hide");
+
         companyID = $(this).attr('companyID');
         tripID = $(this).attr('value');
         seatPrice = $(this).attr('seatPrice');
@@ -272,6 +280,7 @@
                 }
                 if($data == 'passenger added'){
                     alert('booking pending waiting to accepting from company admin');
+                    location.reload();
                     backBtn();
                 }
 
@@ -330,7 +339,7 @@
 
 
 
-    //start showTrips
+    //start showCompanyTrips
     function showCompanyTrips(companyID){
         $.ajax({
             type: "get",
@@ -341,7 +350,7 @@
                 clear(".companies-result");
                 for(var $x=0; $x<$data.length;$x++){
 
-                    $(".companies-result").append("<div class='card trips-card'>"+
+                    $(".companies-result").append("<div class='card resault-trips-card'>"+
 
                         "<div class='card-body'>"+
                         "<div class='bar'>" +
@@ -368,7 +377,7 @@
             },
         })
     }
-    //end showTrips
+    //end showCompanyTrips
 
     //start show companyTripsResault
     $(".companies-result-place").delegate('.trips-resault','click',function(){

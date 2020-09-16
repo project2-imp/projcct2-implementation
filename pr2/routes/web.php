@@ -118,6 +118,10 @@ Route::post('getFollowersNum','company\companyController@getFollowersNum')->name
 Route::get('loadFollowingCompanies/{customerID}','company\companyController@loadFollowingCompanies')->name('loadFollowingCompanies');
 //---------------------------------
 Route::post('reportCustomer','company\companyController@reportCustomer')->name('reportCustomer');
+//---------------------------------
+Route::get('getCompanyInfo/{companyName}','company\companyController@getCompanyInfo')->name('getCompanyInfo');
+//---------------------------------
+Route::post('editCompanyInfo','company\companyController@editCompanyInfo')->name('editCompanyInfo');
 
 
 //---------------------------------

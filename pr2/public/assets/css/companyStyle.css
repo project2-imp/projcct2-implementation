@@ -53,3 +53,25 @@ ul{
     margin-left: 30px;
     margin-right: 30px;
 }
+.company-info{
+    margin-left: 20px;
+
+}
+.card-text{
+    display: inline-block;
+}
+.name-icon{
+    margin-left: 420px;
+}
+.profile-icon{
+    margin-left: 70px;
+}
+input,.pr-name{
+    text-align: center;
+}
+.edit-companyProfile-btn{
+    margin-left: 340px;
+}
+.rating-label{
+   margin-left: 40px;
+}
