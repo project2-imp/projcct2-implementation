@@ -56,6 +56,22 @@ class TripController extends Controller
 
         //-----------------------------
 
+
+        /*
+
+        showTrips()
+            trips = getTrips(jsonFilePath)
+            selectedTrip = trips->0
+            productSimilarity = new ProductSimilarity(trips)
+            similarityMatrix  = productSimilarity->calculateSimilarityMatrix()       
+            trips = productSimilarity->getProductsSortedBySimularity(selectedTrip,similarityMatrix);
+        end
+        */
+
+
+
+
+
         $tripsData = Trip::all();
         file_put_contents('myTrips.json',json_encode($tripsData));
         $trips = json_decode(file_get_contents(public_path('myTrips.json')));
@@ -102,7 +118,7 @@ class TripController extends Controller
         $trips = CustomerTrip::select('tripID','seatsNumber')->where('customerID',$customerID)->get();
         $customerTrips = array(sizeof($trips));
         for($i=0;$i<sizeof($trips);$i++){
-            $customerTrips[$i]=Trip::select('startStation','stopStation','departureDate','priceForSeat')->where('tripID',$trips[$i]->tripID)->first();
+            $customerTrips[$i]=Trip::select('startStation','stopStation','departureDate','departureTime','priceForSeat')->where('tripID',$trips[$i]->tripID)->first();
 
         }
         $finalInfo = array($customerTrips,$trips);

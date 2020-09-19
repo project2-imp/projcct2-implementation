@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\CompanyFollower;
 use App\Models\Customer;
 use App\Models\CustomerSearch;
+use App\Models\CustomerStatistic;
 use App\Models\CustomerTrip;
 use App\Models\PendingCustomer;
 use App\Models\Trip;
@@ -261,6 +262,48 @@ public function getCustomerProfile(){
     //end sufficientAmount
 
 
+/*
+
+        bookingTrip(customerID,event)
+                    if : event is booking cash
+                        password =getBookingInfo()->password
+                        phoneNumber=getBookingInfo()->phoneNumber
+                    
+                        if : checkInfo(password,phoneNumber) is true
+                            addPendingCustomer(customer)
+                        else
+                            showErrorMessage(message)
+                    
+                    else if :  event is booking by card
+                        email =getBookingInfo()->email
+                        password =getBookingInfo()->password
+                        cardNumber=getBookingInfo()->cardNumber
+                    
+                        if : checkInfo(email,password,cardNumber) is true
+                            decreaseSeats = newPassenger->DecreaseSeats(seatsNumber)
+                            payment->decreaseCardBalance(customerCardInfo)
+                            newPassenger->addNewPassenger(customerInfo)
+                            payment->increaseCardBalance(companyCardInfo)
+                        else
+                            showErrorMessage(message)
+                                
+         end
+         //////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+*/
+
+
+
+
+
     //start getCustomerInfo
     /**
      * @param Request $request
@@ -314,7 +357,7 @@ public function getCustomerProfile(){
             }
         }
         else{
-            return "error";
+            return "your information incorrect";
         }
 
 
@@ -399,6 +442,22 @@ public function getCustomerProfile(){
     }
     //end editProfile
 
+    /*
+
+        customerSearch(customerID,searchContent)
+            search = getSeaachHistory(custoemrID)
+            if:search is null
+                createNewSearchHistory(searchContent)
+            end if     
+            resaultFromCompanies = search(searchContent,companies)
+            resaultFromTrips = search(searchContent,trips)
+            resault = array(resaultFromCompanies,resaultFromTrips)
+            return resault 
+
+        end 
+    */
+
+
     //start customerSearch
     public function customerSearch($customerID,$searchContent){
 
@@ -445,4 +504,100 @@ public function getCustomerProfile(){
         $trips = Trip::select()->where('companyID',$companyID)->get();
         return $trips;
     }
+
+    //start getStatistics
+    public function getStatistics($customerID){
+
+        $customer = CustomerStatistic::select('tripsNum','cashTrips','byCardTrips','totalAmount')
+            ->where('customerID',$customerID)->first();
+
+        return $customer;
+
+    }
+    //end getStatistics
+
+    //start increaseTripsNum
+    public function increaseTripsNum($customerID,$tripsNum){
+        $trips = CustomerStatistic::select('tripsNum')->where('customerID',$customerID)->first();
+        if($trips != null){
+            DB::table('custoemrsstatistics')->where('customerID',$customerID)
+                ->update(['tripsNum'=>$trips->tripsNum+$tripsNum]);
+            return "successfully";
+
+        }
+        else if ($trips == null){
+            CustomerStatistic::create(
+                [
+                    'customerID'=>$customerID,
+                    'tripsNum'=>0,
+                    'cashTrips'=>0,
+                    'byCardTrips'=>0,
+                    'totalAmount'=>0
+                ]
+            );
+            DB::table('custoemrsstatistics')->where('customerID',$customerID)
+                ->update(['tripsNum'=>$tripsNum]);
+            return "successfully";
+
+        }
+
+    }
+    //end increaseTripsNum
+
+    //start increaseCashTrips
+    public function increaseCashTrips($customerID,$seats,$tripID){
+        $tripsPrice = Trip::select('priceForSeat')->where('tripID',$tripID)->first();
+        $totalCost = $tripsPrice->priceForSeat*$seats;
+        $trips = CustomerStatistic::select('cashTrips')->where('customerID',$customerID)->first();
+        DB::table('custoemrsstatistics')->where('customerID',$customerID)
+            ->update(['cashTrips'=>$trips->cashTrips+1]);
+    return "value increased";
+    }
+    //end increaseCashTrips
+
+    //start increaseByCardTrips
+    public function increaseByCardTrips($customerID,$seats,$price){
+      $totalPrice = $seats*$price;
+        $trips = CustomerStatistic::select('byCardTrips')->where('customerID',$customerID)->first();
+        DB::table('custoemrsstatistics')->where('customerID',$customerID)
+            ->update(['byCardTrips'=>$trips->byCardTrips+1]);
+
+        DB::table('custoemrsstatistics')->where('customerID',$customerID)
+            ->update(['totalAmount'=>$trips->totalAmount+$totalPrice]);
+        return "value increased";
+    }
+    //end increaseByCardTrips
+
+    //start loadCardDetails
+    public function loadCardDetails($customerID){
+
+        $customer = Customer::select('cardNumber')->where('customerID',$customerID)->first();
+        $card = Card::select('cardNumber','balance')->where('cardNumber',$customer->cardNumber)->first();
+        if($card !=null)
+            return $card;
+        else
+            return "no card";
+
+    }
+    //end loadCardDetails
+
+    //start createCard
+    public function createCard($customerID){
+
+        $card = DB::table('cards')->max('cardNumber');
+        Card::create(
+            [
+                'cardNumber'=>$card+1,
+                'balance'=>0,
+                'cardType'=>'customer'
+            ]
+        );
+        DB::table('customers')->where('customerID',$customerID)
+            ->update(['cardNumber'=>$card+1]);
+
+        return "card created";
+    }
+    //end createCard
+
+
 }

@@ -18,6 +18,14 @@
                 <li class="nav-item">
                     <a class=" pending-customers-btn"  href="#" data-toggle="modal" data-target="#myPendingCustomers">pending customers</a>
                 </li>
+
+                <li class="nav-item">
+                    <a  href="#" class="followers-btn" data-toggle="modal" data-target="#myFollowers">Followers:</a>
+
+                </li>
+
+
+
                 <li class="nav-item">
                     <a class="nav-link add-trip-link" href="#"> Add trip</a>
                     <!-- add trip list -->
@@ -50,6 +58,14 @@
                                 <label for="pwd">Departure date:</label>
                                 <input type="date" class="form-control DepartureDate" name="DepartureDate" placeholder="Departure date">
                             </div>
+
+                
+                            <div class="form-group">
+                                <label for="pwd">Departure time:</label>
+                                <input type="time" class="form-control DepartureTime" name="DepartureTime" placeholder="Departure time">
+                            </div>
+
+                
 
                             <div class="form-group">
                                 <label for="pwd">number of seats:</label>
@@ -91,22 +107,35 @@
             </div>
 
       </div>
+        <div class="col-lg-2"></div>
         <!--  start short info-->
-        <div class="col-lg-4 col-sm-12">
+        <div class="col-lg-2 col-sm-12">
 
                 <!-- start links -->
                 <ul class="list-group">
+                    <li class="list-group-item active"></li>
                     <li class="list-group-item">
-                        <a  href="#" class="followers-btn" data-toggle="modal" data-target="#myFollowers">Followers:</a>
+                        <span style="color: #337ab7;" >Followers:</span>
                         <span class="customers-number" style="color: coral"></span>
                     </li>
                     <li class="list-group-item">
-                        <h4 class="trips-numbertitle"  style="color: #337ab7">trips number:</h4>
-                        <span class="trips-number" style="color: coral"></span>
+                        <span class="trips-numbertitle"  style="color: #337ab7">all Trips:</span>
+                        <span class="trips-number" style="color: coral">0</span>
                     </li>
+
                     <li class="list-group-item">
-                        <ul class="list-group pending-customers-list">
-                        </ul>
+                        <span class="trips-numbertitle"  style="color: #337ab7">active Trips:</span>
+                        <span class="active-trips-number" style="color: coral"></span>
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="trips-numbertitle"  style="color: #337ab7">completed Trips:</span>
+                        <span class="completed-trips-number" style="color: coral">0</span>
+                    </li>
+
+                    <li class="list-group-item">
+                        <span class="trips-numbertitle"  style="color: #337ab7">pending Customers:</span>
+                        <span class="pending-Customers" style="color: coral">1</span>
                     </li>
                 </ul>
                  <!-- <div class="col-lg-12 pending-customers">
@@ -125,7 +154,7 @@
 
 <!--start active trips area -->
 <div class="row">
-    <div class="col-lg-12 active-trips-area">
+    <div class="col-lg-9 active-trips-area">
         <!-- Table -->
         <h3 style="color: #4cae4c;">Active trips:</h3>
         <table class="table active-trips-table">
@@ -136,6 +165,7 @@
                 <th>Start station</th>
                 <th>stop station</th>
                 <th>departureDate</th>
+                <th>departureTime</th>
                 <th>numSeats</th>
                 <th>priceForSeat</th>
             </tr>
@@ -246,6 +276,7 @@
 @section('javascrip')
 
 <script>
+    var allTrips=0;
     var tripID=0;
     var counter=0;
     var customerID;
@@ -315,6 +346,7 @@
                 'startStation': $(".startStation").val(),
                 'stopStation': $(".stopStation").val(),
                 'departureDate': $(".DepartureDate").val(),
+                'departureTime': $(".DepartureTime").val(),
                 'seatsNum': $(".seatsNum").val(),
                 'price': $(".price").val(),
 
@@ -378,8 +410,9 @@
                },
                 success: function ($data) {
                    console.log($data);
-                    $(".trips-number").append('<h4>'+$data+'</h4>');
-                },
+                    $(".trips-number").append('<span>'+$data+'</span>');
+                    allTrips = $data;
+                    },
             });
         }
     //end loadTripsNum
@@ -394,13 +427,20 @@
         },
         success: function ($data) {
             var editBtn="<button class='btn btn-success edit-trip' value="+$data+">edit</button>";
+
+            $(".active-trips-number").append('<h4>'+$data[0].length+'</h4>');
+            var completedTrips =allTrips-$data[0].length;
+           // $(".completed-trips-number").append('<h4>0</h4>');
             $data.forEach(function (dt) {
+                console.log("active trips:"+$data[0].length);
+
                 for(var $i = 0; $i<dt.length ; $i++){
                     $(".customers-table-content").append("<tr>"+
                         "<td>"+dt[$i].tripID+"</td>"+
                         "<td>"+dt[$i].startStation+"</td>"+
                         "<td>"+dt[$i].stopStation+"</td>"+
                         "<td>"+dt[$i].departureDate+"</td>"+
+                        "<td>"+dt[$i].departureTime+"</td>"+
                         "<td>"+dt[$i].numSeats+"</td>"+
                         "<td>"+dt[$i].priceForSeat+"</td>"+
                         "<td>"+makeEditBtn('btn btn-success','edit-Trip',dt[$i].tripID,'edit',dt[$i].departureDate,dt[$i].numSeats)+"</td>"+
@@ -537,6 +577,9 @@
      $(".pending-customers-content").delegate(".accept-cach-payment","click",function(){
        console.log("tripID:"+$(this).attr('tripID'));
          console.log("customer:"+$(this).attr('customerID'));
+         var customer = $(this).attr('customerID');
+         var trip = $(this).attr('tripID');
+         var seats = $(this).attr('seatsNum');
 
          $.ajax({
            type: "post",
@@ -551,9 +594,46 @@
                 console.log("alalalal");
                 console.log($data);
                 if($data == "customer accepted"){
-                    alert($data);
-                    clear(".pending-customers-content");
-                    getPendingCustomers();
+
+                        console.log("customer:"+customer);
+                      $.ajax({
+                        type: "get",
+                        url: "{{url('increaseTripsNum')}}/"+customer+"/"+1,
+                        success: function ($data) {
+                            if($data == "successfully"){
+
+                                $.ajax({
+                                   type: "get",
+                                    url: "{{url('increaseCashTrips')}}/"+customer+"/"+seats+"/"+trip,
+                                    success: function ($data) {
+                                        console.log($data);
+                                        if($data == "value increased"){
+
+                                            alert($data);
+                                            clear(".pending-customers-content");
+                                            getPendingCustomers();
+
+                                        }
+                                    },
+                                    error:function ($d) {
+                                        console.log($d);
+                                    }
+                                });
+
+
+
+
+                            }
+                        },
+                          error:function ($d) {
+                              console.log($d);
+                          }
+
+                    });
+
+
+
+
 
                 }
 
@@ -658,6 +738,7 @@
                     $(".pending-customers-content").html('<label class="alert-primary">no Pending customers</label>');
                 }
                 else{
+                    $(".pending-Customers").text($data[0].length);
                     for($i=0 ; $i <$data[0].length;$i++){
                         $(".pending-customers-content").append('<ul class="list-group">' +
                             '<li class="list-group-item"><span>trip ID:'+$data[0][$i].tripID+'</span></li>'+
@@ -667,7 +748,7 @@
                             '<li class="list-group-item"><img src="assets/images/customerIcons/address.png" style="width: 50px;height:50px;"><span>'+$data[1][$i].address+'</span></li>'+
                             '<li class="list-group-item"><img src="assets/images/tripIcons/seats.png" style="width: 50px;height:50px;"><span>'+$data[0][$i].seatsNumber+'</span></li>'+
                             '<li class="list-group-item"><div class="btn-group" role="group" aria-label="...">' +
-                            '<button type="button"  class="btn btn-success accept-cach-payment" tripID="'+$data[0][$i].tripID+'" customerID="'+$data[0][$i].customerID+'">accept</button>'+
+                            '<button type="button"  class="btn btn-success accept-cach-payment" tripID="'+$data[0][$i].tripID+'" customerID="'+$data[0][$i].customerID+'" seatsNum="'+$data[0][$i].seatsNumber+'">accept</button>'+
                             '<button type="button"  class="btn btn-danger reject-cach-payment" tripID="'+$data[0][$i].tripID+'" customerID="'+$data[0][$i].customerID+'">reject</button>'+
 
 
@@ -817,5 +898,8 @@
         });
     });
     //end edit-companyProfile-btn
+
+
+
 </script>
 @stop

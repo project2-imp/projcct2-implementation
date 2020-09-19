@@ -213,13 +213,34 @@ class AdminController extends Controller
     public function getReports(){
 
 
-        $reports = Report::select('customerID')->get();
+        $reports = Report::select('reportID','customerID','companyID','reportContent')->get();
         $customers = array(sizeof($reports));
+        $companys =  array(sizeof($reports));
         for($i = 0 ; $i < sizeof($reports); $i++){
-            $customers[$i] = Customer::select('name','email','phoneNumber','address','imagePath')->where('customerID',$reports[$i]->customerID)->first();
+            $customers[$i] = Customer::select('name','email','phoneNumber','address','imagePath','status')->where('customerID',$reports[$i]->customerID)->first();
+            $companys[$i] = Company::select('name','imagePath')
+                ->where('companyID',$reports[$i]->companyID)->first();
         }
-        return $customers;
+        $finalResaults= array($reports,$customers,$companys);
+        return $finalResaults;
     }
 
     //end getReports
+
+    //start deleteReport
+    public function deleteReport($reportID){
+          Report::where("reportID",$reportID)->delete();
+          return "report deleted";
+    }
+    //end deleteReport
+
+
+    //start getReportsNum
+    public function getReportsNum(){
+$reports = DB::table('reports')->count();
+
+                return $reports;
+
+    }
+    //end getReportsNum
 }

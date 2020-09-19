@@ -1,4 +1,4 @@
-from E-BOOKING system:
+from Tripboo system:
 ______________________
 Dear:{{$accountEmail}}
 

@@ -1,5 +1,5 @@
 body{
-    font: small-caps bold 18px/1 sans-serif;
+    font: arial;
 
 
     background-color: ghostwhite;
@@ -64,6 +64,8 @@ color:#26272b;
     border-radius:35px;
     padding: 15px;
     margin: 10px;
+    text-align: center;
+    font-size: 20px;
 }
 .company-link{
     color: white;
@@ -71,6 +73,8 @@ color:#26272b;
     margin: 10px;
     border-radius:35px;
     padding: 15px;
+    text-align: center;
+    font-size: 20px;
 }
 .pendingCompany-link{
     color: white;
@@ -78,6 +82,8 @@ color:#26272b;
     margin: 10px;
     border-radius:35px;
     padding: 15px;
+    text-align: center;
+     font-size: 20px;
 }
 .reports-link{
     color: white;
@@ -85,23 +91,39 @@ color:#26272b;
     margin: 10px;
     border-radius:35px;
     padding: 15px;
+    text-align: center;
+     font-size: 20px;
 
 }
 .other-link{
     background-color: lightcoral;
     margin: 10px;
 }
+
 .customers-value{
+{
     float: right;
     color:yellow;
+    font-size: 20px;
 }
+
 .companies-value{
+{
     float: right;
-    color: yellow;
+    color:yellow;
+    font-size: 20px;
 }
 .pendingC-value{
+{
     float: right;
-    color:yellow ;
+    color:yellow;
+    font-size: 20px;
+}
+.reports-value{
+{
+    float: right;
+    color:yellow;
+    font-size: 20px;
 }
 .details-pending-companies-area{
 
@@ -149,8 +171,7 @@ color:#26272b;
     color:white;
 }
 .companies-table tr:nth-child(even){
-   /* background-color: coral;
-*/}
+  }
 .companies-table-head{
     background-color:lightcoral ;
     color: white;
@@ -164,7 +185,7 @@ color:#26272b;
 }
 
 .companies-container-area{
-    background-color: white;
+    background-color: red;
     margin-top: 40px;
     margin-left: 20px;
     -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,1,0.3);
@@ -251,3 +272,12 @@ input[type=password]::placeholder {
 }
 
 /* end add new admin style*/
+.report-title{
+    color: green;
+}
+.report-value{
+
+}
+.delete-report-btn{
+    margin-left: 10px;
+}

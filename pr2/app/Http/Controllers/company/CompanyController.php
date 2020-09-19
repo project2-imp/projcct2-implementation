@@ -145,6 +145,7 @@ class CompanyController extends Controller
             'startStation'=>$request->startStation,
             'stopStation'=>$request->stopStation,
             'departureDate'=>$request->departureDate,
+            'departureTime'=>$request->departureTime,
             'numSeats'=>$request->seatsNum,
             'availableSeats'=>$request->seatsNum,
             'priceForSeat'=>$request->price,

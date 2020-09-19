@@ -47,8 +47,8 @@ a:hover{
 .doc-header{
     color: white;
     font-size: 50px;
-    font-family: "Comic Sans MS";
-    font-weight: bold;
+  
+    
     margin-right: 80px;
 }
 .doc-body{
@@ -130,7 +130,13 @@ svg {
 }
 /*+++++++++++++++++++*/
 .trips-place{
- margin-left: 100px;
+ margin-left: 0px;
+ margin-bottom: 10px;
+text-align: center;
+
+}
+.trips-card{
+    margin-top: 30px;
 }
 .best-compaines-place{
     background-image: linear-gradient( #17141d,black);
@@ -145,6 +151,7 @@ svg {
     margin-left: 450px;
     font-weight: bold;
 }
+
 .trips-title{
     margin-left: 550px;
 }
@@ -152,7 +159,6 @@ svg {
 
     display: inline-block;
     margin:5px;
-
 
 }
 /*########################## booking style ################################*/

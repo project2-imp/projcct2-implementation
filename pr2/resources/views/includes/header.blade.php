@@ -1,37 +1,40 @@
 <div class="row header">
-    <div class="col-lg-7">
+
+
+    <div class="col-lg-7 col-xs-6 ">
 
         <ul class="header " >
 
-                <li role="presentation" class="header-li brand"><img src="{{url('assets/images/logo/logo.jpg')}}" style="width:100px;height:100px"></li>
+                <li role="presentation" class="header-li brand">
+                    <img src="{{url('assets/images/Logo/tripoo.png')}}" style="width:120px;height:75px"></li>
 
         @if($status[0] === 1)
-                <li role="presentation" class="header-li logout"><a href="{{route('index')}}">log out</a></li>
-                <li role="presentation" class="header-li customer-name"><a href="{{route('CustomerProfile',$status[1]->customerID)}}"><img src="uploads/customersIcons/{{$status[1]->imagePath}}" style="width: 50px;height: 50px;border-radius: 100%;"></a></li>
+         <li role="presentation" class="header-li customer-name"><a href="{{route('CustomerProfile',$status[1]->customerID)}}"><img src="uploads/customersIcons/{{$status[1]->imagePath}}" style="width: 50px;height: 50px;border-radius: 100%;"></a></li>
+                <li role="presentation" class="header-li logout"><a style="color:#4da6ff " href="{{route('index')}}">log out</a></li>
+               
                 <input type="hidden" class=" customerID"  value="{{$status[1]->customerID}}">
             @else
-                <li role="presentation" class="header-li login"><a href="{{route('login')}}">login</a></li>
-                <li role="presentation" class="header-li signup"><a href="{{route('signUP')}}" >sign up</a></li>
+                <li role="presentation" class="header-li login"><a style="color:#4da6ff " href="{{route('login')}}">login</a></li>
+                <li role="presentation" class="header-li signup"><a style="color:#4da6ff "  href="{{route('signUP')}}" >sign up</a></li>
             @endif
-            <li role="presentation" class="header-li home"><a href="{{route('index')}}">Home</a></li>
-            <li role="presentation" class="header-li get-companies"><button type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#myModal">companies</button></li>
-            <li role="presentation" class="header-li about-us"><a href="#">about us</a></li>
-        </ul>
+            <li role="presentation" class="header-li get-companies"><a type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#myModal" style="color:#4da6ff ">companies</a></li>
+            <li role="presentation" class="header-li about-us"><a href="{{route('about')}}" style="color:#4da6ff ">about</a></li>
+       </ul>
 
 
     </div>
-    <div class="col-lg-5 site-doc">
+    <div class="col-lg-5  col-xs-6 site-doc">
 
         <div class="input-group">
       <span class="input-group-btn">
-        <button class="btn btn-success search-btn" data-toggle="modal" data-target="#result-search-modal" type="button" style="margin: 0px">Go!</button>
+        <button class="btn btn-success search-btn" style=" color: white" data-toggle="modal" data-target="#result-search-modal" type="button" style="margin: 0px; ">Go!</button>
       </span>
             <input type="text" class="form-control search-content" id="search-content" placeholder="Search for..." style="margin: 0px" >
 
         </div>
         <ul class="list-group search-history">
         </ul>
-        <div class="doc-header">YOUR FAVORITE TRIPS AND COMPANIES HERE</div>
+        <div class="doc-header"> YOUR FAVORITE TRIPS AND COMPANIES <br> HERE  </div>
         <div class="doc-body">
             <p>search and book trips for best of companies</p>
             <button class="btn btn-default browse-trips">browse trips</button>
@@ -122,7 +125,7 @@
 
 
                         $(".modal-body").append('<ul class="list-group">'+
-                            '<li class="list-group-item companyIcon"><img src="uploads/companiesIcons/'+$data[0][$x].imagePath+'" alt="company Icon">'+ '</li>'+
+                            '<li class="list-group-item companyIcon"><img src="uploads/companiesIcons/'+$data[0][$x].imagePath+'" alt="company Icon" style="width:250px;height100px;">'+ '</li>'+
 
                             '<li class="list-group-item"><div class="progress">\n' +
                             '  <div class="progress-bar progress-bar-success " role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style=" width:'+rating+' " >\n' +
@@ -168,7 +171,7 @@
 
     function makeFollowCancelFollowBtn( customerID,companyID) {
 
-            if(customerID !='guest'){
+         
                 $.ajax({
                     type: "post",
                     url: "{{route('checkFollower')}}",
@@ -200,10 +203,8 @@
 
                     }
                 });
-            }
-            else{
-            $("."+companyID).html('<p>""</p>');
-        }
+            
+          
 
     }
 
@@ -303,7 +304,7 @@
                 success: function ($data) {
                     console.log($data);
                     if($data[0][0] == null){
-                        $(".companies-result-place").html("<p> no Companies found !</p>");
+                        $(".companies-result-place").html("<p style='color:red;'> no Companies found !</p>");
                     }
                     else{
                         console.log("data[0]")
@@ -315,7 +316,7 @@
                                 //var value = val.toString();
                                 var rating = val+"%";
 
-                                $(".companies-result-place").append('<li class="list-group-item companyIcon"><img src="uploads/companiesIcons/'+$data[0][i].imagePath+'" alt="company Icon">'+ '</li>'+
+                                $(".companies-result-place").append('<li class="list-group-item companyIcon"><img  style="height:250px; width:350px;" class="company-resault-img" src="uploads/companiesIcons/'+$data[0][i].imagePath+'" alt="company Icon" >'+ '</li>'+
                                     '<li class="list-group-item"><div class="progress">\n' +
                                     '  <div class="progress-bar progress-bar-success " role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style=" width:'+rating+' " >\n' +
                                     +$data[0][i].rating+"%"+
@@ -336,23 +337,23 @@
 
                         console.log("tripssss");
                         console.log($data[0]);
-                        if($data[1] == null){
-                            $(".trips-result-place").html("<p> no Trips found !</p>");
+                        if($data[1][1] == null){
+                            $(".trips-result-place").html("<p style='color:red;'> no Trips found !</p>");
                         }
                         else{
                             for($x=0;$x<$data[1].length;$x++)
                             {
 
-                                $(".trips-result-place").append("<div class='card resault-trips-card'>"+
+                                $(".trips-result-place").append("<div style='margin-top:30px;margin-left:20px;' class='card resault-trips-card'>"+
 
-                                    "<div class='card-body'>"+
-                                    "<div class='bar'>" +
-                                    "<div class='emptybar'></div>"+
-                                    "<div class='filledbar'></div>"+
-                                    "</div>"+
+                                   
                                     "<h5 class='startStation'>"+"<span class='startStation-title'>"+"<img src=assets/images/tripIcons/start-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='startStation-value'>"+ $data[1][$x].startStation +"</span>" +"</br>" +
                                     "<span class='stopStation-title'>"+"<img src=assets/images/tripIcons/stop-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='stopStation-value'>" +$data[1][$x].stopStation + "</span>"+"</h5>"+
-                                    "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/dep-date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[1][$x].departureDate + "</span>"+ "</br>"+
+                                    
+                                    "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[1][$x].departureDate + "</span>"+ "</br>"+
+
+                                    "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/time.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[1][$x].departureTime + "</span>"+ "</br>"+
+
                                     "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[1][$x].numSeats+"</span>"+"</br>"+
                                     "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[1][$x].availableSeats+"</span>"+"</br>"+
                                     "<span class='price-For-Seat-title'>"+"<img src=assets/images/tripIcons/price.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='price-For-Seat-value' style='color:red'>"+$data[1][$x].priceForSeat+"sp"+"</span>"+"</p>"+

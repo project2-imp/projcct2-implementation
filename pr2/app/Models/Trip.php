@@ -8,7 +8,7 @@ class Trip extends Model
 {
     //
     protected $table = "trips";
-    protected $fillable=['tripID','startStation','stopStation','departureDate','numSeats','availableSeats','priceForSeat','companyID','status'];
+    protected $fillable=['tripID','startStation','stopStation','departureDate','departureTime','numSeats','availableSeats','priceForSeat','companyID','status'];
     //protected $hidden=[];
 
 

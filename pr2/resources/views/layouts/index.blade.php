@@ -32,8 +32,8 @@
                 <h1 style="font-family: 'Agency FB'"> fill information to complete booking</h1>
             </div>
 
-            <small class="seats-error" style="color:red">number of seats is greater than 5 </small>
-            <input type="number" id="booking-seats" class="fadeIn second booking-seats" name="booking-seats"  min="1" max="5" placeholder="number of seats" >
+            <small class="seats-error" style="color:red">input seats number </small>
+            <input type="number" id="booking-seats" class="fadeIn second booking-seats" name="booking-seats"  min="1" placeholder="number of seats" >
                 <p>___________________________________</p>
                 <h3 class="payment-way-par">select payment way</h3>
 
@@ -114,6 +114,7 @@
 
 
 <script>
+    var customerID=$(".customerID").val();
     var companyID;
     var tripID;
     var seatPrice;
@@ -137,7 +138,7 @@
         $(".trips-place").fadeIn().html('<div class="spinner-border text-light" role="status">'+
             '<span class="sr-only">Loading...</span>'+
         '</div>');
-        var customerID=$(".customerID").val();
+
         console.log("customerID:"+customerID);
         $.ajax({
 
@@ -153,13 +154,15 @@
 
                     $(".trips-place").append("<div class='card trips-card'>"+
                        "<div class='card-head'>"+
-                       "<img  src='"+'uploads/companiesIcons/'+$data[1][$x][0].imagePath+"' class='card-img-top' alt='company logo' style='width: 300px; height: 200px'> "+
+                       "<img  src='"+'uploads/companiesIcons/'+$data[1][$x][0].imagePath+"' class='card-img-top trips-img' alt='company logo' style='width: 300px; height: 200px ; border-radius:5%;'> "+
                         "</div>"+
                         "<div class='card-body'>"+
 
                         "<h5 class='startStation'>"+"<span class='startStation-title'>"+"<img src=assets/images/tripIcons/start-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='startStation-value'>"+ $data[0][$x].startStation +"</span>" +"</br>" +
                         "<span class='stopStation-title'>"+"<img src=assets/images/tripIcons/stop-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='stopStation-value'>" +$data[0][$x].stopStation + "</span>"+"</h5>"+
-                        "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/dep-date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[0][$x].departureDate + "</span>"+ "</br>"+
+                        "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[0][$x].departureDate + "</span>"+ "</br>"+
+                        "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/time.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[0][$x].departureTime + "</span>"+ "</br>"+
+
                         "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[0][$x].numSeats+"</span>"+"</br>"+
                         "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[0][$x].availableSeats+"</span>"+"</br>"+
                         "<span class='price-For-Seat-title'>"+"<img src=assets/images/tripIcons/price.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='price-For-Seat-value' style='color:red'>"+$data[0][$x].priceForSeat+"sp"+"</span>"+"</p>"+
@@ -212,6 +215,9 @@
         $(".header").hide();
         $(".trips-place").hide();
         $(".best-compaines-place").hide();
+        $(".customer-footer").hide();
+        $(".trips-title").hide();
+        $(".best-companies-title").hide();
         $(".customer-footer").hide();
         $(".booking-place").slideDown();
         //$("#result-search-modal").hide();
@@ -282,6 +288,7 @@
                     alert('booking pending waiting to accepting from company admin');
                     location.reload();
                     backBtn();
+
                 }
 
             }
@@ -315,9 +322,28 @@
             success: function ($data) {
 
                if($data =="booking successfully" ){
-                   alert('booking successfully');
-                   backBtn();
-                   location.reload();
+
+
+                   $.ajax({
+                       type: "get",
+                       url: "{{url('increaseTripsNum')}}/"+customerID+"/"+1,
+                       success: function ($data) {
+                           if($data == "successfully"){
+                               $.ajax({
+
+                                   type: "get",
+                                   url: "{{url('increaseByCardTrips')}}/"+customerID+"/"+$(".booking-seats").val()+"/"+seatPrice,
+                                   success: function ($data) {
+                                       if($data == "value increased"){
+                                           alert('booking successfully');
+                                           backBtn();
+                                           location.reload();
+                                       }
+                                   }
+                               });
+                           }
+                       }});
+
                }else{
                    $(".error-payment-msg").fadeIn().text($data).delay(2000).fadeOut();
                }
@@ -350,7 +376,7 @@
                 clear(".companies-result");
                 for(var $x=0; $x<$data.length;$x++){
 
-                    $(".companies-result").append("<div class='card resault-trips-card'>"+
+                    $(".companies-result").append("<div class='card resault-trips-card' style='margin-top:20px;margin-left:20px ;height:250px; ' >"+
 
                         "<div class='card-body'>"+
                         "<div class='bar'>" +
@@ -359,7 +385,11 @@
                         "</div>"+
                         "<h5 class='startStation'>"+"<span class='startStation-title'>"+"<img src=assets/images/tripIcons/start-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='startStation-value'>"+ $data[$x].startStation +"</span>" +"</br>" +
                         "<span class='stopStation-title'>"+"<img src=assets/images/tripIcons/stop-station.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='stopStation-value'>" +$data[$x].stopStation + "</span>"+"</h5>"+
-                        "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/dep-date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[$x].departureDate + "</span>"+ "</br>"+
+                        "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/date.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[$x].departureDate + "</span>"+ "</br>"+
+
+                        "<p class='card-text-trips'>"+"<span class='trip-dep-date-title'>" +"<img src=assets/images/tripIcons/time.png style='width: 20px ;height: 20px'>"+"</span>" +"<span class='trip-dep-date-value'>"+$data[$x].departureTime + "</span>"+ "</br>"+
+                        
+
                         "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[$x].numSeats+"</span>"+"</br>"+
                         "<span class='num-seats-title'>"+"<img src=assets/images/tripIcons/seats.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='num-seats-value'>"+$data[$x].availableSeats+"</span>"+"</br>"+
                         "<span class='price-For-Seat-title'>"+"<img src=assets/images/tripIcons/price.png style='width: 20px ;height: 20px'>"+"</span>"+"<span class='price-For-Seat-value' style='color:red'>"+$data[$x].priceForSeat+"sp"+"</span>"+"</p>"+

@@ -35,6 +35,13 @@ Route::get('/createCustomerAccount',function (){
     return view('layouts.guest.inputVCode');
 })->name('createCustomerAccount');
 //---------------------------------
+
+Route::get('/about',function (){
+    return view('layouts.about');
+})->name('about');
+//---------------------------------
+
+
 Route::get('/createCompanyAccount',function (){
     $status = array(0);
     return view('layouts.guest.createCompany',compact('status'));
@@ -48,6 +55,7 @@ Route::post('createCompanyAccount','company\CompanyController@AddPendingCompany'
 //-------------------------------
 Route::post('/validationCode','customer\CustomerController@validateCode')->name('validationCode');
 //---------------------------------
+
 
 //=========end guest routes========
 
@@ -83,7 +91,18 @@ Route::post('customerSearchHistory','customer\CustomerController@customerSearchH
 //---------------------------------
 Route::get('showTripsResult/{companyID}','customer\CustomerController@showTripsResult')->name('showTrips');
 //---------------------------------
-
+Route::get('getStatistics/{companyID}','customer\CustomerController@getStatistics')->name('getStatistics');
+//---------------------------------
+Route::get('increaseTripsNum/{customerID}/{tripsNum}','customer\CustomerController@increaseTripsNum')->name('increaseTripsNum');
+//---------------------------------
+Route::get('increaseCashTrips/{customerID}/{seats}/{tripID}','customer\CustomerController@increaseCashTrips')->name('increaseCashTrips');
+//---------------------------------
+Route::get('increaseByCardTrips/{customerID}/{seats}/{price}','customer\CustomerController@increaseByCardTrips')->name('increaseByCardTrips ');
+//---------------------------------
+Route::get('loadCardDetails/{customerID}','customer\CustomerController@loadCardDetails')->name('loadCardDetails');
+//---------------------------------
+Route::get('createCard/{customerID}','customer\CustomerController@createCard')->name('createCard');
+//---------------------------------
 
 //=======end customer routes=====
 
@@ -197,6 +216,11 @@ Route::post('blockCompany','admin\AdminController@blockCompany')->name('blockCom
 Route::post('unblockCompany','admin\AdminController@unblockCompany')->name('unblockCompany');
 //---------------------------------
 Route::get('getReports','admin\AdminController@getReports')->name('getReports');
+//---------------------------------
+Route::get('deleteReport/{reportID}','admin\AdminController@deleteReport')->name('deleteReport');
+//---------------------------------
+
+Route::get('getReportsNum','admin\AdminController@getReportsNum')->name('getReportsNum');
 //---------------------------------
 
 //=======end admin routes========

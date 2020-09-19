@@ -43,7 +43,7 @@
                     </div>
 
                     @error('phoneNumber')
-                    <small class="form-text label-danger">{{$message}}</small>
+                    <small class="form-text text-danger">{{$message}}</small>
                     @enderror
 
                     <div class="form-group">

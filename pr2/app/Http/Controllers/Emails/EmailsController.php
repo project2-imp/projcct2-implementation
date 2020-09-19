@@ -20,7 +20,7 @@ class EmailsController extends Controller
 
        \Illuminate\Support\Facades\Mail::send(['text'=>view('layouts.guest.sendByEmail',compact('code'))],['tempuser'=>$Customeremail],function($message) use ($Customeremail)
        {
-           $message->from('ali.monther97@gmail.com','aliMonther');
+           $message->from('triboite2020@gmail.com','Tripboo Team');
            $message->to($Customeremail)->subject('Input Code below in the verfiction field:');
 
        });
@@ -31,7 +31,7 @@ class EmailsController extends Controller
         public function sendBlockMSG($accountEmail , $accountType){
             \Illuminate\Support\Facades\Mail::send(['text'=>view('layouts.customer.blockMSG',compact('accountEmail'))],['tempuser'=>$accountEmail],function($message) use ($accountEmail)
             {
-                $message->from('ali.monther97@gmail.com','aliMonther');
+                $message->from('triboite2020@gmail.com','Tripboo Team');
                 $message->to($accountEmail)->subject('visit support team for more information');
 
             });
@@ -50,7 +50,7 @@ class EmailsController extends Controller
     public function acceptAccountMsg($companyEmail){
 
         \Illuminate\Support\Facades\Mail::send(['text'=>view('layouts.guest.AcceptCompanyMSG',compact('companyEmail'))],['tempuser'=>$companyEmail],function ($message) use ($companyEmail){
-            $message->from('ali.monther97@gmail.com','aliMonther');
+            $message->from('triboite2020@gmail.com','Tripboo Team');
             $message->to($companyEmail)->subject("Accept Email");
         });
     }
@@ -60,7 +60,7 @@ class EmailsController extends Controller
     public function rejectAccountMsg($companyEmail){
 
         \Illuminate\Support\Facades\Mail::send(['text'=>'layouts.guest.rejectCompanyMSG',compact('companyEmail')],['tempuser'=>$companyEmail],function ($message) use ($companyEmail){
-            $message->from('ali.monther97@gmail.com','aliMonther');
+            $message->from('triboite2020@gmail.com','Tripboo Team');
             $message->to($companyEmail)->subject("Reject Email");
         });
     }

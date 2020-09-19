@@ -29,13 +29,27 @@ td{
     font-weight: bold;
 
 }
-.following-companies-val ,.all-trips-val,.completed-trips-val,.active-trips-val{
+.following-companies-val ,.all-trips-val,.completed-trips-val,.active-trips-val,.trips-payment-cash-val,.trips-payment-byCard-val,.total-amount-val{
     float: right;
     color: green;
     font-weight: bold;
 }
-.active-trips-val{
-    color:coral;
+.total-amount-val{
+ color:crimson;
 }
+.card-place{
+    font-family: "Gill Sans Ultra Bold";
+}
+.card-details-place{
 
-
+}
+.card-value{
+    color: dodgerblue;
+    float: right;
+    font-size: 30px;
+}
+.balance-value{
+    color: crimson;
+    float: right;
+    font-size: 30px;
+}

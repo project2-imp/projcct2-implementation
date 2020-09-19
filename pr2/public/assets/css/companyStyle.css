@@ -75,3 +75,9 @@ input,.pr-name{
 .rating-label{
    margin-left: 40px;
 }
+.customers-number,.trips-number,.active-trips-number,.completed-trips-number,.pending-Customers{
+    float: right;
+}
+.completed-trips-number{
+    color: coral;
+}

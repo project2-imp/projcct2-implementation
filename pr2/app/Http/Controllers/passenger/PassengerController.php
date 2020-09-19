@@ -13,7 +13,7 @@ class PassengerController extends Controller
     //start addPendingPassenger
     public function addPendingPassenger(Request $request)
     {
-        if ($request->seatsNumber > 5) {
+        if ($request->seatsNumber  == 0 || $request->seatsNumber  ==null) {
             return "error in number of seats";
         } else {
             $customerID = Customer::select('customerID')->where('phoneNumber', $request->phoneNumber)
